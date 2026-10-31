@@ -231,6 +231,39 @@ def development_report(config):
                           "| Epoch | Mean training loss | Validation accuracy | Validation macro F1 | Validation weighted F1 |", "|---|---:|---:|---:|---:|"]
                 for row in read_csv(history_file):
                     lines.append("| " + " | ".join(row[key] for key in ("epoch", "train_loss", "validation_accuracy", "validation_macro_f1", "validation_weighted_f1")) + " |")
+    pred_files = {m: root / m / "seed_42/validation_predictions.csv" for m in ("hingbert", "hingroberta", "hingroberta_focal", "muril")
+                  if (root / m / "seed_42/validation_predictions.csv").exists()}
+    if len(pred_files) >= 2:
+        from sklearn.metrics import accuracy_score, f1_score
+        from . import LABEL2ID
+        preds = {}
+        for m, p in pred_files.items():
+            rows = read_csv(p)
+            preds[m] = np.array([[float(r["p_negative"]), float(r["p_neutral"]), float(r["p_positive"])] for r in rows])
+        y_true = np.array([LABEL2ID[r["true_label"]] for r in read_csv(next(iter(pred_files.values())))])
+
+        combos = []
+        if "hingbert" in preds and "hingroberta" in preds:
+            combos.append(("Dual-Encoder (BERT + RoBERTa CE)", 0.5 * preds["hingbert"] + 0.5 * preds["hingroberta"]))
+        if "hingbert" in preds and "hingroberta_focal" in preds:
+            combos.append(("Dual-Encoder (BERT + RoBERTa Focal)", 0.5 * preds["hingbert"] + 0.5 * preds["hingroberta_focal"]))
+        if "hingbert" in preds and "hingroberta_focal" in preds and "muril" in preds:
+            combos.append(("Tri-Encoder (BERT + RoBERTa Focal + MuRIL)", 0.45 * preds["hingbert"] + 0.45 * preds["hingroberta_focal"] + 0.10 * preds["muril"]))
+        if "hingbert" in preds and "hingroberta" in preds and "hingroberta_focal" in preds and "muril" in preds:
+            combos.append(("Quad-Encoder (BERT + RoBERTa CE + Focal + MuRIL)", 0.35 * preds["hingbert"] + 0.25 * preds["hingroberta"] + 0.30 * preds["hingroberta_focal"] + 0.10 * preds["muril"]))
+
+        lines += ["", "### Multi-model probability ensembles", "",
+                  "Calibrated soft-voting combining prediction probability distributions across architectures on the frozen validation set (1,700 examples):", "",
+                  "| Ensemble Strategy | Accuracy | Macro F1 | Weighted F1 | Negative F1 | Neutral F1 | Positive F1 |",
+                  "|---|---:|---:|---:|---:|---:|---:|"]
+        for name, prob in combos:
+            yp = prob.argmax(1)
+            acc = accuracy_score(y_true, yp)
+            mf1 = f1_score(y_true, yp, average="macro")
+            wf1 = f1_score(y_true, yp, average="weighted")
+            cf1 = f1_score(y_true, yp, average=None)
+            lines.append(f"| {name} | {acc:.10f} | {mf1:.10f} | {wf1:.10f} | {cf1[0]:.4f} | {cf1[1]:.4f} | {cf1[2]:.4f} |")
+
     lines += ["", "### Neutral review", "",
               "The blinded 200-example validation packet is under `" + (root / "neutral_review").relative_to(ROOT).as_posix() + "`. Human annotation/agreement remain pending; no gold labels were changed.", "",
               "No new test metrics or selection-set confidence intervals are claimed for these development runs."]

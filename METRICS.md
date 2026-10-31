@@ -595,6 +595,7 @@ The original test results above remain historical baseline measurements. Final g
 | mbert | historical baseline | 42 | 0.6205882353 | 0.6197547502 | 0.6205882353 | 0.6201218034 | 0.6237546269 |
 | hingbert | phase 2 | 42 | 0.6688235294 | 0.6699365350 | 0.6688235294 | 0.6686182265 | 0.6723957753 |
 | hingroberta | phase 2 | 42 | 0.6670588235 | 0.6651472445 | 0.6670588235 | 0.6641395807 | 0.6701609474 |
+| hingroberta_focal | phase 2 | 42 | 0.6758823529 | 0.6773864996 | 0.6758823529 | 0.6762287332 | 0.6812698754 |
 | muril | phase 2 | 42 | 0.6452941176 | 0.6458613922 | 0.6452941176 | 0.6413626726 | 0.6468157089 |
 | svm | phase 2 | 42 | 0.6023529412 | 0.5995341236 | 0.6023529412 | 0.6004071178 | 0.6057801052 |
 | svm_word_char | phase 2 | 42 | 0.6252941176 | 0.6245887981 | 0.6252941176 | 0.6248693692 | 0.6296955580 |
@@ -817,6 +818,123 @@ epoch,train_loss,validation_weighted_f1,validation_macro_f1,validation_accuracy,
 ![hingroberta validation confusion matrix](outputs/sentimix_development_v2/hingroberta/seed_42/validation_confusion_matrix.png)
 
 [Predictions](outputs/sentimix_development_v2/hingroberta/seed_42/validation_predictions.csv) | [Errors](outputs/sentimix_development_v2/hingroberta/seed_42/validation_errors.csv) | [Config](outputs/sentimix_development_v2/hingroberta/seed_42/config.json)
+
+
+### hingroberta_focal — seed 42
+
+#### Validation metrics
+
+| Metric | Value |
+|---|---:|
+| n_examples | 1700 |
+| accuracy | 0.6758823529 |
+| balanced_accuracy | 0.6809769402 |
+| matthews_correlation | 0.5115155797 |
+| cohen_kappa | 0.5112260935 |
+| macro_precision | 0.6823848481 |
+| macro_recall | 0.6809769402 |
+| macro_f1 | 0.6812698754 |
+| weighted_precision | 0.6773864996 |
+| weighted_recall | 0.6758823529 |
+| weighted_f1 | 0.6762287332 |
+| micro_precision | 0.6758823529 |
+| micro_recall | 0.6758823529 |
+| micro_f1 | 0.6758823529 |
+| log_loss | 0.7723553525 |
+| macro_roc_auc_ovr | 0.8304936028 |
+
+#### Validation class results
+
+| Class | Precision | Recall | F1 | Support |
+|---|---:|---:|---:|---:|
+| negative | 0.7195357833655706 | 0.7454909819639278 | 0.7322834645669292 | 499.0 |
+| neutral | 0.6024279210925645 | 0.621283255086072 | 0.6117103235747303 | 639.0 |
+| positive | 0.7251908396946565 | 0.6761565836298933 | 0.6998158379373849 | 562.0 |
+
+#### Validation confusion matrix
+
+Rows = actual; columns = predicted.
+
+| Actual / predicted | Negative | Neutral | Positive |
+|---|---:|---:|---:|
+| negative | 372 | 111 | 16 |
+| neutral | 114 | 397 | 128 |
+| positive | 31 | 151 | 380 |
+
+#### Row-normalized validation confusion matrix
+
+| Actual / predicted | Negative | Neutral | Positive |
+|---|---:|---:|---:|
+| negative | 0.7454909820 | 0.2224448898 | 0.0320641283 |
+| neutral | 0.1784037559 | 0.6212832551 | 0.2003129890 |
+| positive | 0.0551601423 | 0.2686832740 | 0.6761565836 |
+
+#### Selection
+
+```json
+{
+  "selection_split": "validation",
+  "metric": "weighted_f1",
+  "best_epoch": 2,
+  "best_score": 0.6762287332376239
+}
+```
+
+#### Inference timing
+
+```json
+{
+  "inference_seconds": 13.665729300002567,
+  "examples_per_second": 124.3987761414007
+}
+```
+
+#### Training metadata
+
+```json
+{
+  "pretrained_model": "l3cube-pune/hing-roberta",
+  "resolved_snapshot": "C:\\Users\\Soumya\\.cache\\huggingface\\hub\\models--l3cube-pune--hing-roberta\\snapshots\\f714c4bdce6b008a2fbb84193eee99e651c59e15",
+  "snapshot_commit": "f714c4bdce6b008a2fbb84193eee99e651c59e15",
+  "device": "cuda",
+  "gpu": "NVIDIA GeForce RTX 4050 Laptop GPU",
+  "effective_batch_size": 8,
+  "mixed_precision": true,
+  "evaluation_splits": [
+    "validation"
+  ],
+  "loss_function": "focal",
+  "focal_gamma": 2.0,
+  "class_weights": [
+    1.0,
+    1.25,
+    1.0
+  ],
+  "optimizer_steps": 5100,
+  "parameter_count": 278045955,
+  "length_at_limit_counts": {
+    "train": 82,
+    "validation": 11
+  },
+  "determinism": "Fixed RNG seeds; cuDNN deterministic; exact cross-device reproducibility is not guaranteed."
+}
+```
+
+Training/search elapsed seconds: 4497.107249399996.
+
+#### Epoch history
+
+```csv
+epoch,train_loss,validation_weighted_f1,validation_macro_f1,validation_accuracy,elapsed_seconds
+1,0.37154968371270186,0.6705776976314136,0.6743248862263588,0.67,1038.8121955000097
+2,0.28330543723248147,0.6762287332376239,0.6812698753596814,0.6758823529411765,2676.730864299985
+3,0.20714875426833215,0.6711868306085927,0.6761915612251626,0.6711764705882353,4496.884617000003
+
+```
+
+![hingroberta_focal validation confusion matrix](outputs/sentimix_development_v2/hingroberta_focal/seed_42/validation_confusion_matrix.png)
+
+[Predictions](outputs/sentimix_development_v2/hingroberta_focal/seed_42/validation_predictions.csv) | [Errors](outputs/sentimix_development_v2/hingroberta_focal/seed_42/validation_errors.csv) | [Config](outputs/sentimix_development_v2/hingroberta_focal/seed_42/config.json)
 
 
 ### muril — seed 42
@@ -1126,6 +1244,7 @@ Validation scores were used for checkpoint/model selection; these are descriptiv
 |---|---:|---:|---:|---:|---:|
 | hingbert | 1 | 0.6686182265 | Not available | 0.6723957753 | Not available |
 | hingroberta | 1 | 0.6641395807 | Not available | 0.6701609474 | Not available |
+| hingroberta_focal | 1 | 0.6762287332 | Not available | 0.6812698754 | Not available |
 | muril | 1 | 0.6413626726 | Not available | 0.6468157089 | Not available |
 | svm | 1 | 0.6004071178 | Not available | 0.6057801052 | Not available |
 | svm_word_char | 1 | 0.6248693692 | Not available | 0.6296955580 | Not available |
@@ -1134,11 +1253,12 @@ Validation scores were used for checkpoint/model selection; these are descriptiv
 
 Calibrated soft-voting combining prediction probability distributions across architectures on the frozen validation set (1,700 examples):
 
-| Ensemble Strategy | Component Models | Accuracy | Macro F1 | Weighted F1 | Negative F1 | Neutral F1 | Positive F1 |
-|---|---|---:|---:|---:|---:|---:|---:|
-| Dual-Encoder (Equal) | HingBERT + Hing-RoBERTa (0.50 / 0.50) | 0.6788235294 | 0.6823132766 | 0.6768223918 | 0.7315 | 0.6013 | 0.7142 |
-| Tri-Encoder (Equal) | HingBERT + Hing-RoBERTa + MuRIL (0.33 / 0.33 / 0.33) | 0.6805882353 | 0.6834008496 | 0.6781285666 | 0.7319 | 0.6038 | 0.7139 |
-| Tri-Encoder (Weighted) | 0.45 HingBERT + 0.45 Hing-RoBERTa + 0.10 MuRIL | 0.6811764706 | 0.6844525313 | 0.6789501323 | 0.7349 | 0.6043 | 0.7142 |
+| Ensemble Strategy | Accuracy | Macro F1 | Weighted F1 | Negative F1 | Neutral F1 | Positive F1 |
+|---|---:|---:|---:|---:|---:|---:|
+| Dual-Encoder (BERT + RoBERTa CE) | 0.6788235294 | 0.6823132766 | 0.6768223918 | 0.7315 | 0.6013 | 0.7142 |
+| Dual-Encoder (BERT + RoBERTa Focal) | 0.6747058824 | 0.6792229500 | 0.6749628247 | 0.7099 | 0.6102 | 0.7175 |
+| Tri-Encoder (BERT + RoBERTa Focal + MuRIL) | 0.6758823529 | 0.6801968466 | 0.6755993182 | 0.7164 | 0.6084 | 0.7158 |
+| Quad-Encoder (BERT + RoBERTa CE + Focal + MuRIL) | 0.6805882353 | 0.6843946782 | 0.6791802938 | 0.7304 | 0.6069 | 0.7158 |
 
 ### Neutral review
 
