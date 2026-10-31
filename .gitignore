@@ -1,0 +1,10 @@
+.venv/
+.venv-research/
+__pycache__/
+*.pyc
+*.egg-info/
+tmp/
+outputs/
+data/research/
+models/
+.hf-cache/

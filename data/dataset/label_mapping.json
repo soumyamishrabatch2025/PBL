@@ -1,0 +1,6 @@
+{
+  "Hate Speech": 0,
+  "Obviously Threatening": 1,
+  "Offensive": 2,
+  "Safe": 3
+}

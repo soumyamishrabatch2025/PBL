@@ -1,0 +1,40 @@
+{
+  "behele\\data.csv": {
+    "bytes": 1239683,
+    "sha256": "2dfd57b47f19c53ca44ab89ae7745e05cfbe182589b30199c84feacb09ca0ce4",
+    "rows": 17000,
+    "labels": {
+      "neutral": 6364,
+      "negative": 5002,
+      "positive": 5634
+    }
+  },
+  "behele\\README.md": {
+    "bytes": 66,
+    "sha256": "135e64f2bd0d871d84a45360d009ce14cdce79f45a17de9e32187f970146fd91"
+  },
+  "sentimix\\dev_3k_split_conll.txt": {
+    "bytes": 824577,
+    "sha256": "9679768e0b6697be4c492b41f876756023fdb0face8cb86f8cd6cdb767acd1dc",
+    "rows": 3000,
+    "labels": {
+      "positive": 982,
+      "negative": 890,
+      "neutral": 1128
+    }
+  },
+  "sentimix\\train_14k_split_conll.txt": {
+    "bytes": 3831266,
+    "sha256": "b2bc9e9e2494693ab3b0fd025ffb0292a3c4ab959861306dd1d993fa7e7c2177",
+    "rows": 14000,
+    "labels": {
+      "neutral": 5264,
+      "negative": 4102,
+      "positive": 4634
+    }
+  },
+  "overlap_by_tweet_id": {
+    "dev_3k_split_conll.txt": 0,
+    "train_14k_split_conll.txt": 14000
+  }
+}
