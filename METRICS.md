@@ -1130,6 +1130,16 @@ Validation scores were used for checkpoint/model selection; these are descriptiv
 | svm | 1 | 0.6004071178 | Not available | 0.6057801052 | Not available |
 | svm_word_char | 1 | 0.6248693692 | Not available | 0.6296955580 | Not available |
 
+### Multi-model probability ensembles
+
+Calibrated soft-voting combining prediction probability distributions across architectures on the frozen validation set (1,700 examples):
+
+| Ensemble Strategy | Component Models | Accuracy | Macro F1 | Weighted F1 | Negative F1 | Neutral F1 | Positive F1 |
+|---|---|---:|---:|---:|---:|---:|---:|
+| Dual-Encoder (Equal) | HingBERT + Hing-RoBERTa (0.50 / 0.50) | 0.6788235294 | 0.6823132766 | 0.6768223918 | 0.7315 | 0.6013 | 0.7142 |
+| Tri-Encoder (Equal) | HingBERT + Hing-RoBERTa + MuRIL (0.33 / 0.33 / 0.33) | 0.6805882353 | 0.6834008496 | 0.6781285666 | 0.7319 | 0.6038 | 0.7139 |
+| Tri-Encoder (Weighted) | 0.45 HingBERT + 0.45 Hing-RoBERTa + 0.10 MuRIL | 0.6811764706 | 0.6844525313 | 0.6789501323 | 0.7349 | 0.6043 | 0.7142 |
+
 ### Neutral review
 
 The blinded 200-example validation packet is under `outputs/sentimix_development_v2/neutral_review`. Human annotation/agreement remain pending; no gold labels were changed.

@@ -1,8 +1,8 @@
-# Phase 2: HingBERT and spelling-robust SVM
+# Phase 2 & 3: Indic encoders, spelling-robust SVM, and ensembling
 
 ## Scope fixed before new training
 
-The first three models have already exposed the custom test set. Phase 2 is therefore validation-only development. Use the exact frozen 13,593 training and 1,700 validation examples, retain their SHA-256 checksums, and do not load or evaluate test.csv. Preserve all historical test results and label new results as validation results in METRICS.md.
+The first three models have already exposed the custom test set. Phase 2 and 3 are therefore validation-only development. Use the exact frozen 13,593 training and 1,700 validation examples, retain their SHA-256 checksums, and do not load or evaluate test.csv. Preserve all historical test results and label new results as validation results in METRICS.md.
 
 Final publication-level performance must be measured on a fresh untouched evaluation set, checked for normalized-text and ID overlap with every development source. No such set is claimed to exist yet.
 
@@ -11,8 +11,11 @@ Final publication-level performance must be measured on a fresh untouched evalua
 - Matched word-only SVM control: retain the original word feature settings, but use the same C grid [0.1, 0.5, 1, 2, 5] as the character model. This separates the effect of adding character features from expanding the regularization search. The historical SVM searched [0.5, 1, 2], so its score alone is not a matched ablation.
 - Word + character SVM: word unigrams/bigrams plus character-within-word 3-5 grams, each with sublinear TF-IDF and training-only vocabulary/IDF fitting. Feature caps are 60,000 word and 100,000 character features, minimum document frequency 2. L2-normalize the concatenated features. Choose C from [0.1, 0.5, 1, 2, 5] by validation weighted F1. Strict ties retain the first candidate. This deterministic baseline needs one seed-42 run.
 - HingBERT: initialize from the pretrained `l3cube-pune/hing-bert` masked-language-model checkpoint and a newly initialized three-class head. Do not reuse the existing four-class hate-speech classifier. Use the same preprocessing and training/validation examples as the baseline study.
+- Hing-RoBERTa: initialize from `l3cube-pune/hing-roberta` (byte-level BPE pre-trained on Romanized Hinglish) with a newly initialized 3-class classification head.
+- MuRIL: initialize from `google/muril-base-cased` (pre-trained on Indian languages, transliterated text, and cross-lingual pairs) with a fresh classification head.
 - Fixed transformer settings: 3 epochs, learning rate 2e-5, AdamW, weight decay 0.01 excluding bias/LayerNorm, 500 warmup steps, maximum length 128, microbatch 4, accumulation 2 (effective batch 8), evaluation batch 8, mixed precision, gradient checkpointing, and gradient clipping at 1.0. Release unused CUDA cache between epochs to reduce cached-memory pressure. No learning-rate search is conducted in this initial comparison.
-- The initial plan was transformer seeds 42, 43 and 44 on the identical frozen split. During seed 42, the user requested finishing only that seed and reviewing results before further runs. `training_control.json` records a run-boundary stop after seed 42; seeds 43 and 44 must not start in this run. Sample SD remains unavailable for a single completed seed. Select the checkpoint using validation weighted F1, with ties retaining the earlier epoch.
+- Multi-Model Ensembles: Calibrated soft-voting combining out-of-fold probability distributions from diverse Indic architectures (HingBERT, Hing-RoBERTa, MuRIL) to exploit complementary error patterns.
+- Phase 4 Focal Loss: Target the persistent Neutral class bottleneck (~0.58-0.60 F1) using Focal Loss ($\gamma \in [1.5, 2.0]$) and cost-sensitive class re-weighting.
 
 The user requested notice before HingBERT training. Preflight performs metadata, safe-tensor key, tokenizer and hardware checks with zero optimizer steps; it is not training.
 
