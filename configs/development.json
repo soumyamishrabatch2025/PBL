@@ -1,0 +1,42 @@
+{
+  "experiment": "sentimix_development_v2",
+  "models": ["svm", "svm_word_char", "hingbert"],
+  "data_dir": "data/raw/hinglish_24k_sources/sentimix",
+  "prepared_dir": "data/research/sentimix_custom_split_v1",
+  "output_dir": "outputs/sentimix_development_v2",
+  "baseline_output_dir": "outputs/sentimix_custom_split_v1",
+  "evaluation_splits": ["validation"],
+  "split_seed": 42,
+  "test_fraction": 0.1,
+  "validation_fraction": 0.1,
+  "lowercase": false,
+  "selection_metric": "weighted_f1",
+  "bootstrap_samples": 1000,
+  "baseline": {
+    "max_features": 60000,
+    "ngram_range": [1, 2],
+    "min_df": 2,
+    "nb_alpha": [0.1, 0.5, 1.0],
+    "svm_c": [0.1, 0.5, 1.0, 2.0, 5.0],
+    "char_ngram_range": [3, 5],
+    "char_min_df": 2,
+    "char_max_features": 100000
+  },
+  "transformer": {
+    "run_name": "hingbert",
+    "model_name": "l3cube-pune/hing-bert",
+    "revision": "62cf31a13d65ae3b846456cede60c7d965e5fdd4",
+    "epochs": 3,
+    "batch_size": 4,
+    "gradient_accumulation_steps": 2,
+    "eval_batch_size": 8,
+    "max_length": 128,
+    "learning_rate": 0.00002,
+    "weight_decay": 0.01,
+    "warmup_steps": 500,
+    "gradient_checkpointing": true,
+    "mixed_precision": true,
+    "num_workers": 0,
+    "log_every_steps": 100
+  }
+}

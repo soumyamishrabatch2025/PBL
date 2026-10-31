@@ -578,3 +578,336 @@ Frozen split SHA-256 checksums:
 ```
 
 Regenerate and print this file with `python run_research.py report` in the research environment. Training commands also regenerate it after completion.
+
+<!-- DEVELOPMENT_RESULTS_START -->
+
+## Development experiments: validation only
+
+Experiment: `sentimix_development_v2`. These scores are used for model selection and are NOT fresh test results.
+The original test results above remain historical baseline measurements. Final generalization needs an untouched, deduplicated evaluation set.
+
+### Validation comparison
+
+| Model | Run group | Seed | Accuracy | Weighted precision | Weighted recall | Weighted F1 | Macro F1 |
+|---|---|---:|---:|---:|---:|---:|---:|
+| naive_bayes | historical baseline | 42 | 0.6029411765 | 0.6042657426 | 0.6029411765 | 0.6033628766 | 0.6074811674 |
+| svm | historical baseline | 42 | 0.5988235294 | 0.5961825086 | 0.5988235294 | 0.5968067944 | 0.6021864648 |
+| mbert | historical baseline | 42 | 0.6205882353 | 0.6197547502 | 0.6205882353 | 0.6201218034 | 0.6237546269 |
+| hingbert | phase 2 | 42 | 0.6688235294 | 0.6699365350 | 0.6688235294 | 0.6686182265 | 0.6723957753 |
+| svm | phase 2 | 42 | 0.6023529412 | 0.5995341236 | 0.6023529412 | 0.6004071178 | 0.6057801052 |
+| svm_word_char | phase 2 | 42 | 0.6252941176 | 0.6245887981 | 0.6252941176 | 0.6248693692 | 0.6296955580 |
+
+### hingbert — seed 42
+
+#### Validation metrics
+
+| Metric | Value |
+|---|---:|
+| n_examples | 1700 |
+| accuracy | 0.6688235294 |
+| balanced_accuracy | 0.6712827821 |
+| matthews_correlation | 0.5003026722 |
+| cohen_kappa | 0.4998102927 |
+| macro_precision | 0.6751647073 |
+| macro_recall | 0.6712827821 |
+| macro_f1 | 0.6723957753 |
+| weighted_precision | 0.6699365350 |
+| weighted_recall | 0.6688235294 |
+| weighted_f1 | 0.6686182265 |
+| micro_precision | 0.6688235294 |
+| micro_recall | 0.6688235294 |
+| micro_f1 | 0.6688235294 |
+| log_loss | 0.7747237014 |
+| macro_roc_auc_ovr | 0.8292386269 |
+
+#### Validation class results
+
+| Class | Precision | Recall | F1 | Support |
+|---|---:|---:|---:|---:|
+| negative | 0.7262693156732892 | 0.6593186372745491 | 0.6911764705882353 | 499.0 |
+| neutral | 0.6015503875968993 | 0.6071987480438185 | 0.6043613707165109 | 639.0 |
+| positive | 0.6976744186046512 | 0.7473309608540926 | 0.7216494845360825 | 562.0 |
+
+#### Validation confusion matrix
+
+Rows = actual; columns = predicted.
+
+| Actual / predicted | Negative | Neutral | Positive |
+|---|---:|---:|---:|
+| negative | 329 | 151 | 19 |
+| neutral | 88 | 388 | 163 |
+| positive | 36 | 106 | 420 |
+
+#### Row-normalized validation confusion matrix
+
+| Actual / predicted | Negative | Neutral | Positive |
+|---|---:|---:|---:|
+| negative | 0.6593186373 | 0.3026052104 | 0.0380761523 |
+| neutral | 0.1377151800 | 0.6071987480 | 0.2550860720 |
+| positive | 0.0640569395 | 0.1886120996 | 0.7473309609 |
+
+#### Selection
+
+```json
+{
+  "selection_split": "validation",
+  "metric": "weighted_f1",
+  "best_epoch": 1,
+  "best_score": 0.66861822648274
+}
+```
+
+#### Inference timing
+
+```json
+{
+  "inference_seconds": 2.468774500011932,
+  "examples_per_second": 688.6007612245604
+}
+```
+
+#### Training metadata
+
+```json
+{
+  "pretrained_model": "l3cube-pune/hing-bert",
+  "resolved_snapshot": "C:\\Users\\Soumya\\.cache\\huggingface\\hub\\models--l3cube-pune--hing-bert\\snapshots\\62cf31a13d65ae3b846456cede60c7d965e5fdd4",
+  "snapshot_commit": "62cf31a13d65ae3b846456cede60c7d965e5fdd4",
+  "device": "cuda",
+  "gpu": "NVIDIA GeForce RTX 4050 Laptop GPU",
+  "effective_batch_size": 8,
+  "mixed_precision": true,
+  "evaluation_splits": [
+    "validation"
+  ],
+  "optimizer_steps": 5100,
+  "parameter_count": 109484547,
+  "length_at_limit_counts": {
+    "train": 78,
+    "validation": 11
+  },
+  "determinism": "Fixed RNG seeds; cuDNN deterministic; exact cross-device reproducibility is not guaranteed."
+}
+```
+
+Training/search elapsed seconds: 1572.02426200005.
+
+#### Epoch history
+
+```csv
+epoch,train_loss,validation_weighted_f1,validation_macro_f1,validation_accuracy,elapsed_seconds
+1,0.8378697029584679,0.66861822648274,0.6723957752802763,0.6688235294117647,722.8169749000226
+2,0.6511044103403119,0.6638714364148564,0.6695173895329457,0.668235294117647,1314.1094460000168
+3,0.47382202462750816,0.6683786700971669,0.6721610984455363,0.6688235294117647,1572.015644500032
+
+```
+
+![hingbert validation confusion matrix](outputs/sentimix_development_v2/hingbert/seed_42/validation_confusion_matrix.png)
+
+[Predictions](outputs/sentimix_development_v2/hingbert/seed_42/validation_predictions.csv) | [Errors](outputs/sentimix_development_v2/hingbert/seed_42/validation_errors.csv) | [Config](outputs/sentimix_development_v2/hingbert/seed_42/config.json)
+
+
+### svm — seed 42
+
+#### Validation metrics
+
+| Metric | Value |
+|---|---:|
+| n_examples | 1700 |
+| accuracy | 0.6023529412 |
+| balanced_accuracy | 0.6094027729 |
+| matthews_correlation | 0.4026646768 |
+| cohen_kappa | 0.4022749130 |
+| macro_precision | 0.6032106138 |
+| macro_recall | 0.6094027729 |
+| macro_f1 | 0.6057801052 |
+| weighted_precision | 0.5995341236 |
+| weighted_recall | 0.6023529412 |
+| weighted_f1 | 0.6004071178 |
+| micro_precision | 0.6023529412 |
+| micro_recall | 0.6023529412 |
+| micro_f1 | 0.6023529412 |
+
+#### Validation class results
+
+| Class | Precision | Recall | F1 | Support |
+|---|---:|---:|---:|---:|
+| negative | 0.6177024482109228 | 0.657314629258517 | 0.6368932038834951 | 499.0 |
+| neutral | 0.5338983050847458 | 0.49295774647887325 | 0.5126118795768918 | 639.0 |
+| positive | 0.6580310880829016 | 0.6779359430604982 | 0.6678352322524101 | 562.0 |
+
+#### Validation confusion matrix
+
+Rows = actual; columns = predicted.
+
+| Actual / predicted | Negative | Neutral | Positive |
+|---|---:|---:|---:|
+| negative | 328 | 145 | 26 |
+| neutral | 152 | 315 | 172 |
+| positive | 51 | 130 | 381 |
+
+#### Row-normalized validation confusion matrix
+
+| Actual / predicted | Negative | Neutral | Positive |
+|---|---:|---:|---:|
+| negative | 0.6573146293 | 0.2905811623 | 0.0521042084 |
+| neutral | 0.2378716745 | 0.4929577465 | 0.2691705790 |
+| positive | 0.0907473310 | 0.2313167260 | 0.6779359431 |
+
+#### Selection
+
+```json
+{
+  "selection_split": "validation",
+  "metric": "weighted_f1",
+  "best_parameter": 0.1,
+  "trials": [
+    {
+      "parameter": 0.1,
+      "validation_selection_score": 0.6004071178313838
+    },
+    {
+      "parameter": 0.5,
+      "validation_selection_score": 0.5968067944095132
+    },
+    {
+      "parameter": 1.0,
+      "validation_selection_score": 0.5866460516620667
+    },
+    {
+      "parameter": 2.0,
+      "validation_selection_score": 0.5737291135299419
+    },
+    {
+      "parameter": 5.0,
+      "validation_selection_score": 0.5653121873934244
+    }
+  ]
+}
+```
+
+#### Inference timing
+
+```json
+{
+  "inference_seconds": 0.5919392999494448,
+  "examples_per_second": 2871.9160902903222
+}
+```
+
+Training/search elapsed seconds: 56.121831300028134.
+
+![svm validation confusion matrix](outputs/sentimix_development_v2/svm/seed_42/validation_confusion_matrix.png)
+
+[Predictions](outputs/sentimix_development_v2/svm/seed_42/validation_predictions.csv) | [Errors](outputs/sentimix_development_v2/svm/seed_42/validation_errors.csv) | [Config](outputs/sentimix_development_v2/svm/seed_42/config.json)
+
+
+### svm_word_char — seed 42
+
+#### Validation metrics
+
+| Metric | Value |
+|---|---:|
+| n_examples | 1700 |
+| accuracy | 0.6252941176 |
+| balanced_accuracy | 0.6307783636 |
+| matthews_correlation | 0.4356989661 |
+| cohen_kappa | 0.4356495034 |
+| macro_precision | 0.6287651746 |
+| macro_recall | 0.6307783636 |
+| macro_f1 | 0.6296955580 |
+| weighted_precision | 0.6245887981 |
+| weighted_recall | 0.6252941176 |
+| weighted_f1 | 0.6248693692 |
+| micro_precision | 0.6252941176 |
+| micro_recall | 0.6252941176 |
+| micro_f1 | 0.6252941176 |
+
+#### Validation class results
+
+| Class | Precision | Recall | F1 | Support |
+|---|---:|---:|---:|---:|
+| negative | 0.654368932038835 | 0.6753507014028056 | 0.6646942800788954 | 499.0 |
+| neutral | 0.5575079872204473 | 0.5461658841940532 | 0.5517786561264822 | 639.0 |
+| positive | 0.6744186046511628 | 0.6708185053380783 | 0.6726137377341659 | 562.0 |
+
+#### Validation confusion matrix
+
+Rows = actual; columns = predicted.
+
+| Actual / predicted | Negative | Neutral | Positive |
+|---|---:|---:|---:|
+| negative | 337 | 138 | 24 |
+| neutral | 132 | 349 | 158 |
+| positive | 46 | 139 | 377 |
+
+#### Row-normalized validation confusion matrix
+
+| Actual / predicted | Negative | Neutral | Positive |
+|---|---:|---:|---:|
+| negative | 0.6753507014 | 0.2765531062 | 0.0480961924 |
+| neutral | 0.2065727700 | 0.5461658842 | 0.2472613459 |
+| positive | 0.0818505338 | 0.2473309609 | 0.6708185053 |
+
+#### Selection
+
+```json
+{
+  "selection_split": "validation",
+  "metric": "weighted_f1",
+  "best_parameter": 0.1,
+  "trials": [
+    {
+      "parameter": 0.1,
+      "validation_selection_score": 0.6248693691945837
+    },
+    {
+      "parameter": 0.5,
+      "validation_selection_score": 0.6009380738505451
+    },
+    {
+      "parameter": 1.0,
+      "validation_selection_score": 0.5894263467822061
+    },
+    {
+      "parameter": 2.0,
+      "validation_selection_score": 0.5810205747866936
+    },
+    {
+      "parameter": 5.0,
+      "validation_selection_score": 0.5673205684133773
+    }
+  ]
+}
+```
+
+#### Inference timing
+
+```json
+{
+  "inference_seconds": 1.2514281999901868,
+  "examples_per_second": 1358.447891787424
+}
+```
+
+Training/search elapsed seconds: 204.75255269999616.
+
+![svm_word_char validation confusion matrix](outputs/sentimix_development_v2/svm_word_char/seed_42/validation_confusion_matrix.png)
+
+[Predictions](outputs/sentimix_development_v2/svm_word_char/seed_42/validation_predictions.csv) | [Errors](outputs/sentimix_development_v2/svm_word_char/seed_42/validation_errors.csv) | [Config](outputs/sentimix_development_v2/svm_word_char/seed_42/config.json)
+
+### Development training-seed variability
+
+Validation scores were used for checkpoint/model selection; these are descriptive seed statistics, not unbiased final-test estimates.
+
+| Model | Runs | Weighted F1 mean | Sample SD | Macro F1 mean | Sample SD |
+|---|---:|---:|---:|---:|---:|
+| hingbert | 1 | 0.6686182265 | Not available | 0.6723957753 | Not available |
+| svm | 1 | 0.6004071178 | Not available | 0.6057801052 | Not available |
+| svm_word_char | 1 | 0.6248693692 | Not available | 0.6296955580 | Not available |
+
+### Neutral review
+
+The blinded 200-example validation packet is under `outputs/sentimix_development_v2/neutral_review`. Human annotation/agreement remain pending; no gold labels were changed.
+
+No new test metrics or selection-set confidence intervals are claimed for these development runs.

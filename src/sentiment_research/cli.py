@@ -6,14 +6,19 @@ from .common import ROOT, path, read_json
 
 def main():
     parser = argparse.ArgumentParser(description="Reproducible Hinglish sentiment experiments")
-    parser.add_argument("command", choices=["prepare", "train", "report", "all", "predict", "doctor"])
+    parser.add_argument("command", choices=["prepare", "train", "report", "all", "predict", "doctor", "preflight", "audit-packet"])
     parser.add_argument("--config", default=str(ROOT / "configs/research.json"))
-    parser.add_argument("--models", nargs="+", choices=["naive_bayes", "svm", "mbert"], default=["naive_bayes", "svm", "mbert"])
+    parser.add_argument("--models", nargs="+", choices=["naive_bayes", "svm", "svm_word_char", "mbert", "hingbert"], default=None)
     parser.add_argument("--seeds", nargs="+", type=int, default=[42])
     parser.add_argument("--model-path", help="Saved .joblib pipeline or transformer checkpoint directory for predict")
     parser.add_argument("--text", help="Text to classify with predict")
     args = parser.parse_args()
     config = read_json(args.config)
+    args.models = args.models or config.get("models", ["naive_bayes", "svm", "mbert"])
+    if args.command in ("preflight", "audit-packet"):
+        from .development import preflight, audit_packet
+        (preflight if args.command == "preflight" else audit_packet)(config)
+        return
     if args.command == "doctor":
         import torch
         from .common import environment
@@ -32,13 +37,18 @@ def main():
     if args.command in ("train", "all"):
         for model in args.models:
             for seed in args.seeds:
-                if model == "mbert":
+                if model in ("mbert", "hingbert"):
                     from .transformer import train_transformer
-                    train_transformer(config, seed)
+                    train_transformer(config, seed, model)
                 else:
                     from .baselines import train_baseline
                     train_baseline(config, model, seed)
+                if config.get("evaluation_splits") == ["validation"]:
+                    from .development import development_report
+                    development_report(config)
     if args.command in ("report", "all", "train"):
+        if config.get("evaluation_splits") == ["validation"] and args.command != "report":
+            return  # Development reports are already generated after each completed run.
         from .report import report
         report(config)
 

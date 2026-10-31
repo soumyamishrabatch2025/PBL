@@ -1,5 +1,6 @@
 """Full transformer fine-tuning with validation-only checkpoint selection."""
 import math
+import gc
 import os
 import random
 import time
@@ -12,7 +13,7 @@ from transformers import (AutoModelForSequenceClassification, AutoTokenizer,
                           DataCollatorWithPadding, get_linear_schedule_with_warmup)
 
 from . import LABEL2ID, LABELS
-from .common import ROOT, load_splits, new_run, write_csv, write_json
+from .common import ROOT, evaluation_splits, load_splits, new_run, write_csv, write_json
 from .evaluation import evaluate, metrics
 
 
@@ -42,11 +43,16 @@ def resolve_model(settings):
                                  cache_dir=ROOT / ".hf-cache", allow_patterns=["*.json", "*.txt", "*.safetensors"])
 
 
-def train_transformer(config, seed=42):
+def train_transformer(config, seed=42, model_name="mbert"):
     settings = config["transformer"]
+    if model_name != settings.get("run_name", "mbert"):
+        raise ValueError("Transformer run name does not match the selected pretrained model configuration")
+    if model_name == "hingbert" and settings["model_name"] != "l3cube-pune/hing-bert":
+        raise ValueError("Fresh HingBERT runs require the pretrained l3cube-pune/hing-bert checkpoint")
     if settings["epochs"] < 1 or settings["batch_size"] < 1 or settings["gradient_accumulation_steps"] < 1:
         raise ValueError("Epochs, batch size, and accumulation steps must be positive")
-    splits, audit = load_splits(config)
+    evaluated = evaluation_splits(config)
+    splits, audit = load_splits(config, ["train", *evaluated])
     # Download/tokenizer failures do not reserve a run directory.
     source = resolve_model(settings)
     os.environ.setdefault("TOKENIZERS_PARALLELISM", "false")
@@ -86,13 +92,14 @@ def train_transformer(config, seed=42):
     total_steps = settings["epochs"] * steps_per_epoch
     scheduler = get_linear_schedule_with_warmup(optimizer, settings["warmup_steps"], total_steps)
     scaler = torch.amp.GradScaler("cuda", enabled=use_amp)
-    folder = new_run(config, "mbert", seed)
+    folder = new_run(config, model_name, seed)
     write_json(folder / "data_audit.json", audit)
     write_json(folder / "status.json", {"status": "training", "step": 0, "total_steps": total_steps})
     write_json(folder / "training_metadata.json", {"pretrained_model": settings["model_name"],
                "resolved_snapshot": source, "snapshot_commit": Path(source).name,
                "device": str(device), "gpu": torch.cuda.get_device_name(0) if device.type == "cuda" else None,
                "effective_batch_size": settings["batch_size"] * accumulation, "mixed_precision": use_amp,
+               "evaluation_splits": evaluated,
                "optimizer_steps": total_steps, "parameter_count": sum(p.numel() for p in model.parameters()),
                "length_at_limit_counts": {name: data.truncated for name, data in datasets.items()},
                "determinism": "Fixed RNG seeds; cuDNN deterministic; exact cross-device reproducibility is not guaranteed."})
@@ -161,23 +168,34 @@ def train_transformer(config, seed=42):
             write_json(folder / "selection.json", {"selection_split": "validation", "metric": config["selection_metric"],
                                                    "best_epoch": best_epoch, "best_score": best_score})
             print("Epoch completed:", history[-1], flush=True)
+            if device.type == "cuda":
+                torch.cuda.empty_cache()
         training_seconds = time.perf_counter() - start
         # Release optimizer memory before loading/evaluating the selected checkpoint.
         del optimizer, scheduler, model, decay, no_decay, parameter, raw_loss, loss, batch
         if device.type == "cuda":
             torch.cuda.empty_cache()
         model = AutoModelForSequenceClassification.from_pretrained(folder / "checkpoint", local_files_only=True).to(device)
-        for split in ("validation", "test"):
+        results = {}
+        for split in evaluated:
             probabilities, seconds = predict(loaders[split])
             result = evaluate(folder, splits[split], probabilities.argmax(1), probabilities, split,
                               config["bootstrap_samples"] if split == "test" else 0)
+            results[split] = result
             write_json(folder / f"{split}_timing.json", {"inference_seconds": seconds,
                                                        "examples_per_second": len(splits[split]) / seconds})
-        write_json(folder / "complete.json", {"model": "mbert", "seed": seed, "best_epoch": best_epoch,
-                                              "training_seconds": training_seconds, "test_metrics": result,
-                                              "dataset_sha256": audit["split_sha256"]})
-        write_json(folder / "status.json", {"status": "complete", "test_metrics": result})
-        print("mbert", result, flush=True)
+        completion = {"model": model_name, "seed": seed, "best_epoch": best_epoch,
+                      "training_seconds": training_seconds, "evaluation_metrics": results,
+                      "evaluation_splits": evaluated, "dataset_sha256": audit["split_sha256"]}
+        if "test" in results:
+            completion["test_metrics"] = results["test"]
+        write_json(folder / "complete.json", completion)
+        write_json(folder / "status.json", {"status": "complete", "evaluation_metrics": results})
+        print(model_name, results, flush=True)
+        del model
+        gc.collect()
+        if device.type == "cuda":
+            torch.cuda.empty_cache()
     except BaseException as error:
         write_json(folder / "status.json", {"status": "failed", "error": str(error), "step": global_step})
         raise

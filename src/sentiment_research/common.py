@@ -59,13 +59,20 @@ def environment():
             "platform": platform.platform(), "packages": packages}
 
 
-def load_splits(config):
+def evaluation_splits(config):
+    splits = config.get("evaluation_splits", ["validation", "test"])
+    if splits not in (["validation"], ["validation", "test"]):
+        raise ValueError("evaluation_splits must be ['validation'] or ['validation', 'test']")
+    return splits
+
+
+def load_splits(config, required_splits=None):
     folder = path(config["prepared_dir"])
     audit = read_json(folder / "audit.json")
     if audit["lowercase"] != config.get("lowercase", False) or audit["split_seed"] != config["split_seed"]:
         raise ValueError("Configuration preprocessing/split seed does not match the frozen dataset")
     result = {}
-    for split in ("train", "validation", "test"):
+    for split in required_splits or ("train", "validation", "test"):
         file = folder / f"{split}.csv"
         if sha256(file) != audit["split_sha256"][split]:
             raise ValueError(f"Prepared {split} changed; restore the recorded split or prepare a new experiment.")

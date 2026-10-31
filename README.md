@@ -75,6 +75,23 @@ The 95% bootstrap intervals condition on the fitted model and held-out examples.
 
 Runs refuse to overwrite existing results. To change preprocessing or splitting, copy the config and give `experiment`, `prepared_dir`, and `output_dir` new names. To change model hyperparameters on the same frozen split, use a new `output_dir`, and do not use observed test performance to select hyperparameters. An interrupted run has to be restarted under a new output directory; automatic optimizer-state resumption is not implemented.
 
+## Phase 2 development
+
+See `DEVELOPMENT_PROTOCOL.md` and `configs/development.json`. The fresh HingBERT classifier and word+character SVM use validation-only evaluation. Their results are appended to a separate development section in root `METRICS.md`; historical test measurements are preserved.
+
+```powershell
+.\.venv-research\Scripts\python.exe run_research.py preflight --config configs/development.json
+.\.venv-research\Scripts\python.exe run_research.py audit-packet --config configs/development.json
+.\.venv-research\Scripts\python.exe run_research.py train --config configs/development.json --models svm
+.\.venv-research\Scripts\python.exe run_research.py train --config configs/development.json --models svm_word_char
+.\.venv-research\Scripts\python.exe run_research.py train --config configs/development.json --models hingbert --seeds 42 43 44
+.\.venv-research\Scripts\python.exe run_research.py report --config configs/development.json
+```
+
+The preflight checks metadata/tokenization/hardware without training. The blinded review packet needs two independent human annotators; packet creation does not imply label corrections or completed human review. A new untouched evaluation set is still required for final publication claims after model selection.
+
+An active user-requested `outputs/sentimix_development_v2/training_control.json` stops the training CLI cleanly after HingBERT seed 42 finishes. Further seeds are deferred until review; the stop request must be cleared deliberately before an authorized continuation. It does not interrupt the current run or block the `report` command.
+
 ## Prediction
 
 Only load saved model artifacts you trust.

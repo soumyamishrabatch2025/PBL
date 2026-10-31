@@ -128,6 +128,12 @@ def write_metrics_markdown(config, runs, summary, comparisons):
               "## Reproducibility", "", "Frozen split SHA-256 checksums:", "", "```json", json.dumps(audit["split_sha256"], indent=2), "```", "",
               "Regenerate and print this file with `python run_research.py report` in the research environment. Training commands also regenerate it after completion."]
     content = "\n".join(lines) + "\n"
+    from .development import MARKER
+    target = ROOT / "METRICS.md"
+    if target.exists():
+        previous = target.read_text(encoding="utf-8")
+        if MARKER in previous:
+            content += "\n" + MARKER + previous.split(MARKER, 1)[1]
     (ROOT / "METRICS.md").write_text(content, encoding="utf-8")
     return content
 
@@ -153,6 +159,9 @@ def paired_comparison(left, right, samples=1000):
 
 
 def report(config):
+    if config.get("evaluation_splits") == ["validation"]:
+        from .development import development_report
+        return development_report(config)
     root = path(config["output_dir"])
     runs = []
     for file in sorted(root.glob("*/seed_*/complete.json")):
