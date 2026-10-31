@@ -32,7 +32,8 @@ def write_metrics_markdown(config, runs, summary, comparisons):
     lines = ["# All model metrics", "",
              "Generated: " + datetime.now(ZoneInfo("Asia/Kolkata")).isoformat(timespec="seconds"), "",
              "Experiment: `" + config["experiment"] + "`. Only measured results from completed runs are reported.",
-             "Scores are on a 0-1 scale unless stated otherwise; MCC and kappa range from -1 to 1. Counts and seconds are explicit.",
+             "Accuracy, precision, recall, F1, and ROC-AUC use a 0-1 scale. MCC and kappa range from -1 to 1; log loss is nonnegative and lower is better, with no fixed upper bound. Counts and seconds are explicit.",
+             "In single-label multiclass classification, weighted recall and micro precision/recall/F1 equal accuracy; balanced accuracy equals macro recall. These repeated values are expected.",
              "Values are rounded to 10 decimal places here; linked JSON artifacts retain full numerical precision.", "",
              "## Dataset and evaluation protocol", "",
              "Custom deduplicated split of the SentiMix training/development sources, not the paper's exact Hinglish-24k or official benchmark test set.", "",
@@ -52,10 +53,16 @@ def write_metrics_markdown(config, runs, summary, comparisons):
         lines += ["", "## " + {"naive_bayes": "Naive Bayes + TF-IDF", "svm": "Linear SVM + TF-IDF", "mbert": "mBERT"}[model_name], ""]
         selected = [(folder, value) for folder, value in runs if value["model"] == model_name]
         if not selected:
-            lines += ["No completed run yet. No accuracy, precision, recall, F1, or confusion matrix is available."]
+            lines += ["No completed run yet. Final held-out test metrics and confusion matrices are not available."]
             for status_file in sorted((root / model_name).glob("seed_*/status.json")):
                 status = read_json(status_file)
                 lines += ["", f"Status for {status_file.parent.name}: `{status.get('status')}`; optimizer steps {status.get('step', 'unavailable')}/{status.get('total_steps', 'unavailable')} at report generation."]
+                history_file = status_file.parent / "training_history.csv"
+                if history_file.exists():
+                    lines += ["", "Interim epoch measurements (validation only; not final test results):", "",
+                              "| Epoch | Mean training loss | Validation accuracy | Validation macro F1 | Validation weighted F1 | Elapsed seconds |", "|---|---:|---:|---:|---:|---:|"]
+                    for row in read_csv(history_file):
+                        lines.append("| " + " | ".join([row[key] for key in ("epoch", "train_loss", "validation_accuracy", "validation_macro_f1", "validation_weighted_f1", "elapsed_seconds")]) + " |")
             continue
         for folder, value in selected:
             lines += [f"### Seed {value['seed']}", ""]
@@ -175,12 +182,15 @@ def report(config):
     indices = np.arange(len(summary))
     for offset, metric, label in ((-0.18, "weighted_f1", "Weighted F1"), (0.18, "macro_f1", "Macro F1")):
         values = [row[metric + "_mean"] for row in summary]
-        errors = [row[metric + "_std"] or 0 for row in summary]
-        axis.bar(indices + offset, values, width=0.36, yerr=errors, capsize=4, label=label)
+        multiple_seeds = any(row["n_runs"] > 1 for row in summary)
+        errors = [row[metric + "_std"] if row["n_runs"] > 1 else np.nan for row in summary]
+        error_settings = {"yerr": errors, "capsize": 4} if multiple_seeds else {}
+        axis.bar(indices + offset, values, width=0.36, label=label, **error_settings)
     axis.set_xticks(indices, [row["model"] for row in summary])
     axis.set_ylim(0, 1)
     axis.set_ylabel("F1 score (0-1)")
-    axis.set_title("Custom held-out split; error bars: training-seed sample SD")
+    axis.set_title("Custom held-out split; SD bars only for multiple seeds" if multiple_seeds
+                   else "Custom held-out split; one completed run per model")
     axis.legend()
     figure.tight_layout()
     figure.savefig(root / "comparison.png", dpi=220)

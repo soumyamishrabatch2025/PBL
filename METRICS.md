@@ -1,9 +1,10 @@
 # All model metrics
 
-Generated: 2026-10-31T12:22:12+05:30
+Generated: 2026-10-31T13:19:36+05:30
 
 Experiment: `sentimix_custom_split_v1`. Only measured results from completed runs are reported.
-Scores are on a 0-1 scale unless stated otherwise; MCC and kappa range from -1 to 1. Counts and seconds are explicit.
+Accuracy, precision, recall, F1, and ROC-AUC use a 0-1 scale. MCC and kappa range from -1 to 1; log loss is nonnegative and lower is better, with no fixed upper bound. Counts and seconds are explicit.
+In single-label multiclass classification, weighted recall and micro precision/recall/F1 equal accuracy; balanced accuracy equals macro recall. These repeated values are expected.
 Values are rounded to 10 decimal places here; linked JSON artifacts retain full numerical precision.
 
 ## Dataset and evaluation protocol
@@ -25,6 +26,7 @@ Leakage checks: No identical casefolded normalized texts or tweet IDs cross spli
 
 | Model | Seed | Accuracy | Weighted precision | Weighted recall | Weighted F1 | Macro F1 |
 |---|---:|---:|---:|---:|---:|---:|
+| mbert | 42 | 0.6235294118 | 0.6246229018 | 0.6235294118 | 0.6240270480 | 0.6277489654 |
 | naive_bayes | 42 | 0.6264705882 | 0.6291437971 | 0.6264705882 | 0.6274447442 | 0.6309055868 |
 | svm | 42 | 0.6147058824 | 0.6140158375 | 0.6147058824 | 0.6142343823 | 0.6193533445 |
 
@@ -338,12 +340,188 @@ Training time: 13.8241962000 seconds (including baseline hyperparameter search).
 
 ## mBERT
 
-No completed run yet. No accuracy, precision, recall, F1, or confusion matrix is available.
+### Seed 42
 
-Status for seed_42: `training`; optimizer steps 700/5100 at report generation.
+Selection details:
+
+```json
+{
+  "selection_split": "validation",
+  "metric": "weighted_f1",
+  "best_epoch": 2,
+  "best_score": 0.6201218034225114
+}
+```
+
+#### Test overall metrics
+
+| Metric | Value |
+|---|---:|
+| n_examples | 1700 |
+| accuracy | 0.6235294118 |
+| balanced_accuracy | 0.6267832215 |
+| matthews_correlation | 0.4319626872 |
+| cohen_kappa | 0.4319243875 |
+| macro_precision | 0.6288093123 |
+| macro_recall | 0.6267832215 |
+| macro_f1 | 0.6277489654 |
+| weighted_precision | 0.6246229018 |
+| weighted_recall | 0.6235294118 |
+| weighted_f1 | 0.6240270480 |
+| micro_precision | 0.6235294118 |
+| micro_recall | 0.6235294118 |
+| micro_f1 | 0.6235294118 |
+| log_loss | 0.8182491287 |
+| macro_roc_auc_ovr | 0.8047189771 |
+
+#### Test per-class metrics
+
+| Class / average | Precision | Recall | F1 | Support |
+|---|---:|---:|---:|---:|
+| negative | 0.6422764228 | 0.6332665331 | 0.6377396569 | 499 |
+| neutral | 0.5474006116 | 0.5602503912 | 0.5537509667 | 639 |
+| positive | 0.6967509025 | 0.6868327402 | 0.6917562724 | 562 |
+| macro avg | 0.6288093123 | 0.6267832215 | 0.6277489654 | 1700 |
+| weighted avg | 0.6246229018 | 0.6235294118 | 0.6240270480 | 1700 |
+
+#### Test confusion matrix (counts)
+
+Rows = actual; columns = predicted. Class order: negative, neutral, positive.
+
+| Actual / predicted | Negative | Neutral | Positive |
+|---|---:|---:|---:|
+| negative | 316 | 161 | 22 |
+| neutral | 135 | 358 | 146 |
+| positive | 41 | 135 | 386 |
+
+#### Test confusion matrix (row-normalized)
+
+| Actual / predicted | Negative | Neutral | Positive |
+|---|---:|---:|---:|
+| negative | 0.6332665331 | 0.3226452906 | 0.0440881764 |
+| neutral | 0.2112676056 | 0.5602503912 | 0.2284820031 |
+| positive | 0.0729537367 | 0.2402135231 | 0.6868327402 |
+
+Test inference time: 2.2576556000 seconds; throughput: 752.9935035172 examples/second.
+[Full metrics JSON](outputs/sentimix_custom_split_v1/mbert/seed_42/test_metrics.json) | [All predictions](outputs/sentimix_custom_split_v1/mbert/seed_42/test_predictions.csv) | [Errors](outputs/sentimix_custom_split_v1/mbert/seed_42/test_errors.csv)
+
+![mbert seed 42 test confusion matrix](outputs/sentimix_custom_split_v1/mbert/seed_42/test_confusion_matrix.png)
+
+#### Validation overall metrics
+
+| Metric | Value |
+|---|---:|
+| n_examples | 1700 |
+| accuracy | 0.6205882353 |
+| balanced_accuracy | 0.6246889251 |
+| matthews_correlation | 0.4284767440 |
+| cohen_kappa | 0.4284388797 |
+| macro_precision | 0.6229156999 |
+| macro_recall | 0.6246889251 |
+| macro_f1 | 0.6237546269 |
+| weighted_precision | 0.6197547502 |
+| weighted_recall | 0.6205882353 |
+| weighted_f1 | 0.6201218034 |
+| micro_precision | 0.6205882353 |
+| micro_recall | 0.6205882353 |
+| micro_f1 | 0.6205882353 |
+| log_loss | 0.8390264284 |
+| macro_roc_auc_ovr | 0.7949127888 |
+
+#### Validation per-class metrics
+
+| Class / average | Precision | Recall | F1 | Support |
+|---|---:|---:|---:|---:|
+| negative | 0.6324110672 | 0.6412825651 | 0.6368159204 | 499 |
+| neutral | 0.5608974359 | 0.5477308294 | 0.5542359462 | 639 |
+| positive | 0.6754385965 | 0.6850533808 | 0.6802120141 | 562 |
+| macro avg | 0.6229156999 | 0.6246889251 | 0.6237546269 | 1700 |
+| weighted avg | 0.6197547502 | 0.6205882353 | 0.6201218034 | 1700 |
+
+#### Validation confusion matrix (counts)
+
+Rows = actual; columns = predicted. Class order: negative, neutral, positive.
+
+| Actual / predicted | Negative | Neutral | Positive |
+|---|---:|---:|---:|
+| negative | 320 | 150 | 29 |
+| neutral | 133 | 350 | 156 |
+| positive | 53 | 124 | 385 |
+
+#### Validation confusion matrix (row-normalized)
+
+| Actual / predicted | Negative | Neutral | Positive |
+|---|---:|---:|---:|
+| negative | 0.6412825651 | 0.3006012024 | 0.0581162325 |
+| neutral | 0.2081377152 | 0.5477308294 | 0.2441314554 |
+| positive | 0.0943060498 | 0.2206405694 | 0.6850533808 |
+
+Validation inference time: 2.2536159000 seconds; throughput: 754.3432756217 examples/second.
+[Full metrics JSON](outputs/sentimix_custom_split_v1/mbert/seed_42/validation_metrics.json) | [All predictions](outputs/sentimix_custom_split_v1/mbert/seed_42/validation_predictions.csv) | [Errors](outputs/sentimix_custom_split_v1/mbert/seed_42/validation_errors.csv)
+
+![mbert seed 42 validation confusion matrix](outputs/sentimix_custom_split_v1/mbert/seed_42/validation_confusion_matrix.png)
+
+#### Test confidence intervals
+
+Stratified test-example bootstrap; excludes training-seed/split uncertainty
+Resamples: 1000; bootstrap RNG seed: 42.
+
+| Metric | 95% lower | 95% upper |
+|---|---:|---:|
+| accuracy | 0.6011764706 | 0.6464852941 |
+| macro_f1 | 0.6053747754 | 0.6506471820 |
+| weighted_f1 | 0.6015049139 | 0.6470889928 |
+
+#### Training details
+
+Training time: 3657.9305866000 seconds.
+
+| Epoch | Mean training loss | Validation accuracy | Validation macro F1 | Validation weighted F1 | Elapsed seconds |
+|---|---:|---:|---:|---:|---:|
+| 1 | 0.9529077915361996 | 0.6088235294117647 | 0.6125832292967125 | 0.6098896049056327 | 886.8528256000136 |
+| 2 | 0.7882532666852596 | 0.6205882352941177 | 0.6237546268974073 | 0.6201218034225114 | 2254.9470131999697 |
+| 3 | 0.6383065755711235 | 0.6176470588235294 | 0.621242130023396 | 0.6180200429280878 | 3657.9269811999984 |
+
+```json
+{
+  "pretrained_model": "bert-base-multilingual-cased",
+  "resolved_snapshot": "C:\\Users\\Soumya\\.cache\\huggingface\\hub\\models--bert-base-multilingual-cased\\snapshots\\3f076fdb1ab68d5b2880cb87a0886f315b8146f8",
+  "snapshot_commit": "3f076fdb1ab68d5b2880cb87a0886f315b8146f8",
+  "device": "cuda",
+  "gpu": "NVIDIA GeForce RTX 4050 Laptop GPU",
+  "effective_batch_size": 8,
+  "mixed_precision": true,
+  "optimizer_steps": 5100,
+  "parameter_count": 177855747,
+  "length_at_limit_counts": {
+    "train": 144,
+    "validation": 21,
+    "test": 22
+  },
+  "determinism": "Fixed RNG seeds; cuDNN deterministic; exact cross-device reproducibility is not guaranteed."
+}
+```
+
+[Recorded config](outputs/sentimix_custom_split_v1/mbert/seed_42/config.json) | [Run environment](outputs/sentimix_custom_split_v1/mbert/seed_42/environment.json)
+
 ## Training-seed summary
 
 Single-run standard deviation is unavailable; it is not evidence of zero variability.
+
+### mbert: 1 completed run(s)
+
+| Metric | Mean | Sample standard deviation |
+|---|---:|---:|
+| accuracy | 0.6235294118 | Not available |
+| weighted_precision | 0.6246229018 | Not available |
+| weighted_recall | 0.6235294118 | Not available |
+| weighted_f1 | 0.6240270480 | Not available |
+| macro_precision | 0.6288093123 | Not available |
+| macro_recall | 0.6267832215 | Not available |
+| macro_f1 | 0.6277489654 | Not available |
+| balanced_accuracy | 0.6267832215 | Not available |
+| matthews_correlation | 0.4319626872 | Not available |
+| cohen_kappa | 0.4319243875 | Not available |
 
 ### naive_bayes: 1 completed run(s)
 
@@ -381,6 +559,8 @@ Weighted F1 differences use matched test-example bootstrap resampling for fixed 
 
 | Left model vs right model | Difference (left - right) | 95% lower | 95% upper |
 |---|---:|---:|---:|
+| mbert vs naive_bayes | -0.0034176962 | -0.0254157098 | 0.0208564636 |
+| mbert vs svm | 0.0097926657 | -0.0159222688 | 0.0348725692 |
 | naive_bayes vs svm | 0.0132103619 | -0.0035895571 | 0.0315201486 |
 
 Intervals condition on these fitted models/test examples and do not account for training-seed or split uncertainty. No significance or state-of-the-art claim is implied.
