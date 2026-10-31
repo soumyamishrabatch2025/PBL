@@ -32,9 +32,9 @@ Last Updated: 2026-10-31
 
 ---
 
-## Phase 4: Neutral-Class Bottleneck Mitigation
-- [ ] **Task 4.1**: Implement Focal Loss ($\gamma \in [1.5, 2.0]$) in transformer classification training pipeline.
-- [ ] **Task 4.2**: Implement cost-sensitive class re-weighting targeting Neutral class errors.
+## Phase 4: Neutral-Class Bottleneck Mitigation (In Progress)
+- [x] **Task 4.1**: Implement Focal Loss ($\gamma \in [1.5, 2.0]$) in transformer classification training pipeline.
+- [x] **Task 4.2**: Implement cost-sensitive class re-weighting targeting Neutral class errors.
 - [ ] **Task 4.3**: Benchmark Focal Loss model against standard Cross-Entropy (Target: Neutral F1 $> 0.68$).
 
 ---

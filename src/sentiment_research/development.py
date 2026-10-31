@@ -23,7 +23,7 @@ def stop_if_requested(config):
         return
     request = read_json(control)
     model, seed = request.get("model"), request.get("stop_after_seed")
-    if model not in ("hingbert", "hingroberta", "muril", "mbert", "svm", "svm_word_char", "naive_bayes") or not isinstance(seed, int):
+    if model not in ("hingbert", "hingbert_focal", "hingroberta", "hingroberta_focal", "muril", "mbert", "svm", "svm_word_char", "naive_bayes") or not isinstance(seed, int):
         raise ValueError("Invalid run-boundary stop request")
     # Restrict a model-specific request to a command that actually trains that model.
     if "--models" in sys.argv and model not in sys.argv:
@@ -45,7 +45,9 @@ def preflight(config):
 
     expected_models = {
         "hingbert": "l3cube-pune/hing-bert",
+        "hingbert_focal": "l3cube-pune/hing-bert",
         "hingroberta": "l3cube-pune/hing-roberta",
+        "hingroberta_focal": "l3cube-pune/hing-roberta",
         "muril": "google/muril-base-cased",
     }
     run_name = config["transformer"].get("run_name", "hingbert")

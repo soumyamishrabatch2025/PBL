@@ -30,6 +30,26 @@ class EncodedDataset(Dataset):
         return {**{key: value[index] for key, value in self.tokens.items()}, "labels": self.labels[index]}
 
 
+class FocalLoss(torch.nn.Module):
+    """Multi-class Focal Loss targeting hard boundary examples (Lin et al., 2017)."""
+    def __init__(self, gamma=2.0, alpha=None):
+        super().__init__()
+        self.gamma = gamma
+        self.alpha = alpha
+
+    def forward(self, logits, targets):
+        log_p = torch.nn.functional.log_softmax(logits, dim=-1)
+        p = log_p.exp()
+        log_pt = log_p.gather(1, targets.unsqueeze(1)).squeeze(1)
+        pt = p.gather(1, targets.unsqueeze(1)).squeeze(1)
+        focal_term = (1.0 - pt) ** self.gamma
+        loss = -focal_term * log_pt
+        if self.alpha is not None:
+            at = self.alpha.gather(0, targets)
+            loss = at * loss
+        return loss.mean()
+
+
 def resolve_model(settings):
     """Prefer an existing cached pretrained snapshot; otherwise download locally."""
     from huggingface_hub import snapshot_download
@@ -48,9 +68,9 @@ def train_transformer(config, seed=42, model_name="mbert"):
     settings = config["transformer"]
     if model_name != settings.get("run_name", "mbert"):
         raise ValueError("Transformer run name does not match the selected pretrained model configuration")
-    if model_name == "hingbert" and settings["model_name"] != "l3cube-pune/hing-bert":
+    if model_name in ("hingbert", "hingbert_focal") and settings["model_name"] != "l3cube-pune/hing-bert":
         raise ValueError("Fresh HingBERT runs require the pretrained l3cube-pune/hing-bert checkpoint")
-    if model_name == "hingroberta" and settings["model_name"] != "l3cube-pune/hing-roberta":
+    if model_name in ("hingroberta", "hingroberta_focal") and settings["model_name"] != "l3cube-pune/hing-roberta":
         raise ValueError("Fresh Hing-RoBERTa runs require the pretrained l3cube-pune/hing-roberta checkpoint")
     if model_name == "muril" and settings["model_name"] != "google/muril-base-cased":
         raise ValueError("Fresh MuRIL runs require the pretrained google/muril-base-cased checkpoint")
@@ -98,6 +118,10 @@ def train_transformer(config, seed=42, model_name="mbert"):
     total_steps = settings["epochs"] * steps_per_epoch
     scheduler = get_linear_schedule_with_warmup(optimizer, settings["warmup_steps"], total_steps)
     scaler = torch.amp.GradScaler("cuda", enabled=use_amp)
+    focal_gamma = float(settings.get("focal_gamma", 0.0))
+    class_weights = settings.get("class_weights")
+    alpha_tensor = torch.tensor(class_weights, dtype=torch.float, device=device) if class_weights else None
+    criterion = FocalLoss(gamma=focal_gamma, alpha=alpha_tensor) if (focal_gamma > 0.0 or alpha_tensor is not None) else None
     folder = new_run(config, model_name, seed)
     write_json(folder / "data_audit.json", audit)
     write_json(folder / "status.json", {"status": "training", "step": 0, "total_steps": total_steps})
@@ -105,7 +129,8 @@ def train_transformer(config, seed=42, model_name="mbert"):
                "resolved_snapshot": source, "snapshot_commit": Path(source).name,
                "device": str(device), "gpu": torch.cuda.get_device_name(0) if device.type == "cuda" else None,
                "effective_batch_size": settings["batch_size"] * accumulation, "mixed_precision": use_amp,
-               "evaluation_splits": evaluated,
+               "evaluation_splits": evaluated, "loss_function": "focal" if criterion else "cross_entropy",
+               "focal_gamma": focal_gamma, "class_weights": class_weights,
                "optimizer_steps": total_steps, "parameter_count": sum(p.numel() for p in model.parameters()),
                "length_at_limit_counts": {name: data.truncated for name, data in datasets.items()},
                "determinism": "Fixed RNG seeds; cuDNN deterministic; exact cross-device reproducibility is not guaranteed."})
@@ -137,7 +162,12 @@ def train_transformer(config, seed=42, model_name="mbert"):
                 window_start = (batch_index // accumulation) * accumulation * settings["batch_size"]
                 window_examples = min(accumulation * settings["batch_size"], len(datasets["train"]) - window_start)
                 with torch.autocast(device_type=device.type, dtype=torch.float16, enabled=use_amp):
-                    raw_loss = model(**batch).loss
+                    if criterion is not None:
+                        inputs = {key: value for key, value in batch.items() if key != "labels"}
+                        logits = model(**inputs).logits
+                        raw_loss = criterion(logits, batch["labels"])
+                    else:
+                        raw_loss = model(**batch).loss
                     loss = raw_loss * batch_size / window_examples
                 scaler.scale(loss).backward()
                 loss_sum += float(raw_loss.detach()) * batch_size
@@ -178,7 +208,7 @@ def train_transformer(config, seed=42, model_name="mbert"):
                 torch.cuda.empty_cache()
         training_seconds = time.perf_counter() - start
         # Release optimizer memory before loading/evaluating the selected checkpoint.
-        del optimizer, scheduler, model, decay, no_decay, parameter, raw_loss, loss, batch
+        del optimizer, scheduler, model, decay, no_decay, parameter, raw_loss, loss, batch, criterion
         if device.type == "cuda":
             torch.cuda.empty_cache()
         model = AutoModelForSequenceClassification.from_pretrained(folder / "checkpoint", local_files_only=True).to(device)
