@@ -594,6 +594,7 @@ The original test results above remain historical baseline measurements. Final g
 | svm | historical baseline | 42 | 0.5988235294 | 0.5961825086 | 0.5988235294 | 0.5968067944 | 0.6021864648 |
 | mbert | historical baseline | 42 | 0.6205882353 | 0.6197547502 | 0.6205882353 | 0.6201218034 | 0.6237546269 |
 | hingbert | phase 2 | 42 | 0.6688235294 | 0.6699365350 | 0.6688235294 | 0.6686182265 | 0.6723957753 |
+| hingroberta | phase 2 | 42 | 0.6670588235 | 0.6651472445 | 0.6670588235 | 0.6641395807 | 0.6701609474 |
 | svm | phase 2 | 42 | 0.6023529412 | 0.5995341236 | 0.6023529412 | 0.6004071178 | 0.6057801052 |
 | svm_word_char | phase 2 | 42 | 0.6252941176 | 0.6245887981 | 0.6252941176 | 0.6248693692 | 0.6296955580 |
 
@@ -705,6 +706,116 @@ epoch,train_loss,validation_weighted_f1,validation_macro_f1,validation_accuracy,
 ![hingbert validation confusion matrix](outputs/sentimix_development_v2/hingbert/seed_42/validation_confusion_matrix.png)
 
 [Predictions](outputs/sentimix_development_v2/hingbert/seed_42/validation_predictions.csv) | [Errors](outputs/sentimix_development_v2/hingbert/seed_42/validation_errors.csv) | [Config](outputs/sentimix_development_v2/hingbert/seed_42/config.json)
+
+
+### hingroberta — seed 42
+
+#### Validation metrics
+
+| Metric | Value |
+|---|---:|
+| n_examples | 1700 |
+| accuracy | 0.6670588235 |
+| balanced_accuracy | 0.6767293649 |
+| matthews_correlation | 0.5021839676 |
+| cohen_kappa | 0.5006922433 |
+| macro_precision | 0.6677211441 |
+| macro_recall | 0.6767293649 |
+| macro_f1 | 0.6701609474 |
+| weighted_precision | 0.6651472445 |
+| weighted_recall | 0.6670588235 |
+| weighted_f1 | 0.6641395807 |
+| micro_precision | 0.6670588235 |
+| micro_recall | 0.6670588235 |
+| micro_f1 | 0.6670588235 |
+| log_loss | 0.7946009394 |
+| macro_roc_auc_ovr | 0.8373047436 |
+
+#### Validation class results
+
+| Class | Precision | Recall | F1 | Support |
+|---|---:|---:|---:|---:|
+| negative | 0.6769759450171822 | 0.7895791583166333 | 0.72895467160037 | 499.0 |
+| neutral | 0.6184668989547039 | 0.5555555555555556 | 0.5853256389117889 | 639.0 |
+| positive | 0.7077205882352942 | 0.6850533807829181 | 0.6962025316455697 | 562.0 |
+
+#### Validation confusion matrix
+
+Rows = actual; columns = predicted.
+
+| Actual / predicted | Negative | Neutral | Positive |
+|---|---:|---:|---:|
+| negative | 394 | 86 | 19 |
+| neutral | 144 | 355 | 140 |
+| positive | 44 | 133 | 385 |
+
+#### Row-normalized validation confusion matrix
+
+| Actual / predicted | Negative | Neutral | Positive |
+|---|---:|---:|---:|
+| negative | 0.7895791583 | 0.1723446894 | 0.0380761523 |
+| neutral | 0.2253521127 | 0.5555555556 | 0.2190923318 |
+| positive | 0.0782918149 | 0.2366548043 | 0.6850533808 |
+
+#### Selection
+
+```json
+{
+  "selection_split": "validation",
+  "metric": "weighted_f1",
+  "best_epoch": 2,
+  "best_score": 0.6641395806929575
+}
+```
+
+#### Inference timing
+
+```json
+{
+  "inference_seconds": 8.826818700006697,
+  "examples_per_second": 192.5948699953144
+}
+```
+
+#### Training metadata
+
+```json
+{
+  "pretrained_model": "l3cube-pune/hing-roberta",
+  "resolved_snapshot": "C:\\Users\\Soumya\\.cache\\huggingface\\hub\\models--l3cube-pune--hing-roberta\\snapshots\\f714c4bdce6b008a2fbb84193eee99e651c59e15",
+  "snapshot_commit": "f714c4bdce6b008a2fbb84193eee99e651c59e15",
+  "device": "cuda",
+  "gpu": "NVIDIA GeForce RTX 4050 Laptop GPU",
+  "effective_batch_size": 8,
+  "mixed_precision": true,
+  "evaluation_splits": [
+    "validation"
+  ],
+  "optimizer_steps": 5100,
+  "parameter_count": 278045955,
+  "length_at_limit_counts": {
+    "train": 82,
+    "validation": 11
+  },
+  "determinism": "Fixed RNG seeds; cuDNN deterministic; exact cross-device reproducibility is not guaranteed."
+}
+```
+
+Training/search elapsed seconds: 4907.453885100025.
+
+#### Epoch history
+
+```csv
+epoch,train_loss,validation_weighted_f1,validation_macro_f1,validation_accuracy,elapsed_seconds
+1,0.8331669223919825,0.6638840752729638,0.6696881731245127,0.6664705882352941,811.1867168000317
+2,0.6701856759230682,0.6641395806929575,0.6701609473859095,0.6670588235294118,2676.2138996000285
+3,0.5168506266186238,0.6625464198750394,0.6686349029109682,0.6647058823529411,4907.195782400027
+
+```
+
+![hingroberta validation confusion matrix](outputs/sentimix_development_v2/hingroberta/seed_42/validation_confusion_matrix.png)
+
+[Predictions](outputs/sentimix_development_v2/hingroberta/seed_42/validation_predictions.csv) | [Errors](outputs/sentimix_development_v2/hingroberta/seed_42/validation_errors.csv) | [Config](outputs/sentimix_development_v2/hingroberta/seed_42/config.json)
 
 
 ### svm — seed 42
@@ -903,6 +1014,7 @@ Validation scores were used for checkpoint/model selection; these are descriptiv
 | Model | Runs | Weighted F1 mean | Sample SD | Macro F1 mean | Sample SD |
 |---|---:|---:|---:|---:|---:|
 | hingbert | 1 | 0.6686182265 | Not available | 0.6723957753 | Not available |
+| hingroberta | 1 | 0.6641395807 | Not available | 0.6701609474 | Not available |
 | svm | 1 | 0.6004071178 | Not available | 0.6057801052 | Not available |
 | svm_word_char | 1 | 0.6248693692 | Not available | 0.6296955580 | Not available |
 

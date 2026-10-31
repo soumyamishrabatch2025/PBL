@@ -1,0 +1,43 @@
+{
+  "status": "passed",
+  "files_verified": 6,
+  "verification": "Independent Python csv reader compared every converted row and label ID against the original tab-separated source; all source/output hashes verified.",
+  "files": [
+    {
+      "file": "C:\\Users\\Soumya\\Code\\PBL\\data\\dataset\\sail2017_csv\\raw\\train.csv",
+      "rows": 10080,
+      "exact_text_label_and_order_match": true,
+      "source_unchanged": true
+    },
+    {
+      "file": "C:\\Users\\Soumya\\Code\\PBL\\data\\dataset\\sail2017_csv\\raw\\validation.csv",
+      "rows": 1260,
+      "exact_text_label_and_order_match": true,
+      "source_unchanged": true
+    },
+    {
+      "file": "C:\\Users\\Soumya\\Code\\PBL\\data\\dataset\\sail2017_csv\\raw\\test.csv",
+      "rows": 1261,
+      "exact_text_label_and_order_match": true,
+      "source_unchanged": true
+    },
+    {
+      "file": "C:\\Users\\Soumya\\Code\\PBL\\data\\dataset\\sail2017_csv\\sanitized\\train.csv",
+      "rows": 10068,
+      "exact_text_label_and_order_match": true,
+      "source_unchanged": true
+    },
+    {
+      "file": "C:\\Users\\Soumya\\Code\\PBL\\data\\dataset\\sail2017_csv\\sanitized\\validation.csv",
+      "rows": 1260,
+      "exact_text_label_and_order_match": true,
+      "source_unchanged": true
+    },
+    {
+      "file": "C:\\Users\\Soumya\\Code\\PBL\\data\\dataset\\sail2017_csv\\sanitized\\test.csv",
+      "rows": 1261,
+      "exact_text_label_and_order_match": true,
+      "source_unchanged": true
+    }
+  ]
+}

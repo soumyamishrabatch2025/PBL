@@ -23,7 +23,7 @@ def stop_if_requested(config):
         return
     request = read_json(control)
     model, seed = request.get("model"), request.get("stop_after_seed")
-    if model not in ("hingbert", "mbert", "svm", "svm_word_char", "naive_bayes") or not isinstance(seed, int):
+    if model not in ("hingbert", "hingroberta", "muril", "mbert", "svm", "svm_word_char", "naive_bayes") or not isinstance(seed, int):
         raise ValueError("Invalid run-boundary stop request")
     # Restrict a model-specific request to a command that actually trains that model.
     if "--models" in sys.argv and model not in sys.argv:
@@ -43,7 +43,16 @@ def preflight(config):
     from transformers import AutoConfig, AutoTokenizer
     from .transformer import resolve_model
 
-    if config["transformer"]["model_name"] != "l3cube-pune/hing-bert":
+    expected_models = {
+        "hingbert": "l3cube-pune/hing-bert",
+        "hingroberta": "l3cube-pune/hing-roberta",
+        "muril": "google/muril-base-cased",
+    }
+    run_name = config["transformer"].get("run_name", "hingbert")
+    if run_name in expected_models:
+        if config["transformer"]["model_name"] != expected_models[run_name]:
+            raise ValueError(f"Preflight requires the fresh {expected_models[run_name]} pretrained checkpoint")
+    elif config["transformer"]["model_name"] != "l3cube-pune/hing-bert":
         raise ValueError("This preflight requires the fresh l3cube-pune/hing-bert pretrained checkpoint")
     if evaluation_splits(config) != ["validation"]:
         raise ValueError("Development must evaluate validation only")
@@ -55,13 +64,20 @@ def preflight(config):
     tokenizer = AutoTokenizer.from_pretrained(source, local_files_only=True)
     tokenizer([row["text"] for row in splits["train"][:3]], truncation=True,
               max_length=config["transformer"]["max_length"])
-    weights = Path(source) / "model.safetensors"
-    with safe_open(weights, framework="pt", device="cpu") as handle:
-        keys = list(handle.keys())
+    weights_st = Path(source) / "model.safetensors"
+    weights_bin = Path(source) / "pytorch_model.bin"
+    if weights_st.exists():
+        with safe_open(weights_st, framework="pt", device="cpu") as handle:
+            keys = list(handle.keys())
+    elif weights_bin.exists():
+        state = torch.load(weights_bin, map_location="cpu", weights_only=True)
+        keys = list(state.keys())
+    else:
+        keys = []
     if any(key.startswith("classifier.") for key in keys):
         raise ValueError("Unexpected pretrained classification head")
     gpu = torch.cuda.get_device_properties(0) if torch.cuda.is_available() else None
-    result = {"model": config["transformer"]["model_name"], "source": source,
+    result = {"model": config["transformer"]["model_name"], "run_name": run_name, "source": source,
               "snapshot_commit": Path(source).name, "source_architectures": architecture.architectures,
               "tokenizer_check": "passed", "fresh_three_class_head": True,
               "optimizer_steps_executed": 0, "training_started": False,
@@ -71,7 +87,7 @@ def preflight(config):
               "gpu_vram_gb": gpu.total_memory / 2**30 if gpu else None,
               "gpu_free_vram_gb": torch.cuda.mem_get_info()[0] / 2**30 if gpu else None,
               "dataset_sha256": audit["split_sha256"]}
-    write_json(path(config["output_dir"]) / "preflight_hingbert.json", result)
+    write_json(path(config["output_dir"]) / f"preflight_{run_name}.json", result)
     print(json.dumps(result, indent=2), flush=True)
     return result
 

@@ -8,7 +8,7 @@ def main():
     parser = argparse.ArgumentParser(description="Reproducible Hinglish sentiment experiments")
     parser.add_argument("command", choices=["prepare", "train", "report", "all", "predict", "doctor", "preflight", "audit-packet"])
     parser.add_argument("--config", default=str(ROOT / "configs/research.json"))
-    parser.add_argument("--models", nargs="+", choices=["naive_bayes", "svm", "svm_word_char", "mbert", "hingbert"], default=None)
+    parser.add_argument("--models", nargs="+", choices=["naive_bayes", "svm", "svm_word_char", "mbert", "hingbert", "hingroberta", "muril"], default=None)
     parser.add_argument("--seeds", nargs="+", type=int, default=[42])
     parser.add_argument("--model-path", help="Saved .joblib pipeline or transformer checkpoint directory for predict")
     parser.add_argument("--text", help="Text to classify with predict")
@@ -37,7 +37,7 @@ def main():
     if args.command in ("train", "all"):
         for model in args.models:
             for seed in args.seeds:
-                if model in ("mbert", "hingbert"):
+                if model in ("mbert", "hingbert", "hingroberta", "muril"):
                     from .transformer import train_transformer
                     train_transformer(config, seed, model)
                 else:

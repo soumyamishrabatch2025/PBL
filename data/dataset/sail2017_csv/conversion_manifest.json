@@ -1,0 +1,128 @@
+{
+  "source_folder": "C:/Users/Soumya/Downloads/SAIL_2017",
+  "output_folder": "C:/Users/Soumya/Code/PBL/data/dataset/sail2017_csv",
+  "encoding": "UTF-8",
+  "delimiter": ",",
+  "columns": [
+    "text",
+    "label",
+    "label_id"
+  ],
+  "label_mapping": {
+    "negative": 0,
+    "neutral": 1,
+    "positive": 2
+  },
+  "transformation": "Split each nonempty source line at its final tab; keep tweet text and row order unchanged; separate the sentiment label and add its numeric ID.",
+  "note": "Raw and sanitized are alternate copies. Use sanitized for experiments; do not pool both versions. Existing source splits are preserved.",
+  "files": [
+    {
+      "variant": "raw",
+      "split": "train",
+      "rows": 10080,
+      "labels": {
+        "negative": 2319,
+        "neutral": 4559,
+        "positive": 3202
+      },
+      "source": "C:\\Users\\Soumya\\Downloads\\SAIL_2017\\raw\\train.txt",
+      "source_sha256": "a7c8a190a7aff848fed2aef1ecbfbf3aca13579a58c0c4f3496705b6f4456d8b",
+      "csv": "C:\\Users\\Soumya\\Code\\PBL\\data\\dataset\\sail2017_csv\\raw\\train.csv",
+      "csv_sha256": "62a2897c6e5479f11e8040f03b74c5bdf9d16ced12531eead8ff515468ae106d",
+      "empty_lines_ignored": 1,
+      "sentiment_whitespace_trimmed": 0,
+      "text_preserved_exactly": true,
+      "row_order_preserved": true
+    },
+    {
+      "variant": "raw",
+      "split": "validation",
+      "rows": 1260,
+      "labels": {
+        "negative": 283,
+        "neutral": 578,
+        "positive": 399
+      },
+      "source": "C:\\Users\\Soumya\\Downloads\\SAIL_2017\\raw\\validation.txt",
+      "source_sha256": "5621a93bcbfa6af02ae7b9326f9339989139c91bff23cf56b49bf7b415653b22",
+      "csv": "C:\\Users\\Soumya\\Code\\PBL\\data\\dataset\\sail2017_csv\\raw\\validation.csv",
+      "csv_sha256": "23bdc7554b5938bf5d07799506bb0a47cf4d60c2a38c9a304521bddde6612098",
+      "empty_lines_ignored": 1,
+      "sentiment_whitespace_trimmed": 0,
+      "text_preserved_exactly": true,
+      "row_order_preserved": true
+    },
+    {
+      "variant": "raw",
+      "split": "test",
+      "rows": 1261,
+      "labels": {
+        "negative": 290,
+        "neutral": 586,
+        "positive": 385
+      },
+      "source": "C:\\Users\\Soumya\\Downloads\\SAIL_2017\\raw\\test.txt",
+      "source_sha256": "4d28dbeb74c48dc19e5082a9469e7a8bb38e1ae7eff92f12d50242b99c4c071a",
+      "csv": "C:\\Users\\Soumya\\Code\\PBL\\data\\dataset\\sail2017_csv\\raw\\test.csv",
+      "csv_sha256": "3ece03a9385d4e9793e5427f79581a26558311e79bdc91ee3c93c6ac236874c2",
+      "empty_lines_ignored": 1,
+      "sentiment_whitespace_trimmed": 0,
+      "text_preserved_exactly": true,
+      "row_order_preserved": true
+    },
+    {
+      "variant": "sanitized",
+      "split": "train",
+      "rows": 10068,
+      "labels": {
+        "negative": 2317,
+        "neutral": 4550,
+        "positive": 3201
+      },
+      "source": "C:\\Users\\Soumya\\Downloads\\SAIL_2017\\sanitized\\train.txt",
+      "source_sha256": "403d49286ae92ef12e0e12d1ed699a04114748b0bf1dd6cd5c994c7fc345bbfa",
+      "csv": "C:\\Users\\Soumya\\Code\\PBL\\data\\dataset\\sail2017_csv\\sanitized\\train.csv",
+      "csv_sha256": "9a7403596c9b3a9c5ed6fb234e36a91bbe73d34fb1bdca3deaae934b42e4a2e6",
+      "empty_lines_ignored": 1,
+      "sentiment_whitespace_trimmed": 0,
+      "text_preserved_exactly": true,
+      "row_order_preserved": true
+    },
+    {
+      "variant": "sanitized",
+      "split": "validation",
+      "rows": 1260,
+      "labels": {
+        "negative": 283,
+        "neutral": 578,
+        "positive": 399
+      },
+      "source": "C:\\Users\\Soumya\\Downloads\\SAIL_2017\\sanitized\\validation.txt",
+      "source_sha256": "5621a93bcbfa6af02ae7b9326f9339989139c91bff23cf56b49bf7b415653b22",
+      "csv": "C:\\Users\\Soumya\\Code\\PBL\\data\\dataset\\sail2017_csv\\sanitized\\validation.csv",
+      "csv_sha256": "23bdc7554b5938bf5d07799506bb0a47cf4d60c2a38c9a304521bddde6612098",
+      "empty_lines_ignored": 1,
+      "sentiment_whitespace_trimmed": 0,
+      "text_preserved_exactly": true,
+      "row_order_preserved": true
+    },
+    {
+      "variant": "sanitized",
+      "split": "test",
+      "rows": 1261,
+      "labels": {
+        "negative": 290,
+        "neutral": 586,
+        "positive": 385
+      },
+      "source": "C:\\Users\\Soumya\\Downloads\\SAIL_2017\\sanitized\\test.txt",
+      "source_sha256": "4d28dbeb74c48dc19e5082a9469e7a8bb38e1ae7eff92f12d50242b99c4c071a",
+      "csv": "C:\\Users\\Soumya\\Code\\PBL\\data\\dataset\\sail2017_csv\\sanitized\\test.csv",
+      "csv_sha256": "3ece03a9385d4e9793e5427f79581a26558311e79bdc91ee3c93c6ac236874c2",
+      "empty_lines_ignored": 1,
+      "sentiment_whitespace_trimmed": 0,
+      "text_preserved_exactly": true,
+      "row_order_preserved": true
+    }
+  ]
+}

@@ -40,7 +40,8 @@ def resolve_model(settings):
         return snapshot_download(source, revision=settings.get("revision", "main"), local_files_only=True)
     except OSError:
         return snapshot_download(source, revision=settings.get("revision", "main"),
-                                 cache_dir=ROOT / ".hf-cache", allow_patterns=["*.json", "*.txt", "*.safetensors"])
+                                 cache_dir=ROOT / ".hf-cache",
+                                 allow_patterns=["*.json", "*.txt", "*.safetensors", "*.bin", "*.model"])
 
 
 def train_transformer(config, seed=42, model_name="mbert"):
@@ -49,6 +50,10 @@ def train_transformer(config, seed=42, model_name="mbert"):
         raise ValueError("Transformer run name does not match the selected pretrained model configuration")
     if model_name == "hingbert" and settings["model_name"] != "l3cube-pune/hing-bert":
         raise ValueError("Fresh HingBERT runs require the pretrained l3cube-pune/hing-bert checkpoint")
+    if model_name == "hingroberta" and settings["model_name"] != "l3cube-pune/hing-roberta":
+        raise ValueError("Fresh Hing-RoBERTa runs require the pretrained l3cube-pune/hing-roberta checkpoint")
+    if model_name == "muril" and settings["model_name"] != "google/muril-base-cased":
+        raise ValueError("Fresh MuRIL runs require the pretrained google/muril-base-cased checkpoint")
     if settings["epochs"] < 1 or settings["batch_size"] < 1 or settings["gradient_accumulation_steps"] < 1:
         raise ValueError("Epochs, batch size, and accumulation steps must be positive")
     evaluated = evaluation_splits(config)
@@ -83,7 +88,8 @@ def train_transformer(config, seed=42, model_name="mbert"):
     # Adam moments consume less peak memory with foreach disabled on a 6 GB GPU.
     decay, no_decay = [], []
     for name, parameter in model.named_parameters():
-        (no_decay if "bias" in name or "LayerNorm.weight" in name else decay).append(parameter)
+        is_no_decay = "bias" in name or "LayerNorm" in name or "layer_norm" in name
+        (no_decay if is_no_decay else decay).append(parameter)
     optimizer = torch.optim.AdamW([{"params": decay, "weight_decay": settings["weight_decay"]},
                                    {"params": no_decay, "weight_decay": 0.0}],
                                   lr=settings["learning_rate"], foreach=False)

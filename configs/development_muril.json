@@ -1,0 +1,32 @@
+{
+  "experiment": "sentimix_development_v2",
+  "models": ["muril"],
+  "data_dir": "data/raw/hinglish_24k_sources/sentimix",
+  "prepared_dir": "data/research/sentimix_custom_split_v1",
+  "output_dir": "outputs/sentimix_development_v2",
+  "baseline_output_dir": "outputs/sentimix_custom_split_v1",
+  "evaluation_splits": ["validation"],
+  "split_seed": 42,
+  "test_fraction": 0.1,
+  "validation_fraction": 0.1,
+  "lowercase": false,
+  "selection_metric": "weighted_f1",
+  "bootstrap_samples": 1000,
+  "transformer": {
+    "run_name": "muril",
+    "model_name": "google/muril-base-cased",
+    "revision": "afd9f36c7923d54e97903922ff1b260d091d202f",
+    "epochs": 3,
+    "batch_size": 4,
+    "gradient_accumulation_steps": 2,
+    "eval_batch_size": 8,
+    "max_length": 128,
+    "learning_rate": 0.00002,
+    "weight_decay": 0.01,
+    "warmup_steps": 500,
+    "gradient_checkpointing": true,
+    "mixed_precision": true,
+    "num_workers": 0,
+    "log_every_steps": 100
+  }
+}
