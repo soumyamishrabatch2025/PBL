@@ -1253,12 +1253,50 @@ Validation scores were used for checkpoint/model selection; these are descriptiv
 
 Calibrated soft-voting combining prediction probability distributions across architectures on the frozen validation set (1,700 examples):
 
+#### Phase 4 ensembles (heuristic weights)
+
 | Ensemble Strategy | Accuracy | Macro F1 | Weighted F1 | Negative F1 | Neutral F1 | Positive F1 |
 |---|---:|---:|---:|---:|---:|---:|
-| Dual-Encoder (BERT + RoBERTa CE) | 0.6788235294 | 0.6823132766 | 0.6768223918 | 0.7315 | 0.6013 | 0.7142 |
-| Dual-Encoder (BERT + RoBERTa Focal) | 0.6747058824 | 0.6792229500 | 0.6749628247 | 0.7099 | 0.6102 | 0.7175 |
-| Tri-Encoder (BERT + RoBERTa Focal + MuRIL) | 0.6758823529 | 0.6801968466 | 0.6755993182 | 0.7164 | 0.6084 | 0.7158 |
-| Quad-Encoder (BERT + RoBERTa CE + Focal + MuRIL) | 0.6805882353 | 0.6843946782 | 0.6791802938 | 0.7304 | 0.6069 | 0.7158 |
+| Dual-Encoder (BERT + RoBERTa CE) | 0.6788 | 0.6823 | 0.6768 | 0.7315 | 0.6013 | 0.7142 |
+| Dual-Encoder (BERT + RoBERTa Focal) | 0.6747 | 0.6792 | 0.6750 | 0.7099 | 0.6102 | 0.7175 |
+| Tri-Encoder (BERT + RoBERTa Focal + MuRIL) | 0.6759 | 0.6802 | 0.6756 | 0.7164 | 0.6084 | 0.7158 |
+| Quad-Encoder (BERT + RoBERTa CE + Focal + MuRIL) | 0.6806 | 0.6844 | 0.6792 | 0.7304 | 0.6069 | 0.7158 |
+
+#### Phase 5 ensembles (grid search optimized, step=0.05)
+
+Grid search over all (w_hingbert, w_rob_ce, w_rob_focal, w_muril) summing to 1.0 at 0.05 step, maximising Macro F1. Evaluated on frozen validation set (1,700 examples). HB=HingBERT, RC=RoBERTa CE, RF=RoBERTa Focal, MU=MuRIL.
+
+| Ensemble Strategy | Weights (HB/RC/RF/MU) | Accuracy | Macro F1 | Weighted F1 | MCC | Kappa | ROC-AUC | Neg F1 | Neu F1 | Pos F1 |
+|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| Tri-Equal (HB + RC + RF) | 0.33/0.33/0.33/0.00 | 0.6765 | 0.6803 | 0.6752 | 0.5138 | 0.5135 | 0.8419 | 0.7260 | 0.6039 | 0.7111 |
+| Quad-Equal | 0.25/0.25/0.25/0.25 | 0.6841 | 0.6876 | 0.6822 | 0.5263 | 0.5255 | 0.8413 | 0.7395 | 0.6091 | 0.7143 |
+| Quad-Tuned (prev best) | 0.35/0.25/0.30/0.10 | 0.6806 | 0.6844 | 0.6792 | 0.5202 | 0.5198 | 0.8424 | 0.7304 | 0.6069 | 0.7158 |
+| **Grid-Search Best** | **0.15/0.15/0.40/0.30** | **0.6871** | **0.6908** | **0.6857** | **0.5302** | **0.5296** | **0.8396** | **0.7366** | **0.6167** | **0.7189** |
+
+Grid-search best per-class breakdown (Macro F1 = 0.6908):
+
+| Class | Precision | Recall | F1 | Support |
+|---|---:|---:|---:|---:|
+| negative | 0.7031 | 0.7735 | 0.7366 | 499 |
+| neutral | 0.6352 | 0.5994 | 0.6167 | 639 |
+| positive | 0.7281 | 0.7100 | 0.7189 | 562 |
+
+Top-10 grid configurations (sorted by Macro F1):
+
+| HingBERT | RoBERTa CE | Focal | MuRIL | Macro F1 | Weighted F1 |
+|---:|---:|---:|---:|---:|---:|
+| 0.15 | 0.15 | 0.40 | 0.30 | 0.6908 | 0.6857 |
+| 0.05 | 0.05 | 0.75 | 0.15 | 0.6905 | 0.6853 |
+| 0.10 | 0.00 | 0.75 | 0.15 | 0.6897 | 0.6846 |
+| 0.10 | 0.05 | 0.70 | 0.15 | 0.6896 | 0.6845 |
+| 0.15 | 0.10 | 0.65 | 0.10 | 0.6894 | 0.6843 |
+| 0.15 | 0.10 | 0.55 | 0.20 | 0.6893 | 0.6840 |
+| 0.10 | 0.00 | 0.80 | 0.10 | 0.6891 | 0.6842 |
+| 0.05 | 0.00 | 0.80 | 0.15 | 0.6891 | 0.6839 |
+| 0.40 | 0.35 | 0.00 | 0.25 | 0.6888 | 0.6836 |
+| 0.15 | 0.15 | 0.45 | 0.25 | 0.6888 | 0.6834 |
+
+Key finding: Heavy Focal weighting (0.40-0.80) combined with MuRIL (0.15-0.30) consistently outperforms older heuristic weights. The Focal Loss model is the strongest individual contributor to ensemble diversity and Neutral F1 improvement.
 
 ### Neutral review
 

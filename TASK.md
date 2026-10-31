@@ -39,10 +39,10 @@ Last Updated: 2026-10-31
 
 ---
 
-## Phase 5: Multi-Model Probability Ensembling
-- [ ] **Task 5.1**: Build probability calibration and soft-voting ensemble module.
-- [ ] **Task 5.2**: Generate ensemble predictions combining HingBERT + Hing-RoBERTa + MuRIL.
-- [ ] **Task 5.3**: Evaluate ensemble against single best model (Target: Weighted F1 $> 0.72$).
+## Phase 5: Multi-Model Probability Ensembling (Complete)
+- [x] **Task 5.1**: Build probability calibration and soft-voting ensemble module (`scripts/calc_metrics.py`).
+- [x] **Task 5.2**: Generate ensemble predictions combining HingBERT + Hing-RoBERTa CE + Hing-RoBERTa Focal + MuRIL.
+- [x] **Task 5.3**: Grid search (step=0.05) over all weight combinations maximising Macro F1. **Best: weights 0.15/0.15/0.40/0.30 → Acc: 68.71%, Macro F1: 0.6908, Weighted F1: 0.6857, Neutral F1: 0.6167.** Gap to target (≥0.72 Weighted F1) = ~3.4 pp remaining.
 
 ---
 
