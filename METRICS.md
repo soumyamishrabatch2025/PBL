@@ -595,6 +595,7 @@ The original test results above remain historical baseline measurements. Final g
 | mbert | historical baseline | 42 | 0.6205882353 | 0.6197547502 | 0.6205882353 | 0.6201218034 | 0.6237546269 |
 | hingbert | phase 2 | 42 | 0.6688235294 | 0.6699365350 | 0.6688235294 | 0.6686182265 | 0.6723957753 |
 | hingroberta | phase 2 | 42 | 0.6670588235 | 0.6651472445 | 0.6670588235 | 0.6641395807 | 0.6701609474 |
+| muril | phase 2 | 42 | 0.6452941176 | 0.6458613922 | 0.6452941176 | 0.6413626726 | 0.6468157089 |
 | svm | phase 2 | 42 | 0.6023529412 | 0.5995341236 | 0.6023529412 | 0.6004071178 | 0.6057801052 |
 | svm_word_char | phase 2 | 42 | 0.6252941176 | 0.6245887981 | 0.6252941176 | 0.6248693692 | 0.6296955580 |
 
@@ -818,6 +819,116 @@ epoch,train_loss,validation_weighted_f1,validation_macro_f1,validation_accuracy,
 [Predictions](outputs/sentimix_development_v2/hingroberta/seed_42/validation_predictions.csv) | [Errors](outputs/sentimix_development_v2/hingroberta/seed_42/validation_errors.csv) | [Config](outputs/sentimix_development_v2/hingroberta/seed_42/config.json)
 
 
+### muril — seed 42
+
+#### Validation metrics
+
+| Metric | Value |
+|---|---:|
+| n_examples | 1700 |
+| accuracy | 0.6452941176 |
+| balanced_accuracy | 0.6560328911 |
+| matthews_correlation | 0.4728675800 |
+| cohen_kappa | 0.4696183021 |
+| macro_precision | 0.6462842400 |
+| macro_recall | 0.6560328911 |
+| macro_f1 | 0.6468157089 |
+| weighted_precision | 0.6458613922 |
+| weighted_recall | 0.6452941176 |
+| weighted_f1 | 0.6413626726 |
+| micro_precision | 0.6452941176 |
+| micro_recall | 0.6452941176 |
+| micro_f1 | 0.6452941176 |
+| log_loss | 0.8384013649 |
+| macro_roc_auc_ovr | 0.8015634115 |
+
+#### Validation class results
+
+| Class | Precision | Recall | F1 | Support |
+|---|---:|---:|---:|---:|
+| negative | 0.6167471819645732 | 0.7675350701402806 | 0.6839285714285714 | 499.0 |
+| neutral | 0.6127819548872181 | 0.5101721439749609 | 0.5567890691716482 | 639.0 |
+| positive | 0.7093235831809872 | 0.6903914590747331 | 0.6997294860234445 | 562.0 |
+
+#### Validation confusion matrix
+
+Rows = actual; columns = predicted.
+
+| Actual / predicted | Negative | Neutral | Positive |
+|---|---:|---:|---:|
+| negative | 383 | 97 | 19 |
+| neutral | 173 | 326 | 140 |
+| positive | 65 | 109 | 388 |
+
+#### Row-normalized validation confusion matrix
+
+| Actual / predicted | Negative | Neutral | Positive |
+|---|---:|---:|---:|
+| negative | 0.7675350701 | 0.1943887776 | 0.0380761523 |
+| neutral | 0.2707355243 | 0.5101721440 | 0.2190923318 |
+| positive | 0.1156583630 | 0.1939501779 | 0.6903914591 |
+
+#### Selection
+
+```json
+{
+  "selection_split": "validation",
+  "metric": "weighted_f1",
+  "best_epoch": 2,
+  "best_score": 0.6413626726404213
+}
+```
+
+#### Inference timing
+
+```json
+{
+  "inference_seconds": 13.401106800010893,
+  "examples_per_second": 126.8551937813538
+}
+```
+
+#### Training metadata
+
+```json
+{
+  "pretrained_model": "google/muril-base-cased",
+  "resolved_snapshot": "C:\\Users\\Soumya\\Code\\PBL\\.hf-cache\\models--google--muril-base-cased\\snapshots\\afd9f36c7923d54e97903922ff1b260d091d202f",
+  "snapshot_commit": "afd9f36c7923d54e97903922ff1b260d091d202f",
+  "device": "cuda",
+  "gpu": "NVIDIA GeForce RTX 4050 Laptop GPU",
+  "effective_batch_size": 8,
+  "mixed_precision": true,
+  "evaluation_splits": [
+    "validation"
+  ],
+  "optimizer_steps": 5100,
+  "parameter_count": 237558531,
+  "length_at_limit_counts": {
+    "train": 100,
+    "validation": 16
+  },
+  "determinism": "Fixed RNG seeds; cuDNN deterministic; exact cross-device reproducibility is not guaranteed."
+}
+```
+
+Training/search elapsed seconds: 2906.4881979000056.
+
+#### Epoch history
+
+```csv
+epoch,train_loss,validation_weighted_f1,validation_macro_f1,validation_accuracy,elapsed_seconds
+1,0.9618902465308431,0.6111258290065237,0.6124903746478765,0.6111764705882353,550.8396276000421
+2,0.7897208876179376,0.6413626726404213,0.6468157088745548,0.6452941176470588,1529.8508841000148
+3,0.6827418172209502,0.6398362258248942,0.6433878021827856,0.6388235294117647,2906.410220400023
+
+```
+
+![muril validation confusion matrix](outputs/sentimix_development_v2/muril/seed_42/validation_confusion_matrix.png)
+
+[Predictions](outputs/sentimix_development_v2/muril/seed_42/validation_predictions.csv) | [Errors](outputs/sentimix_development_v2/muril/seed_42/validation_errors.csv) | [Config](outputs/sentimix_development_v2/muril/seed_42/config.json)
+
+
 ### svm — seed 42
 
 #### Validation metrics
@@ -1015,6 +1126,7 @@ Validation scores were used for checkpoint/model selection; these are descriptiv
 |---|---:|---:|---:|---:|---:|
 | hingbert | 1 | 0.6686182265 | Not available | 0.6723957753 | Not available |
 | hingroberta | 1 | 0.6641395807 | Not available | 0.6701609474 | Not available |
+| muril | 1 | 0.6413626726 | Not available | 0.6468157089 | Not available |
 | svm | 1 | 0.6004071178 | Not available | 0.6057801052 | Not available |
 | svm_word_char | 1 | 0.6248693692 | Not available | 0.6296955580 | Not available |
 

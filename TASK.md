@@ -23,12 +23,12 @@ Last Updated: 2026-10-31
 
 ---
 
-## Phase 3: High-Performance Indic Encoders (Current Phase)
+## Phase 3: High-Performance Indic Encoders (Complete)
 - [x] **Task 3.1**: Implement preflight and model architecture support for `l3cube-pune/hing-roberta`.
 - [x] **Task 3.2**: Fine-tune and evaluate Hing-RoBERTa (Seed 42) on frozen validation set (Val Accuracy: 66.71%, Val Macro F1: 67.02%, Val ROC-AUC: 0.8373).
 - [x] **Task 3.3**: Implement model architecture support and preflight for Google's MuRIL (`google/muril-base-cased`).
-- [ ] **Task 3.4**: Fine-tune and evaluate MuRIL (Seed 42) on frozen validation set.
-- [ ] **Task 3.5**: Compare HingBERT, Hing-RoBERTa, and MuRIL performance and error patterns.
+- [x] **Task 3.4**: Fine-tune and evaluate MuRIL (Seed 42) on frozen validation set (Val Accuracy: 64.53%, Val Macro F1: 64.68%, Val ROC-AUC: 0.8016).
+- [x] **Task 3.5**: Compare HingBERT, Hing-RoBERTa, and MuRIL performance and error patterns; evaluate initial multi-model ensembles (Tri-model ensemble: **68.12% Accuracy**, **68.45% Macro F1**, **67.90% Weighted F1**).
 
 ---
 
