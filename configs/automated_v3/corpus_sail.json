@@ -1,0 +1,42 @@
+{
+  "experiment": "automated_v3_corpus_sail",
+  "models": [
+    "hingroberta_focal"
+  ],
+  "data_dir": "data/raw/hinglish_24k_sources/sentimix",
+  "prepared_dir": "data\\research\\automated_v3\\sail",
+  "output_dir": "outputs/automated_v3/corpus_sail",
+  "baseline_output_dir": "outputs/automated_v3/corpus_sail",
+  "evaluation_splits": [
+    "validation"
+  ],
+  "split_seed": 42,
+  "test_fraction": 0.1,
+  "validation_fraction": 0.1,
+  "lowercase": false,
+  "selection_metric": "weighted_f1",
+  "bootstrap_samples": 1000,
+  "transformer": {
+    "run_name": "hingroberta_focal",
+    "model_name": "l3cube-pune/hing-roberta",
+    "revision": "f714c4bdce6b008a2fbb84193eee99e651c59e15",
+    "epochs": 3,
+    "batch_size": 4,
+    "gradient_accumulation_steps": 2,
+    "eval_batch_size": 8,
+    "max_length": 128,
+    "learning_rate": 2e-05,
+    "weight_decay": 0.01,
+    "warmup_steps": 500,
+    "focal_gamma": 0.0,
+    "class_weights": null,
+    "gradient_checkpointing": true,
+    "mixed_precision": true,
+    "num_workers": 0,
+    "log_every_steps": 100,
+    "early_stopping_patience": 1,
+    "dataset_balanced_sampling": false
+  },
+  "preprocessing_version": "v2",
+  "report_section": "automated_v3_corpus_sail"
+}

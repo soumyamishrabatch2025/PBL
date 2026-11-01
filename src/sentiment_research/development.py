@@ -253,7 +253,7 @@ def development_report(config):
             combos.append(("Quad-Encoder (BERT + RoBERTa CE + Focal + MuRIL)", 0.35 * preds["hingbert"] + 0.25 * preds["hingroberta"] + 0.30 * preds["hingroberta_focal"] + 0.10 * preds["muril"]))
 
         lines += ["", "### Multi-model probability ensembles", "",
-                  "Calibrated soft-voting combining prediction probability distributions across architectures on the frozen validation set (1,700 examples):", "",
+                  "Uncalibrated soft-voting combining validation prediction probabilities across architectures:", "",
                   "| Ensemble Strategy | Accuracy | Macro F1 | Weighted F1 | Negative F1 | Neutral F1 | Positive F1 |",
                   "|---|---:|---:|---:|---:|---:|---:|"]
         for name, prob in combos:
@@ -271,7 +271,19 @@ def development_report(config):
     (root / "development_metrics.md").write_text(content, encoding="utf-8")
     target = ROOT / "METRICS.md"
     existing = target.read_text(encoding="utf-8") if target.exists() else "# All model metrics\n"
-    target.write_text(existing.split(MARKER)[0].rstrip() + "\n\n" + MARKER + "\n\n" + content, encoding="utf-8")
+    if config.get('report_section'):
+        start = '<!-- ' + config['report_section'] + '_START -->'
+        end = '<!-- ' + config['report_section'] + '_END -->'
+        section = start + '\n\n' + content + '\n' + end
+        if start in existing:
+            before, rest = existing.split(start, 1)
+            _, after = rest.split(end, 1)
+            updated = before + section + after
+        else:
+            updated = existing.rstrip() + '\n\n' + section + '\n'
+        target.write_text(updated, encoding='utf-8')
+    else:
+        target.write_text(existing.split(MARKER)[0].rstrip() + "\n\n" + MARKER + "\n\n" + content, encoding="utf-8")
     print(content, flush=True)
     stop_if_requested(config)
     return comparison

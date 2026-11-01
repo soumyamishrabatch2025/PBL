@@ -6,7 +6,11 @@ from .data import normalize
 def predict(model_path, text):
     run = model_path.parent
     config = read_json(run / "config.json")
-    normalized = normalize(text, config.get("lowercase", False))
+    normalizer = normalize
+    if config.get("preprocessing_version") == "v2":
+        from .improvements import normalize_v2
+        normalizer = normalize_v2
+    normalized = normalizer(text, config.get("lowercase", False))
     if model_path.suffix == ".joblib":
         import joblib
         model = joblib.load(model_path)

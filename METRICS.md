@@ -1251,7 +1251,7 @@ Validation scores were used for checkpoint/model selection; these are descriptiv
 
 ### Multi-model probability ensembles
 
-Calibrated soft-voting combining prediction probability distributions across architectures on the frozen validation set (1,700 examples):
+Uncalibrated soft-voting combining prediction probability distributions across architectures on the frozen validation set (1,700 examples):
 
 #### Phase 4 ensembles (heuristic weights)
 
@@ -1303,3 +1303,302 @@ Key finding: Heavy Focal weighting (0.40-0.80) combined with MuRIL (0.15-0.30) c
 The blinded 200-example validation packet is under `outputs/sentimix_development_v2/neutral_review`. Human annotation/agreement remain pending; no gold labels were changed.
 
 No new test metrics or selection-set confidence intervals are claimed for these development runs.
+
+
+<!-- AUTOMATED_DIAGNOSTIC_V3 -->
+## Automated ensemble diagnostic (development only)
+
+510 examples from the previously used validation set; not comparable to the full 1,700-row results. Base checkpoint selection already used these examples. Temperatures fitted on 680 other validation rows and weights tuned on 510 other rows. No fresh test result or confirmed improvement is claimed.
+
+| Method | Accuracy | Macro F1 | Weighted F1 |
+|---|---:|---:|---:|
+| Calibrated tuned | 0.6902 | 0.6960 | 0.6913 |
+| Equal uncalibrated | 0.7020 | 0.7058 | 0.7008 |
+
+Equal weighting performs better on this diagnostic subset. New preprocessing/loss/corpus training experiments remain untrained; see AUTOMATED_EXPERIMENTS.md.
+
+<!-- automated_v3_loss_ce_START -->
+
+## Development experiments: validation only
+
+Experiment: `automated_v3_loss_ce`. These scores are used for model selection and are NOT fresh test results.
+The original test results above remain historical baseline measurements. Final generalization needs an untouched, deduplicated evaluation set.
+
+### Validation comparison
+
+| Model | Run group | Seed | Accuracy | Weighted precision | Weighted recall | Weighted F1 | Macro F1 |
+|---|---|---:|---:|---:|---:|---:|---:|
+| hingroberta_focal | phase 2 | 42 | 0.6805882353 | 0.6823525172 | 0.6805882353 | 0.6813063270 | 0.6853016917 |
+
+### hingroberta_focal — seed 42
+
+#### Validation metrics
+
+| Metric | Value |
+|---|---:|
+| n_examples | 1700 |
+| accuracy | 0.6805882353 |
+| balanced_accuracy | 0.6837307646 |
+| matthews_correlation | 0.5179028017 |
+| cohen_kappa | 0.5177624932 |
+| macro_precision | 0.6871863078 |
+| macro_recall | 0.6837307646 |
+| macro_f1 | 0.6853016917 |
+| weighted_precision | 0.6823525172 |
+| weighted_recall | 0.6805882353 |
+| weighted_f1 | 0.6813063270 |
+| micro_precision | 0.6805882353 |
+| micro_recall | 0.6805882353 |
+| micro_f1 | 0.6805882353 |
+| log_loss | 0.8100526292 |
+| macro_roc_auc_ovr | 0.8339742353 |
+
+#### Validation class results
+
+| Class | Precision | Recall | F1 | Support |
+|---|---:|---:|---:|---:|
+| negative | 0.7239263803680982 | 0.7094188376753507 | 0.7165991902834008 | 499.0 |
+| neutral | 0.6105263157894737 | 0.6353677621283255 | 0.6226993865030674 | 639.0 |
+| positive | 0.7271062271062271 | 0.7064056939501779 | 0.7166064981949458 | 562.0 |
+
+#### Validation confusion matrix
+
+Rows = actual; columns = predicted.
+
+| Actual / predicted | Negative | Neutral | Positive |
+|---|---:|---:|---:|
+| negative | 354 | 130 | 15 |
+| neutral | 99 | 406 | 134 |
+| positive | 36 | 129 | 397 |
+
+#### Row-normalized validation confusion matrix
+
+| Actual / predicted | Negative | Neutral | Positive |
+|---|---:|---:|---:|
+| negative | 0.7094188377 | 0.2605210421 | 0.0300601202 |
+| neutral | 0.1549295775 | 0.6353677621 | 0.2097026604 |
+| positive | 0.0640569395 | 0.2295373665 | 0.7064056940 |
+
+#### Selection
+
+```json
+{
+  "selection_split": "validation",
+  "metric": "weighted_f1",
+  "best_epoch": 2,
+  "best_score": 0.6813063270073157
+}
+```
+
+#### Inference timing
+
+```json
+{
+  "inference_seconds": 2.625447499973234,
+  "examples_per_second": 647.5086628155129
+}
+```
+
+#### Training metadata
+
+```json
+{
+  "pretrained_model": "l3cube-pune/hing-roberta",
+  "resolved_snapshot": "C:\\Users\\Soumya\\.cache\\huggingface\\hub\\models--l3cube-pune--hing-roberta\\snapshots\\f714c4bdce6b008a2fbb84193eee99e651c59e15",
+  "snapshot_commit": "f714c4bdce6b008a2fbb84193eee99e651c59e15",
+  "device": "cuda",
+  "gpu": "NVIDIA GeForce RTX 4050 Laptop GPU",
+  "effective_batch_size": 8,
+  "mixed_precision": true,
+  "evaluation_splits": [
+    "validation"
+  ],
+  "loss_function": "cross_entropy",
+  "focal_gamma": 0.0,
+  "class_weights": null,
+  "optimizer_steps": 5097,
+  "parameter_count": 278045955,
+  "length_at_limit_counts": {
+    "train": 81,
+    "validation": 10
+  },
+  "determinism": "Fixed RNG seeds; cuDNN deterministic; exact cross-device reproducibility is not guaranteed."
+}
+```
+
+Training/search elapsed seconds: 2854.45547679998.
+
+#### Epoch history
+
+```csv
+epoch,train_loss,validation_weighted_f1,validation_macro_f1,validation_accuracy,elapsed_seconds
+1,0.8179185051478671,0.667616443627051,0.6705875843525048,0.6652941176470588,836.4380622999743
+2,0.6567644046831734,0.6813063270073157,0.6853016916604714,0.6805882352941176,1852.1819557999843
+3,0.4997867239479602,0.6685660714589283,0.6738558868460593,0.6705882352941176,2854.4531110999524
+
+```
+
+![hingroberta_focal validation confusion matrix](outputs/automated_v3/loss_ce/hingroberta_focal/seed_42/validation_confusion_matrix.png)
+
+[Predictions](outputs/automated_v3/loss_ce/hingroberta_focal/seed_42/validation_predictions.csv) | [Errors](outputs/automated_v3/loss_ce/hingroberta_focal/seed_42/validation_errors.csv) | [Config](outputs/automated_v3/loss_ce/hingroberta_focal/seed_42/config.json)
+
+### Development training-seed variability
+
+Validation scores were used for checkpoint/model selection; these are descriptive seed statistics, not unbiased final-test estimates.
+
+| Model | Runs | Weighted F1 mean | Sample SD | Macro F1 mean | Sample SD |
+|---|---:|---:|---:|---:|---:|
+| hingroberta_focal | 1 | 0.6813063270 | Not available | 0.6853016917 | Not available |
+
+### Neutral review
+
+The blinded 200-example validation packet is under `outputs/automated_v3/loss_ce/neutral_review`. Human annotation/agreement remain pending; no gold labels were changed.
+
+No new test metrics or selection-set confidence intervals are claimed for these development runs.
+
+<!-- automated_v3_loss_ce_END -->
+
+<!-- automated_v3_loss_weighted_ce_START -->
+
+## Development experiments: validation only
+
+Experiment: `automated_v3_loss_weighted_ce`. These scores are used for model selection and are NOT fresh test results.
+The original test results above remain historical baseline measurements. Final generalization needs an untouched, deduplicated evaluation set.
+
+### Validation comparison
+
+| Model | Run group | Seed | Accuracy | Weighted precision | Weighted recall | Weighted F1 | Macro F1 |
+|---|---|---:|---:|---:|---:|---:|---:|
+| hingroberta_focal | phase 2 | 42 | 0.6794117647 | 0.6845354195 | 0.6794117647 | 0.6809480496 | 0.6846605063 |
+
+### hingroberta_focal — seed 42
+
+#### Validation metrics
+
+| Metric | Value |
+|---|---:|
+| n_examples | 1700 |
+| accuracy | 0.6794117647 |
+| balanced_accuracy | 0.6810299797 |
+| matthews_correlation | 0.5159047384 |
+| cohen_kappa | 0.5150179545 |
+| macro_precision | 0.6902539250 |
+| macro_recall | 0.6810299797 |
+| macro_f1 | 0.6846605063 |
+| weighted_precision | 0.6845354195 |
+| weighted_recall | 0.6794117647 |
+| weighted_f1 | 0.6809480496 |
+| micro_precision | 0.6794117647 |
+| micro_recall | 0.6794117647 |
+| micro_f1 | 0.6794117647 |
+| log_loss | 0.8145634333 |
+| macro_roc_auc_ovr | 0.8343088924 |
+
+#### Validation class results
+
+| Class | Precision | Recall | F1 | Support |
+|---|---:|---:|---:|---:|
+| negative | 0.7352941176470589 | 0.7014028056112225 | 0.717948717948718 | 499.0 |
+| neutral | 0.6008522727272727 | 0.6619718309859155 | 0.6299329858525688 | 639.0 |
+| positive | 0.7346153846153847 | 0.6797153024911032 | 0.7060998151571165 | 562.0 |
+
+#### Validation confusion matrix
+
+Rows = actual; columns = predicted.
+
+| Actual / predicted | Negative | Neutral | Positive |
+|---|---:|---:|---:|
+| negative | 350 | 135 | 14 |
+| neutral | 92 | 423 | 124 |
+| positive | 34 | 146 | 382 |
+
+#### Row-normalized validation confusion matrix
+
+| Actual / predicted | Negative | Neutral | Positive |
+|---|---:|---:|---:|
+| negative | 0.7014028056 | 0.2705410822 | 0.0280561122 |
+| neutral | 0.1439749609 | 0.6619718310 | 0.1940532081 |
+| positive | 0.0604982206 | 0.2597864769 | 0.6797153025 |
+
+#### Selection
+
+```json
+{
+  "selection_split": "validation",
+  "metric": "weighted_f1",
+  "best_epoch": 2,
+  "best_score": 0.6809480496085302
+}
+```
+
+#### Inference timing
+
+```json
+{
+  "inference_seconds": 12.776811399962753,
+  "examples_per_second": 133.05354104271711
+}
+```
+
+#### Training metadata
+
+```json
+{
+  "pretrained_model": "l3cube-pune/hing-roberta",
+  "resolved_snapshot": "C:\\Users\\Soumya\\.cache\\huggingface\\hub\\models--l3cube-pune--hing-roberta\\snapshots\\f714c4bdce6b008a2fbb84193eee99e651c59e15",
+  "snapshot_commit": "f714c4bdce6b008a2fbb84193eee99e651c59e15",
+  "device": "cuda",
+  "gpu": "NVIDIA GeForce RTX 4050 Laptop GPU",
+  "effective_batch_size": 8,
+  "mixed_precision": true,
+  "evaluation_splits": [
+    "validation"
+  ],
+  "loss_function": "focal",
+  "focal_gamma": 0.0,
+  "class_weights": [
+    1.0,
+    1.25,
+    1.0
+  ],
+  "optimizer_steps": 5097,
+  "parameter_count": 278045955,
+  "length_at_limit_counts": {
+    "train": 81,
+    "validation": 10
+  },
+  "determinism": "Fixed RNG seeds; cuDNN deterministic; exact cross-device reproducibility is not guaranteed."
+}
+```
+
+Training/search elapsed seconds: 5040.21333649999.
+
+#### Epoch history
+
+```csv
+epoch,train_loss,validation_weighted_f1,validation_macro_f1,validation_accuracy,elapsed_seconds
+1,0.8940410999022479,0.6590852762163877,0.6610539166626489,0.6564705882352941,977.1152032000246
+2,0.7219500922375053,0.6809480496085302,0.6846605063194677,0.6794117647058824,3164.5362082000356
+3,0.5494139267393235,0.674693556440792,0.6789003750676862,0.6752941176470588,5040.1584706000285
+
+```
+
+![hingroberta_focal validation confusion matrix](outputs/automated_v3/loss_weighted_ce/hingroberta_focal/seed_42/validation_confusion_matrix.png)
+
+[Predictions](outputs/automated_v3/loss_weighted_ce/hingroberta_focal/seed_42/validation_predictions.csv) | [Errors](outputs/automated_v3/loss_weighted_ce/hingroberta_focal/seed_42/validation_errors.csv) | [Config](outputs/automated_v3/loss_weighted_ce/hingroberta_focal/seed_42/config.json)
+
+### Development training-seed variability
+
+Validation scores were used for checkpoint/model selection; these are descriptive seed statistics, not unbiased final-test estimates.
+
+| Model | Runs | Weighted F1 mean | Sample SD | Macro F1 mean | Sample SD |
+|---|---:|---:|---:|---:|---:|
+| hingroberta_focal | 1 | 0.6809480496 | Not available | 0.6846605063 | Not available |
+
+### Neutral review
+
+The blinded 200-example validation packet is under `outputs/automated_v3/loss_weighted_ce/neutral_review`. Human annotation/agreement remain pending; no gold labels were changed.
+
+No new test metrics or selection-set confidence intervals are claimed for these development runs.
+
+<!-- automated_v3_loss_weighted_ce_END -->

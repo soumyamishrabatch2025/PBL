@@ -1,0 +1,2703 @@
+{
+  "timestamp_ist": "2026-11-01T08:41:34+05:30",
+  "verification": "All saved scalar metrics and confusion matrices matched recomputed predictions; all dataset hashes matched.",
+  "runs": [
+    {
+      "path": "outputs\\automated_v3\\loss_ce\\hingroberta_focal\\seed_42",
+      "group": "automated_v3",
+      "experiment": "automated_v3_loss_ce",
+      "model": "hingroberta_focal",
+      "seed": 42,
+      "config": {
+        "experiment": "automated_v3_loss_ce",
+        "models": [
+          "hingroberta_focal"
+        ],
+        "data_dir": "data/raw/hinglish_24k_sources/sentimix",
+        "prepared_dir": "data\\research\\automated_v3\\sentimix",
+        "output_dir": "outputs/automated_v3/loss_ce",
+        "baseline_output_dir": "outputs/sentimix_custom_split_v1",
+        "evaluation_splits": [
+          "validation"
+        ],
+        "split_seed": 42,
+        "test_fraction": 0.1,
+        "validation_fraction": 0.1,
+        "lowercase": false,
+        "selection_metric": "weighted_f1",
+        "bootstrap_samples": 1000,
+        "transformer": {
+          "run_name": "hingroberta_focal",
+          "model_name": "l3cube-pune/hing-roberta",
+          "revision": "f714c4bdce6b008a2fbb84193eee99e651c59e15",
+          "epochs": 3,
+          "batch_size": 4,
+          "gradient_accumulation_steps": 2,
+          "eval_batch_size": 8,
+          "max_length": 128,
+          "learning_rate": 2e-05,
+          "weight_decay": 0.01,
+          "warmup_steps": 500,
+          "focal_gamma": 0.0,
+          "class_weights": null,
+          "gradient_checkpointing": true,
+          "mixed_precision": true,
+          "num_workers": 0,
+          "log_every_steps": 100,
+          "early_stopping_patience": 1,
+          "dataset_balanced_sampling": false
+        },
+        "preprocessing_version": "v2",
+        "report_section": "automated_v3_loss_ce"
+      },
+      "completion": {
+        "model": "hingroberta_focal",
+        "seed": 42,
+        "best_epoch": 2,
+        "training_seconds": 2854.45547679998,
+        "evaluation_metrics": {
+          "validation": {
+            "n_examples": 1700,
+            "accuracy": 0.6805882352941176,
+            "balanced_accuracy": 0.683730764584618,
+            "matthews_correlation": 0.5179028016950746,
+            "cohen_kappa": 0.517762493195598,
+            "macro_precision": 0.6871863077545997,
+            "macro_recall": 0.683730764584618,
+            "macro_f1": 0.6853016916604714,
+            "weighted_precision": 0.6823525171922673,
+            "weighted_recall": 0.6805882352941176,
+            "weighted_f1": 0.6813063270073157,
+            "micro_precision": 0.6805882352941176,
+            "micro_recall": 0.6805882352941176,
+            "micro_f1": 0.6805882352941176,
+            "log_loss": 0.8100526292114538,
+            "macro_roc_auc_ovr": 0.8339742353089518
+          }
+        },
+        "evaluation_splits": [
+          "validation"
+        ],
+        "dataset_sha256": {
+          "train": "24991a164c4bce254b5cb74be79a27f1f7fa865cb05354432b5232c7aa974eb2",
+          "validation": "cc8f08b2c015b59672e5fd8ac399d000028e2258a22ae37c44142528af222979",
+          "test": "93756f9971cc3f6717a01564480ceab66cec330fdd86f220cdca4cddecfda390"
+        }
+      },
+      "verified": {
+        "validation": {
+          "metrics": {
+            "n_examples": 1700,
+            "accuracy": 0.6805882352941176,
+            "balanced_accuracy": 0.683730764584618,
+            "matthews_correlation": 0.5179028016950746,
+            "cohen_kappa": 0.517762493195598,
+            "macro_precision": 0.6871863077545997,
+            "macro_recall": 0.683730764584618,
+            "macro_f1": 0.6853016916604714,
+            "weighted_precision": 0.6823525171922673,
+            "weighted_recall": 0.6805882352941176,
+            "weighted_f1": 0.6813063270073157,
+            "micro_precision": 0.6805882352941176,
+            "micro_recall": 0.6805882352941176,
+            "micro_f1": 0.6805882352941176,
+            "log_loss": 0.8100526292114538,
+            "macro_roc_auc_ovr": 0.8339742353089518
+          },
+          "confusion_matrix": [
+            [
+              354,
+              130,
+              15
+            ],
+            [
+              99,
+              406,
+              134
+            ],
+            [
+              36,
+              129,
+              397
+            ]
+          ],
+          "per_class": {
+            "negative": {
+              "precision": 0.7239263803680982,
+              "recall": 0.7094188376753507,
+              "f1-score": 0.7165991902834008,
+              "support": 499.0
+            },
+            "neutral": {
+              "precision": 0.6105263157894737,
+              "recall": 0.6353677621283255,
+              "f1-score": 0.6226993865030674,
+              "support": 639.0
+            },
+            "positive": {
+              "precision": 0.7271062271062271,
+              "recall": 0.7064056939501779,
+              "f1-score": 0.7166064981949458,
+              "support": 562.0
+            },
+            "accuracy": 0.6805882352941176,
+            "macro avg": {
+              "precision": 0.6871863077545997,
+              "recall": 0.683730764584618,
+              "f1-score": 0.6853016916604714,
+              "support": 1700.0
+            },
+            "weighted avg": {
+              "precision": 0.6823525171922673,
+              "recall": 0.6805882352941176,
+              "f1-score": 0.6813063270073157,
+              "support": 1700.0
+            }
+          }
+        }
+      },
+      "metadata": {
+        "pretrained_model": "l3cube-pune/hing-roberta",
+        "resolved_snapshot": "C:\\Users\\Soumya\\.cache\\huggingface\\hub\\models--l3cube-pune--hing-roberta\\snapshots\\f714c4bdce6b008a2fbb84193eee99e651c59e15",
+        "snapshot_commit": "f714c4bdce6b008a2fbb84193eee99e651c59e15",
+        "device": "cuda",
+        "gpu": "NVIDIA GeForce RTX 4050 Laptop GPU",
+        "effective_batch_size": 8,
+        "mixed_precision": true,
+        "evaluation_splits": [
+          "validation"
+        ],
+        "loss_function": "cross_entropy",
+        "focal_gamma": 0.0,
+        "class_weights": null,
+        "optimizer_steps": 5097,
+        "parameter_count": 278045955,
+        "length_at_limit_counts": {
+          "train": 81,
+          "validation": 10
+        },
+        "determinism": "Fixed RNG seeds; cuDNN deterministic; exact cross-device reproducibility is not guaranteed."
+      },
+      "selection": {
+        "selection_split": "validation",
+        "metric": "weighted_f1",
+        "best_epoch": 2,
+        "best_score": 0.6813063270073157
+      }
+    },
+    {
+      "path": "outputs\\automated_v3\\loss_weighted_ce\\hingroberta_focal\\seed_42",
+      "group": "automated_v3",
+      "experiment": "automated_v3_loss_weighted_ce",
+      "model": "hingroberta_focal",
+      "seed": 42,
+      "config": {
+        "experiment": "automated_v3_loss_weighted_ce",
+        "models": [
+          "hingroberta_focal"
+        ],
+        "data_dir": "data/raw/hinglish_24k_sources/sentimix",
+        "prepared_dir": "data\\research\\automated_v3\\sentimix",
+        "output_dir": "outputs/automated_v3/loss_weighted_ce",
+        "baseline_output_dir": "outputs/automated_v3/loss_weighted_ce",
+        "evaluation_splits": [
+          "validation"
+        ],
+        "split_seed": 42,
+        "test_fraction": 0.1,
+        "validation_fraction": 0.1,
+        "lowercase": false,
+        "selection_metric": "weighted_f1",
+        "bootstrap_samples": 1000,
+        "transformer": {
+          "run_name": "hingroberta_focal",
+          "model_name": "l3cube-pune/hing-roberta",
+          "revision": "f714c4bdce6b008a2fbb84193eee99e651c59e15",
+          "epochs": 3,
+          "batch_size": 4,
+          "gradient_accumulation_steps": 2,
+          "eval_batch_size": 8,
+          "max_length": 128,
+          "learning_rate": 2e-05,
+          "weight_decay": 0.01,
+          "warmup_steps": 500,
+          "focal_gamma": 0.0,
+          "class_weights": [
+            1.0,
+            1.25,
+            1.0
+          ],
+          "gradient_checkpointing": true,
+          "mixed_precision": true,
+          "num_workers": 0,
+          "log_every_steps": 100,
+          "early_stopping_patience": 1,
+          "dataset_balanced_sampling": false
+        },
+        "preprocessing_version": "v2",
+        "report_section": "automated_v3_loss_weighted_ce"
+      },
+      "completion": {
+        "model": "hingroberta_focal",
+        "seed": 42,
+        "best_epoch": 2,
+        "training_seconds": 5040.21333649999,
+        "evaluation_metrics": {
+          "validation": {
+            "n_examples": 1700,
+            "accuracy": 0.6794117647058824,
+            "balanced_accuracy": 0.6810299796960804,
+            "matthews_correlation": 0.5159047383953496,
+            "cohen_kappa": 0.5150179545430752,
+            "macro_precision": 0.690253924996572,
+            "macro_recall": 0.6810299796960804,
+            "macro_f1": 0.6846605063194677,
+            "weighted_precision": 0.68453541948968,
+            "weighted_recall": 0.6794117647058824,
+            "weighted_f1": 0.6809480496085302,
+            "micro_precision": 0.6794117647058824,
+            "micro_recall": 0.6794117647058824,
+            "micro_f1": 0.6794117647058824,
+            "log_loss": 0.8145634333092859,
+            "macro_roc_auc_ovr": 0.834308892417886
+          }
+        },
+        "evaluation_splits": [
+          "validation"
+        ],
+        "dataset_sha256": {
+          "train": "24991a164c4bce254b5cb74be79a27f1f7fa865cb05354432b5232c7aa974eb2",
+          "validation": "cc8f08b2c015b59672e5fd8ac399d000028e2258a22ae37c44142528af222979",
+          "test": "93756f9971cc3f6717a01564480ceab66cec330fdd86f220cdca4cddecfda390"
+        }
+      },
+      "verified": {
+        "validation": {
+          "metrics": {
+            "n_examples": 1700,
+            "accuracy": 0.6794117647058824,
+            "balanced_accuracy": 0.6810299796960804,
+            "matthews_correlation": 0.5159047383953496,
+            "cohen_kappa": 0.5150179545430752,
+            "macro_precision": 0.690253924996572,
+            "macro_recall": 0.6810299796960804,
+            "macro_f1": 0.6846605063194677,
+            "weighted_precision": 0.68453541948968,
+            "weighted_recall": 0.6794117647058824,
+            "weighted_f1": 0.6809480496085302,
+            "micro_precision": 0.6794117647058824,
+            "micro_recall": 0.6794117647058824,
+            "micro_f1": 0.6794117647058824,
+            "log_loss": 0.8145634333092859,
+            "macro_roc_auc_ovr": 0.834308892417886
+          },
+          "confusion_matrix": [
+            [
+              350,
+              135,
+              14
+            ],
+            [
+              92,
+              423,
+              124
+            ],
+            [
+              34,
+              146,
+              382
+            ]
+          ],
+          "per_class": {
+            "negative": {
+              "precision": 0.7352941176470589,
+              "recall": 0.7014028056112225,
+              "f1-score": 0.717948717948718,
+              "support": 499.0
+            },
+            "neutral": {
+              "precision": 0.6008522727272727,
+              "recall": 0.6619718309859155,
+              "f1-score": 0.6299329858525688,
+              "support": 639.0
+            },
+            "positive": {
+              "precision": 0.7346153846153847,
+              "recall": 0.6797153024911032,
+              "f1-score": 0.7060998151571165,
+              "support": 562.0
+            },
+            "accuracy": 0.6794117647058824,
+            "macro avg": {
+              "precision": 0.690253924996572,
+              "recall": 0.6810299796960804,
+              "f1-score": 0.6846605063194677,
+              "support": 1700.0
+            },
+            "weighted avg": {
+              "precision": 0.68453541948968,
+              "recall": 0.6794117647058824,
+              "f1-score": 0.6809480496085302,
+              "support": 1700.0
+            }
+          }
+        }
+      },
+      "metadata": {
+        "pretrained_model": "l3cube-pune/hing-roberta",
+        "resolved_snapshot": "C:\\Users\\Soumya\\.cache\\huggingface\\hub\\models--l3cube-pune--hing-roberta\\snapshots\\f714c4bdce6b008a2fbb84193eee99e651c59e15",
+        "snapshot_commit": "f714c4bdce6b008a2fbb84193eee99e651c59e15",
+        "device": "cuda",
+        "gpu": "NVIDIA GeForce RTX 4050 Laptop GPU",
+        "effective_batch_size": 8,
+        "mixed_precision": true,
+        "evaluation_splits": [
+          "validation"
+        ],
+        "loss_function": "focal",
+        "focal_gamma": 0.0,
+        "class_weights": [
+          1.0,
+          1.25,
+          1.0
+        ],
+        "optimizer_steps": 5097,
+        "parameter_count": 278045955,
+        "length_at_limit_counts": {
+          "train": 81,
+          "validation": 10
+        },
+        "determinism": "Fixed RNG seeds; cuDNN deterministic; exact cross-device reproducibility is not guaranteed."
+      },
+      "selection": {
+        "selection_split": "validation",
+        "metric": "weighted_f1",
+        "best_epoch": 2,
+        "best_score": 0.6809480496085302
+      }
+    },
+    {
+      "path": "outputs\\sentimix_custom_split_v1\\mbert\\seed_42",
+      "group": "sentimix_custom_split_v1",
+      "experiment": "sentimix_custom_split_v1",
+      "model": "mbert",
+      "seed": 42,
+      "config": {
+        "experiment": "sentimix_custom_split_v1",
+        "data_dir": "data/raw/hinglish_24k_sources/sentimix",
+        "prepared_dir": "data/research/sentimix_custom_split_v1",
+        "output_dir": "outputs/sentimix_custom_split_v1",
+        "split_seed": 42,
+        "test_fraction": 0.1,
+        "validation_fraction": 0.1,
+        "lowercase": false,
+        "selection_metric": "weighted_f1",
+        "bootstrap_samples": 1000,
+        "baseline": {
+          "max_features": 60000,
+          "ngram_range": [
+            1,
+            2
+          ],
+          "min_df": 2,
+          "nb_alpha": [
+            0.1,
+            0.5,
+            1.0
+          ],
+          "svm_c": [
+            0.5,
+            1.0,
+            2.0
+          ]
+        },
+        "transformer": {
+          "model_name": "bert-base-multilingual-cased",
+          "revision": "main",
+          "epochs": 3,
+          "batch_size": 4,
+          "gradient_accumulation_steps": 2,
+          "eval_batch_size": 16,
+          "max_length": 128,
+          "learning_rate": 2e-05,
+          "weight_decay": 0.01,
+          "warmup_steps": 500,
+          "gradient_checkpointing": true,
+          "mixed_precision": true,
+          "num_workers": 0,
+          "log_every_steps": 100
+        }
+      },
+      "completion": {
+        "model": "mbert",
+        "seed": 42,
+        "best_epoch": 2,
+        "training_seconds": 3657.9305865999777,
+        "test_metrics": {
+          "n_examples": 1700,
+          "accuracy": 0.6235294117647059,
+          "balanced_accuracy": 0.6267832215053207,
+          "matthews_correlation": 0.4319626871590137,
+          "cohen_kappa": 0.43192438746516093,
+          "macro_precision": 0.6288093123040329,
+          "macro_recall": 0.6267832215053207,
+          "macro_f1": 0.6277489653525499,
+          "weighted_precision": 0.6246229017677967,
+          "weighted_recall": 0.6235294117647059,
+          "weighted_f1": 0.6240270480224814,
+          "micro_precision": 0.6235294117647059,
+          "micro_recall": 0.6235294117647059,
+          "micro_f1": 0.6235294117647059,
+          "log_loss": 0.8182491287210948,
+          "macro_roc_auc_ovr": 0.8047189770610044
+        },
+        "dataset_sha256": {
+          "train": "1dd320f3e341d8a23146238ab46c1be60c5efef9196b879f5d378ea7df452708",
+          "validation": "eebe157bedbcb7d08499e95098ffccf2495615b02d2e797606c1e004e930b34b",
+          "test": "45fa015f13478db77c72cdf730db46abf1bd4c29f8f95cd7779e393cd86cc954"
+        }
+      },
+      "verified": {
+        "validation": {
+          "metrics": {
+            "n_examples": 1700,
+            "accuracy": 0.6205882352941177,
+            "balanced_accuracy": 0.624688925111383,
+            "matthews_correlation": 0.42847674400129465,
+            "cohen_kappa": 0.4284388797089287,
+            "macro_precision": 0.62291569986078,
+            "macro_recall": 0.624688925111383,
+            "macro_f1": 0.6237546268974073,
+            "weighted_precision": 0.6197547501742212,
+            "weighted_recall": 0.6205882352941177,
+            "weighted_f1": 0.6201218034225114,
+            "micro_precision": 0.6205882352941177,
+            "micro_recall": 0.6205882352941177,
+            "micro_f1": 0.6205882352941177,
+            "log_loss": 0.8390264283856271,
+            "macro_roc_auc_ovr": 0.7949127888344959
+          },
+          "confusion_matrix": [
+            [
+              320,
+              150,
+              29
+            ],
+            [
+              133,
+              350,
+              156
+            ],
+            [
+              53,
+              124,
+              385
+            ]
+          ],
+          "per_class": {
+            "negative": {
+              "precision": 0.6324110671936759,
+              "recall": 0.6412825651302605,
+              "f1-score": 0.6368159203980099,
+              "support": 499.0
+            },
+            "neutral": {
+              "precision": 0.5608974358974359,
+              "recall": 0.5477308294209703,
+              "f1-score": 0.5542359461599367,
+              "support": 639.0
+            },
+            "positive": {
+              "precision": 0.6754385964912281,
+              "recall": 0.6850533807829181,
+              "f1-score": 0.6802120141342756,
+              "support": 562.0
+            },
+            "accuracy": 0.6205882352941177,
+            "macro avg": {
+              "precision": 0.62291569986078,
+              "recall": 0.624688925111383,
+              "f1-score": 0.6237546268974073,
+              "support": 1700.0
+            },
+            "weighted avg": {
+              "precision": 0.6197547501742212,
+              "recall": 0.6205882352941177,
+              "f1-score": 0.6201218034225114,
+              "support": 1700.0
+            }
+          }
+        },
+        "test": {
+          "metrics": {
+            "n_examples": 1700,
+            "accuracy": 0.6235294117647059,
+            "balanced_accuracy": 0.6267832215053207,
+            "matthews_correlation": 0.4319626871590137,
+            "cohen_kappa": 0.43192438746516093,
+            "macro_precision": 0.6288093123040329,
+            "macro_recall": 0.6267832215053207,
+            "macro_f1": 0.6277489653525499,
+            "weighted_precision": 0.6246229017677967,
+            "weighted_recall": 0.6235294117647059,
+            "weighted_f1": 0.6240270480224814,
+            "micro_precision": 0.6235294117647059,
+            "micro_recall": 0.6235294117647059,
+            "micro_f1": 0.6235294117647059,
+            "log_loss": 0.8182491287210948,
+            "macro_roc_auc_ovr": 0.8047189770610044
+          },
+          "confusion_matrix": [
+            [
+              316,
+              161,
+              22
+            ],
+            [
+              135,
+              358,
+              146
+            ],
+            [
+              41,
+              135,
+              386
+            ]
+          ],
+          "per_class": {
+            "negative": {
+              "precision": 0.6422764227642277,
+              "recall": 0.6332665330661322,
+              "f1-score": 0.6377396569122099,
+              "support": 499.0
+            },
+            "neutral": {
+              "precision": 0.5474006116207951,
+              "recall": 0.5602503912363067,
+              "f1-score": 0.5537509667440061,
+              "support": 639.0
+            },
+            "positive": {
+              "precision": 0.6967509025270758,
+              "recall": 0.6868327402135231,
+              "f1-score": 0.6917562724014337,
+              "support": 562.0
+            },
+            "accuracy": 0.6235294117647059,
+            "macro avg": {
+              "precision": 0.6288093123040329,
+              "recall": 0.6267832215053207,
+              "f1-score": 0.6277489653525499,
+              "support": 1700.0
+            },
+            "weighted avg": {
+              "precision": 0.6246229017677967,
+              "recall": 0.6235294117647059,
+              "f1-score": 0.6240270480224814,
+              "support": 1700.0
+            }
+          }
+        }
+      },
+      "metadata": {
+        "pretrained_model": "bert-base-multilingual-cased",
+        "resolved_snapshot": "C:\\Users\\Soumya\\.cache\\huggingface\\hub\\models--bert-base-multilingual-cased\\snapshots\\3f076fdb1ab68d5b2880cb87a0886f315b8146f8",
+        "snapshot_commit": "3f076fdb1ab68d5b2880cb87a0886f315b8146f8",
+        "device": "cuda",
+        "gpu": "NVIDIA GeForce RTX 4050 Laptop GPU",
+        "effective_batch_size": 8,
+        "mixed_precision": true,
+        "optimizer_steps": 5100,
+        "parameter_count": 177855747,
+        "length_at_limit_counts": {
+          "train": 144,
+          "validation": 21,
+          "test": 22
+        },
+        "determinism": "Fixed RNG seeds; cuDNN deterministic; exact cross-device reproducibility is not guaranteed."
+      },
+      "selection": {
+        "selection_split": "validation",
+        "metric": "weighted_f1",
+        "best_epoch": 2,
+        "best_score": 0.6201218034225114
+      }
+    },
+    {
+      "path": "outputs\\sentimix_custom_split_v1\\naive_bayes\\seed_42",
+      "group": "sentimix_custom_split_v1",
+      "experiment": "sentimix_custom_split_v1",
+      "model": "naive_bayes",
+      "seed": 42,
+      "config": {
+        "experiment": "sentimix_custom_split_v1",
+        "data_dir": "data/raw/hinglish_24k_sources/sentimix",
+        "prepared_dir": "data/research/sentimix_custom_split_v1",
+        "output_dir": "outputs/sentimix_custom_split_v1",
+        "split_seed": 42,
+        "test_fraction": 0.1,
+        "validation_fraction": 0.1,
+        "lowercase": false,
+        "selection_metric": "weighted_f1",
+        "bootstrap_samples": 1000,
+        "baseline": {
+          "max_features": 60000,
+          "ngram_range": [
+            1,
+            2
+          ],
+          "min_df": 2,
+          "nb_alpha": [
+            0.1,
+            0.5,
+            1.0
+          ],
+          "svm_c": [
+            0.5,
+            1.0,
+            2.0
+          ]
+        },
+        "transformer": {
+          "model_name": "bert-base-multilingual-cased",
+          "revision": "main",
+          "epochs": 3,
+          "batch_size": 4,
+          "gradient_accumulation_steps": 2,
+          "eval_batch_size": 16,
+          "max_length": 128,
+          "learning_rate": 2e-05,
+          "weight_decay": 0.01,
+          "warmup_steps": 500,
+          "gradient_checkpointing": true,
+          "mixed_precision": true,
+          "num_workers": 0,
+          "log_every_steps": 100
+        }
+      },
+      "completion": {
+        "model": "naive_bayes",
+        "seed": 42,
+        "training_seconds_including_search": 6.931857199990191,
+        "test_metrics": {
+          "n_examples": 1700,
+          "accuracy": 0.6264705882352941,
+          "balanced_accuracy": 0.6284521009524623,
+          "matthews_correlation": 0.4357035368177163,
+          "cohen_kappa": 0.43543186716462323,
+          "macro_precision": 0.6340900623461279,
+          "macro_recall": 0.6284521009524623,
+          "macro_f1": 0.6309055868332968,
+          "weighted_precision": 0.6291437970974125,
+          "weighted_recall": 0.6264705882352941,
+          "weighted_f1": 0.6274447442168672,
+          "micro_precision": 0.6264705882352941,
+          "micro_recall": 0.6264705882352941,
+          "micro_f1": 0.6264705882352941,
+          "log_loss": 0.853225847675391,
+          "macro_roc_auc_ovr": 0.7870149566104647
+        },
+        "dataset_sha256": {
+          "train": "1dd320f3e341d8a23146238ab46c1be60c5efef9196b879f5d378ea7df452708",
+          "validation": "eebe157bedbcb7d08499e95098ffccf2495615b02d2e797606c1e004e930b34b",
+          "test": "45fa015f13478db77c72cdf730db46abf1bd4c29f8f95cd7779e393cd86cc954"
+        }
+      },
+      "verified": {
+        "validation": {
+          "metrics": {
+            "n_examples": 1700,
+            "accuracy": 0.6029411764705882,
+            "balanced_accuracy": 0.6059762677001466,
+            "matthews_correlation": 0.4004309006836713,
+            "cohen_kappa": 0.40028347385079155,
+            "macro_precision": 0.6095045628089815,
+            "macro_recall": 0.6059762677001466,
+            "macro_f1": 0.6074811674024138,
+            "weighted_precision": 0.6042657425907314,
+            "weighted_recall": 0.6029411764705882,
+            "weighted_f1": 0.6033628765924304,
+            "micro_precision": 0.6029411764705882,
+            "micro_recall": 0.6029411764705882,
+            "micro_f1": 0.6029411764705882,
+            "log_loss": 0.8535041074365876,
+            "macro_roc_auc_ovr": 0.7808514242599469
+          },
+          "confusion_matrix": [
+            [
+              302,
+              172,
+              25
+            ],
+            [
+              127,
+              344,
+              168
+            ],
+            [
+              40,
+              143,
+              379
+            ]
+          ],
+          "per_class": {
+            "negative": {
+              "precision": 0.6439232409381663,
+              "recall": 0.6052104208416834,
+              "f1-score": 0.6239669421487604,
+              "support": 499.0
+            },
+            "neutral": {
+              "precision": 0.5220030349013657,
+              "recall": 0.5383411580594679,
+              "f1-score": 0.5300462249614792,
+              "support": 639.0
+            },
+            "positive": {
+              "precision": 0.6625874125874126,
+              "recall": 0.6743772241992882,
+              "f1-score": 0.6684303350970018,
+              "support": 562.0
+            },
+            "accuracy": 0.6029411764705882,
+            "macro avg": {
+              "precision": 0.6095045628089815,
+              "recall": 0.6059762677001466,
+              "f1-score": 0.6074811674024138,
+              "support": 1700.0
+            },
+            "weighted avg": {
+              "precision": 0.6042657425907314,
+              "recall": 0.6029411764705882,
+              "f1-score": 0.6033628765924304,
+              "support": 1700.0
+            }
+          }
+        },
+        "test": {
+          "metrics": {
+            "n_examples": 1700,
+            "accuracy": 0.6264705882352941,
+            "balanced_accuracy": 0.6284521009524623,
+            "matthews_correlation": 0.4357035368177163,
+            "cohen_kappa": 0.43543186716462323,
+            "macro_precision": 0.6340900623461279,
+            "macro_recall": 0.6284521009524623,
+            "macro_f1": 0.6309055868332968,
+            "weighted_precision": 0.6291437970974125,
+            "weighted_recall": 0.6264705882352941,
+            "weighted_f1": 0.6274447442168672,
+            "micro_precision": 0.6264705882352941,
+            "micro_recall": 0.6264705882352941,
+            "micro_f1": 0.6264705882352941,
+            "log_loss": 0.853225847675391,
+            "macro_roc_auc_ovr": 0.7870149566104647
+          },
+          "confusion_matrix": [
+            [
+              313,
+              163,
+              23
+            ],
+            [
+              115,
+              373,
+              151
+            ],
+            [
+              42,
+              141,
+              379
+            ]
+          ],
+          "per_class": {
+            "negative": {
+              "precision": 0.6659574468085107,
+              "recall": 0.627254509018036,
+              "f1-score": 0.6460268317853457,
+              "support": 499.0
+            },
+            "neutral": {
+              "precision": 0.55096011816839,
+              "recall": 0.5837245696400626,
+              "f1-score": 0.5668693009118541,
+              "support": 639.0
+            },
+            "positive": {
+              "precision": 0.6853526220614828,
+              "recall": 0.6743772241992882,
+              "f1-score": 0.6798206278026906,
+              "support": 562.0
+            },
+            "accuracy": 0.6264705882352941,
+            "macro avg": {
+              "precision": 0.6340900623461279,
+              "recall": 0.6284521009524623,
+              "f1-score": 0.6309055868332968,
+              "support": 1700.0
+            },
+            "weighted avg": {
+              "precision": 0.6291437970974125,
+              "recall": 0.6264705882352941,
+              "f1-score": 0.6274447442168672,
+              "support": 1700.0
+            }
+          }
+        }
+      },
+      "metadata": {},
+      "selection": {
+        "selection_split": "validation",
+        "metric": "weighted_f1",
+        "best_parameter": 1.0,
+        "trials": [
+          {
+            "parameter": 0.1,
+            "validation_selection_score": 0.5898459143721761
+          },
+          {
+            "parameter": 0.5,
+            "validation_selection_score": 0.5942368069480045
+          },
+          {
+            "parameter": 1.0,
+            "validation_selection_score": 0.6033628765924304
+          }
+        ]
+      }
+    },
+    {
+      "path": "outputs\\sentimix_custom_split_v1\\svm\\seed_42",
+      "group": "sentimix_custom_split_v1",
+      "experiment": "sentimix_custom_split_v1",
+      "model": "svm",
+      "seed": 42,
+      "config": {
+        "experiment": "sentimix_custom_split_v1",
+        "data_dir": "data/raw/hinglish_24k_sources/sentimix",
+        "prepared_dir": "data/research/sentimix_custom_split_v1",
+        "output_dir": "outputs/sentimix_custom_split_v1",
+        "split_seed": 42,
+        "test_fraction": 0.1,
+        "validation_fraction": 0.1,
+        "lowercase": false,
+        "selection_metric": "weighted_f1",
+        "bootstrap_samples": 1000,
+        "baseline": {
+          "max_features": 60000,
+          "ngram_range": [
+            1,
+            2
+          ],
+          "min_df": 2,
+          "nb_alpha": [
+            0.1,
+            0.5,
+            1.0
+          ],
+          "svm_c": [
+            0.5,
+            1.0,
+            2.0
+          ]
+        },
+        "transformer": {
+          "model_name": "bert-base-multilingual-cased",
+          "revision": "main",
+          "epochs": 3,
+          "batch_size": 4,
+          "gradient_accumulation_steps": 2,
+          "eval_batch_size": 16,
+          "max_length": 128,
+          "learning_rate": 2e-05,
+          "weight_decay": 0.01,
+          "warmup_steps": 500,
+          "gradient_checkpointing": true,
+          "mixed_precision": true,
+          "num_workers": 0,
+          "log_every_steps": 100
+        }
+      },
+      "completion": {
+        "model": "svm",
+        "seed": 42,
+        "training_seconds_including_search": 13.824196200002916,
+        "test_metrics": {
+          "n_examples": 1700,
+          "accuracy": 0.6147058823529412,
+          "balanced_accuracy": 0.6206093297911137,
+          "matthews_correlation": 0.41987326026554894,
+          "cohen_kappa": 0.41979340789435293,
+          "macro_precision": 0.6183710748653629,
+          "macro_recall": 0.6206093297911137,
+          "macro_f1": 0.61935334453254,
+          "weighted_precision": 0.6140158375301621,
+          "weighted_recall": 0.6147058823529412,
+          "weighted_f1": 0.6142343823342309,
+          "micro_precision": 0.6147058823529412,
+          "micro_recall": 0.6147058823529412,
+          "micro_f1": 0.6147058823529412
+        },
+        "dataset_sha256": {
+          "train": "1dd320f3e341d8a23146238ab46c1be60c5efef9196b879f5d378ea7df452708",
+          "validation": "eebe157bedbcb7d08499e95098ffccf2495615b02d2e797606c1e004e930b34b",
+          "test": "45fa015f13478db77c72cdf730db46abf1bd4c29f8f95cd7779e393cd86cc954"
+        }
+      },
+      "verified": {
+        "validation": {
+          "metrics": {
+            "n_examples": 1700,
+            "accuracy": 0.5988235294117648,
+            "balanced_accuracy": 0.6062116454593053,
+            "matthews_correlation": 0.3977764492257147,
+            "cohen_kappa": 0.39728346080107124,
+            "macro_precision": 0.5995589845633295,
+            "macro_recall": 0.6062116454593053,
+            "macro_f1": 0.6021864647947627,
+            "weighted_precision": 0.5961825085765876,
+            "weighted_recall": 0.5988235294117648,
+            "weighted_f1": 0.5968067944095132,
+            "micro_precision": 0.5988235294117648,
+            "micro_recall": 0.5988235294117648,
+            "micro_f1": 0.5988235294117648
+          },
+          "confusion_matrix": [
+            [
+              331,
+              137,
+              31
+            ],
+            [
+              159,
+              313,
+              167
+            ],
+            [
+              52,
+              136,
+              374
+            ]
+          ],
+          "per_class": {
+            "negative": {
+              "precision": 0.6107011070110702,
+              "recall": 0.6633266533066132,
+              "f1-score": 0.6359269932756965,
+              "support": 499.0
+            },
+            "neutral": {
+              "precision": 0.5341296928327645,
+              "recall": 0.48982785602503914,
+              "f1-score": 0.5110204081632653,
+              "support": 639.0
+            },
+            "positive": {
+              "precision": 0.6538461538461539,
+              "recall": 0.6654804270462633,
+              "f1-score": 0.6596119929453262,
+              "support": 562.0
+            },
+            "accuracy": 0.5988235294117648,
+            "macro avg": {
+              "precision": 0.5995589845633295,
+              "recall": 0.6062116454593053,
+              "f1-score": 0.6021864647947627,
+              "support": 1700.0
+            },
+            "weighted avg": {
+              "precision": 0.5961825085765876,
+              "recall": 0.5988235294117648,
+              "f1-score": 0.5968067944095132,
+              "support": 1700.0
+            }
+          }
+        },
+        "test": {
+          "metrics": {
+            "n_examples": 1700,
+            "accuracy": 0.6147058823529412,
+            "balanced_accuracy": 0.6206093297911137,
+            "matthews_correlation": 0.41987326026554894,
+            "cohen_kappa": 0.41979340789435293,
+            "macro_precision": 0.6183710748653629,
+            "macro_recall": 0.6206093297911137,
+            "macro_f1": 0.61935334453254,
+            "weighted_precision": 0.6140158375301621,
+            "weighted_recall": 0.6147058823529412,
+            "weighted_f1": 0.6142343823342309,
+            "micro_precision": 0.6147058823529412,
+            "micro_recall": 0.6147058823529412,
+            "micro_f1": 0.6147058823529412
+          },
+          "confusion_matrix": [
+            [
+              339,
+              133,
+              27
+            ],
+            [
+              132,
+              344,
+              163
+            ],
+            [
+              50,
+              150,
+              362
+            ]
+          ],
+          "per_class": {
+            "negative": {
+              "precision": 0.6506717850287908,
+              "recall": 0.6793587174348698,
+              "f1-score": 0.6647058823529411,
+              "support": 499.0
+            },
+            "neutral": {
+              "precision": 0.5486443381180224,
+              "recall": 0.5383411580594679,
+              "f1-score": 0.5434439178515008,
+              "support": 639.0
+            },
+            "positive": {
+              "precision": 0.6557971014492754,
+              "recall": 0.6441281138790036,
+              "f1-score": 0.6499102333931778,
+              "support": 562.0
+            },
+            "accuracy": 0.6147058823529412,
+            "macro avg": {
+              "precision": 0.6183710748653629,
+              "recall": 0.6206093297911137,
+              "f1-score": 0.61935334453254,
+              "support": 1700.0
+            },
+            "weighted avg": {
+              "precision": 0.6140158375301621,
+              "recall": 0.6147058823529412,
+              "f1-score": 0.6142343823342309,
+              "support": 1700.0
+            }
+          }
+        }
+      },
+      "metadata": {},
+      "selection": {
+        "selection_split": "validation",
+        "metric": "weighted_f1",
+        "best_parameter": 0.5,
+        "trials": [
+          {
+            "parameter": 0.5,
+            "validation_selection_score": 0.5968067944095132
+          },
+          {
+            "parameter": 1.0,
+            "validation_selection_score": 0.5866460516620667
+          },
+          {
+            "parameter": 2.0,
+            "validation_selection_score": 0.5737291135299419
+          }
+        ]
+      }
+    },
+    {
+      "path": "outputs\\sentimix_development_v2\\hingbert\\seed_42",
+      "group": "sentimix_development_v2",
+      "experiment": "sentimix_development_v2",
+      "model": "hingbert",
+      "seed": 42,
+      "config": {
+        "experiment": "sentimix_development_v2",
+        "models": [
+          "svm_word_char",
+          "hingbert"
+        ],
+        "data_dir": "data/raw/hinglish_24k_sources/sentimix",
+        "prepared_dir": "data/research/sentimix_custom_split_v1",
+        "output_dir": "outputs/sentimix_development_v2",
+        "baseline_output_dir": "outputs/sentimix_custom_split_v1",
+        "evaluation_splits": [
+          "validation"
+        ],
+        "split_seed": 42,
+        "test_fraction": 0.1,
+        "validation_fraction": 0.1,
+        "lowercase": false,
+        "selection_metric": "weighted_f1",
+        "bootstrap_samples": 1000,
+        "baseline": {
+          "max_features": 60000,
+          "ngram_range": [
+            1,
+            2
+          ],
+          "min_df": 2,
+          "nb_alpha": [
+            0.1,
+            0.5,
+            1.0
+          ],
+          "svm_c": [
+            0.1,
+            0.5,
+            1.0,
+            2.0,
+            5.0
+          ],
+          "char_ngram_range": [
+            3,
+            5
+          ],
+          "char_min_df": 2,
+          "char_max_features": 100000
+        },
+        "transformer": {
+          "run_name": "hingbert",
+          "model_name": "l3cube-pune/hing-bert",
+          "revision": "62cf31a13d65ae3b846456cede60c7d965e5fdd4",
+          "epochs": 3,
+          "batch_size": 4,
+          "gradient_accumulation_steps": 2,
+          "eval_batch_size": 8,
+          "max_length": 128,
+          "learning_rate": 2e-05,
+          "weight_decay": 0.01,
+          "warmup_steps": 500,
+          "gradient_checkpointing": true,
+          "mixed_precision": true,
+          "num_workers": 0,
+          "log_every_steps": 100
+        }
+      },
+      "completion": {
+        "model": "hingbert",
+        "seed": 42,
+        "best_epoch": 1,
+        "training_seconds": 1572.02426200005,
+        "evaluation_metrics": {
+          "validation": {
+            "n_examples": 1700,
+            "accuracy": 0.6688235294117647,
+            "balanced_accuracy": 0.6712827820574866,
+            "matthews_correlation": 0.5003026722246434,
+            "cohen_kappa": 0.4998102926927671,
+            "macro_precision": 0.6751647072916133,
+            "macro_recall": 0.6712827820574866,
+            "macro_f1": 0.6723957752802763,
+            "weighted_precision": 0.6699365349712963,
+            "weighted_recall": 0.6688235294117647,
+            "weighted_f1": 0.66861822648274,
+            "micro_precision": 0.6688235294117647,
+            "micro_recall": 0.6688235294117647,
+            "micro_f1": 0.6688235294117647,
+            "log_loss": 0.7747237014012502,
+            "macro_roc_auc_ovr": 0.8292386269100814
+          }
+        },
+        "evaluation_splits": [
+          "validation"
+        ],
+        "dataset_sha256": {
+          "train": "1dd320f3e341d8a23146238ab46c1be60c5efef9196b879f5d378ea7df452708",
+          "validation": "eebe157bedbcb7d08499e95098ffccf2495615b02d2e797606c1e004e930b34b",
+          "test": "45fa015f13478db77c72cdf730db46abf1bd4c29f8f95cd7779e393cd86cc954"
+        }
+      },
+      "verified": {
+        "validation": {
+          "metrics": {
+            "n_examples": 1700,
+            "accuracy": 0.6688235294117647,
+            "balanced_accuracy": 0.6712827820574866,
+            "matthews_correlation": 0.5003026722246434,
+            "cohen_kappa": 0.4998102926927671,
+            "macro_precision": 0.6751647072916133,
+            "macro_recall": 0.6712827820574866,
+            "macro_f1": 0.6723957752802763,
+            "weighted_precision": 0.6699365349712963,
+            "weighted_recall": 0.6688235294117647,
+            "weighted_f1": 0.66861822648274,
+            "micro_precision": 0.6688235294117647,
+            "micro_recall": 0.6688235294117647,
+            "micro_f1": 0.6688235294117647,
+            "log_loss": 0.7747237014012502,
+            "macro_roc_auc_ovr": 0.8292386269100814
+          },
+          "confusion_matrix": [
+            [
+              329,
+              151,
+              19
+            ],
+            [
+              88,
+              388,
+              163
+            ],
+            [
+              36,
+              106,
+              420
+            ]
+          ],
+          "per_class": {
+            "negative": {
+              "precision": 0.7262693156732892,
+              "recall": 0.6593186372745491,
+              "f1-score": 0.6911764705882353,
+              "support": 499.0
+            },
+            "neutral": {
+              "precision": 0.6015503875968993,
+              "recall": 0.6071987480438185,
+              "f1-score": 0.6043613707165109,
+              "support": 639.0
+            },
+            "positive": {
+              "precision": 0.6976744186046512,
+              "recall": 0.7473309608540926,
+              "f1-score": 0.7216494845360825,
+              "support": 562.0
+            },
+            "accuracy": 0.6688235294117647,
+            "macro avg": {
+              "precision": 0.6751647072916133,
+              "recall": 0.6712827820574866,
+              "f1-score": 0.6723957752802763,
+              "support": 1700.0
+            },
+            "weighted avg": {
+              "precision": 0.6699365349712963,
+              "recall": 0.6688235294117647,
+              "f1-score": 0.66861822648274,
+              "support": 1700.0
+            }
+          }
+        }
+      },
+      "metadata": {
+        "pretrained_model": "l3cube-pune/hing-bert",
+        "resolved_snapshot": "C:\\Users\\Soumya\\.cache\\huggingface\\hub\\models--l3cube-pune--hing-bert\\snapshots\\62cf31a13d65ae3b846456cede60c7d965e5fdd4",
+        "snapshot_commit": "62cf31a13d65ae3b846456cede60c7d965e5fdd4",
+        "device": "cuda",
+        "gpu": "NVIDIA GeForce RTX 4050 Laptop GPU",
+        "effective_batch_size": 8,
+        "mixed_precision": true,
+        "evaluation_splits": [
+          "validation"
+        ],
+        "optimizer_steps": 5100,
+        "parameter_count": 109484547,
+        "length_at_limit_counts": {
+          "train": 78,
+          "validation": 11
+        },
+        "determinism": "Fixed RNG seeds; cuDNN deterministic; exact cross-device reproducibility is not guaranteed."
+      },
+      "selection": {
+        "selection_split": "validation",
+        "metric": "weighted_f1",
+        "best_epoch": 1,
+        "best_score": 0.66861822648274
+      }
+    },
+    {
+      "path": "outputs\\sentimix_development_v2\\hingroberta\\seed_42",
+      "group": "sentimix_development_v2",
+      "experiment": "sentimix_development_v2",
+      "model": "hingroberta",
+      "seed": 42,
+      "config": {
+        "experiment": "sentimix_development_v2",
+        "models": [
+          "hingroberta"
+        ],
+        "data_dir": "data/raw/hinglish_24k_sources/sentimix",
+        "prepared_dir": "data/research/sentimix_custom_split_v1",
+        "output_dir": "outputs/sentimix_development_v2",
+        "baseline_output_dir": "outputs/sentimix_custom_split_v1",
+        "evaluation_splits": [
+          "validation"
+        ],
+        "split_seed": 42,
+        "test_fraction": 0.1,
+        "validation_fraction": 0.1,
+        "lowercase": false,
+        "selection_metric": "weighted_f1",
+        "bootstrap_samples": 1000,
+        "transformer": {
+          "run_name": "hingroberta",
+          "model_name": "l3cube-pune/hing-roberta",
+          "revision": "f714c4bdce6b008a2fbb84193eee99e651c59e15",
+          "epochs": 3,
+          "batch_size": 4,
+          "gradient_accumulation_steps": 2,
+          "eval_batch_size": 8,
+          "max_length": 128,
+          "learning_rate": 2e-05,
+          "weight_decay": 0.01,
+          "warmup_steps": 500,
+          "gradient_checkpointing": true,
+          "mixed_precision": true,
+          "num_workers": 0,
+          "log_every_steps": 100
+        }
+      },
+      "completion": {
+        "model": "hingroberta",
+        "seed": 42,
+        "best_epoch": 2,
+        "training_seconds": 4907.453885100025,
+        "evaluation_metrics": {
+          "validation": {
+            "n_examples": 1700,
+            "accuracy": 0.6670588235294118,
+            "balanced_accuracy": 0.6767293648850355,
+            "matthews_correlation": 0.5021839676456505,
+            "cohen_kappa": 0.5006922433458497,
+            "macro_precision": 0.66772114406906,
+            "macro_recall": 0.6767293648850355,
+            "macro_f1": 0.6701609473859095,
+            "weighted_precision": 0.665147244461097,
+            "weighted_recall": 0.6670588235294118,
+            "weighted_f1": 0.6641395806929575,
+            "micro_precision": 0.6670588235294118,
+            "micro_recall": 0.6670588235294118,
+            "micro_f1": 0.6670588235294118,
+            "log_loss": 0.794600939376201,
+            "macro_roc_auc_ovr": 0.8373047436176271
+          }
+        },
+        "evaluation_splits": [
+          "validation"
+        ],
+        "dataset_sha256": {
+          "train": "1dd320f3e341d8a23146238ab46c1be60c5efef9196b879f5d378ea7df452708",
+          "validation": "eebe157bedbcb7d08499e95098ffccf2495615b02d2e797606c1e004e930b34b",
+          "test": "45fa015f13478db77c72cdf730db46abf1bd4c29f8f95cd7779e393cd86cc954"
+        }
+      },
+      "verified": {
+        "validation": {
+          "metrics": {
+            "n_examples": 1700,
+            "accuracy": 0.6670588235294118,
+            "balanced_accuracy": 0.6767293648850355,
+            "matthews_correlation": 0.5021839676456505,
+            "cohen_kappa": 0.5006922433458497,
+            "macro_precision": 0.66772114406906,
+            "macro_recall": 0.6767293648850355,
+            "macro_f1": 0.6701609473859095,
+            "weighted_precision": 0.665147244461097,
+            "weighted_recall": 0.6670588235294118,
+            "weighted_f1": 0.6641395806929575,
+            "micro_precision": 0.6670588235294118,
+            "micro_recall": 0.6670588235294118,
+            "micro_f1": 0.6670588235294118,
+            "log_loss": 0.794600939376201,
+            "macro_roc_auc_ovr": 0.8373047436176271
+          },
+          "confusion_matrix": [
+            [
+              394,
+              86,
+              19
+            ],
+            [
+              144,
+              355,
+              140
+            ],
+            [
+              44,
+              133,
+              385
+            ]
+          ],
+          "per_class": {
+            "negative": {
+              "precision": 0.6769759450171822,
+              "recall": 0.7895791583166333,
+              "f1-score": 0.72895467160037,
+              "support": 499.0
+            },
+            "neutral": {
+              "precision": 0.6184668989547039,
+              "recall": 0.5555555555555556,
+              "f1-score": 0.5853256389117889,
+              "support": 639.0
+            },
+            "positive": {
+              "precision": 0.7077205882352942,
+              "recall": 0.6850533807829181,
+              "f1-score": 0.6962025316455697,
+              "support": 562.0
+            },
+            "accuracy": 0.6670588235294118,
+            "macro avg": {
+              "precision": 0.66772114406906,
+              "recall": 0.6767293648850355,
+              "f1-score": 0.6701609473859095,
+              "support": 1700.0
+            },
+            "weighted avg": {
+              "precision": 0.665147244461097,
+              "recall": 0.6670588235294118,
+              "f1-score": 0.6641395806929575,
+              "support": 1700.0
+            }
+          }
+        }
+      },
+      "metadata": {
+        "pretrained_model": "l3cube-pune/hing-roberta",
+        "resolved_snapshot": "C:\\Users\\Soumya\\.cache\\huggingface\\hub\\models--l3cube-pune--hing-roberta\\snapshots\\f714c4bdce6b008a2fbb84193eee99e651c59e15",
+        "snapshot_commit": "f714c4bdce6b008a2fbb84193eee99e651c59e15",
+        "device": "cuda",
+        "gpu": "NVIDIA GeForce RTX 4050 Laptop GPU",
+        "effective_batch_size": 8,
+        "mixed_precision": true,
+        "evaluation_splits": [
+          "validation"
+        ],
+        "optimizer_steps": 5100,
+        "parameter_count": 278045955,
+        "length_at_limit_counts": {
+          "train": 82,
+          "validation": 11
+        },
+        "determinism": "Fixed RNG seeds; cuDNN deterministic; exact cross-device reproducibility is not guaranteed."
+      },
+      "selection": {
+        "selection_split": "validation",
+        "metric": "weighted_f1",
+        "best_epoch": 2,
+        "best_score": 0.6641395806929575
+      }
+    },
+    {
+      "path": "outputs\\sentimix_development_v2\\hingroberta_focal\\seed_42",
+      "group": "sentimix_development_v2",
+      "experiment": "sentimix_development_v2",
+      "model": "hingroberta_focal",
+      "seed": 42,
+      "config": {
+        "experiment": "sentimix_development_v2",
+        "models": [
+          "hingroberta_focal"
+        ],
+        "data_dir": "data/raw/hinglish_24k_sources/sentimix",
+        "prepared_dir": "data/research/sentimix_custom_split_v1",
+        "output_dir": "outputs/sentimix_development_v2",
+        "baseline_output_dir": "outputs/sentimix_custom_split_v1",
+        "evaluation_splits": [
+          "validation"
+        ],
+        "split_seed": 42,
+        "test_fraction": 0.1,
+        "validation_fraction": 0.1,
+        "lowercase": false,
+        "selection_metric": "weighted_f1",
+        "bootstrap_samples": 1000,
+        "transformer": {
+          "run_name": "hingroberta_focal",
+          "model_name": "l3cube-pune/hing-roberta",
+          "revision": "f714c4bdce6b008a2fbb84193eee99e651c59e15",
+          "epochs": 3,
+          "batch_size": 4,
+          "gradient_accumulation_steps": 2,
+          "eval_batch_size": 8,
+          "max_length": 128,
+          "learning_rate": 2e-05,
+          "weight_decay": 0.01,
+          "warmup_steps": 500,
+          "focal_gamma": 2.0,
+          "class_weights": [
+            1.0,
+            1.25,
+            1.0
+          ],
+          "gradient_checkpointing": true,
+          "mixed_precision": true,
+          "num_workers": 0,
+          "log_every_steps": 100
+        }
+      },
+      "completion": {
+        "model": "hingroberta_focal",
+        "seed": 42,
+        "best_epoch": 2,
+        "training_seconds": 4497.107249399996,
+        "evaluation_metrics": {
+          "validation": {
+            "n_examples": 1700,
+            "accuracy": 0.6758823529411765,
+            "balanced_accuracy": 0.680976940226631,
+            "matthews_correlation": 0.511515579682922,
+            "cohen_kappa": 0.5112260935448658,
+            "macro_precision": 0.6823848480509306,
+            "macro_recall": 0.680976940226631,
+            "macro_f1": 0.6812698753596814,
+            "weighted_precision": 0.6773864996388033,
+            "weighted_recall": 0.6758823529411765,
+            "weighted_f1": 0.6762287332376239,
+            "micro_precision": 0.6758823529411765,
+            "micro_recall": 0.6758823529411765,
+            "micro_f1": 0.6758823529411765,
+            "log_loss": 0.7723553525237791,
+            "macro_roc_auc_ovr": 0.8304936027819935
+          }
+        },
+        "evaluation_splits": [
+          "validation"
+        ],
+        "dataset_sha256": {
+          "train": "1dd320f3e341d8a23146238ab46c1be60c5efef9196b879f5d378ea7df452708",
+          "validation": "eebe157bedbcb7d08499e95098ffccf2495615b02d2e797606c1e004e930b34b",
+          "test": "45fa015f13478db77c72cdf730db46abf1bd4c29f8f95cd7779e393cd86cc954"
+        }
+      },
+      "verified": {
+        "validation": {
+          "metrics": {
+            "n_examples": 1700,
+            "accuracy": 0.6758823529411765,
+            "balanced_accuracy": 0.680976940226631,
+            "matthews_correlation": 0.511515579682922,
+            "cohen_kappa": 0.5112260935448658,
+            "macro_precision": 0.6823848480509306,
+            "macro_recall": 0.680976940226631,
+            "macro_f1": 0.6812698753596814,
+            "weighted_precision": 0.6773864996388033,
+            "weighted_recall": 0.6758823529411765,
+            "weighted_f1": 0.6762287332376239,
+            "micro_precision": 0.6758823529411765,
+            "micro_recall": 0.6758823529411765,
+            "micro_f1": 0.6758823529411765,
+            "log_loss": 0.7723553525237791,
+            "macro_roc_auc_ovr": 0.8304936027819935
+          },
+          "confusion_matrix": [
+            [
+              372,
+              111,
+              16
+            ],
+            [
+              114,
+              397,
+              128
+            ],
+            [
+              31,
+              151,
+              380
+            ]
+          ],
+          "per_class": {
+            "negative": {
+              "precision": 0.7195357833655706,
+              "recall": 0.7454909819639278,
+              "f1-score": 0.7322834645669292,
+              "support": 499.0
+            },
+            "neutral": {
+              "precision": 0.6024279210925645,
+              "recall": 0.621283255086072,
+              "f1-score": 0.6117103235747303,
+              "support": 639.0
+            },
+            "positive": {
+              "precision": 0.7251908396946565,
+              "recall": 0.6761565836298933,
+              "f1-score": 0.6998158379373849,
+              "support": 562.0
+            },
+            "accuracy": 0.6758823529411765,
+            "macro avg": {
+              "precision": 0.6823848480509306,
+              "recall": 0.680976940226631,
+              "f1-score": 0.6812698753596814,
+              "support": 1700.0
+            },
+            "weighted avg": {
+              "precision": 0.6773864996388033,
+              "recall": 0.6758823529411765,
+              "f1-score": 0.6762287332376239,
+              "support": 1700.0
+            }
+          }
+        }
+      },
+      "metadata": {
+        "pretrained_model": "l3cube-pune/hing-roberta",
+        "resolved_snapshot": "C:\\Users\\Soumya\\.cache\\huggingface\\hub\\models--l3cube-pune--hing-roberta\\snapshots\\f714c4bdce6b008a2fbb84193eee99e651c59e15",
+        "snapshot_commit": "f714c4bdce6b008a2fbb84193eee99e651c59e15",
+        "device": "cuda",
+        "gpu": "NVIDIA GeForce RTX 4050 Laptop GPU",
+        "effective_batch_size": 8,
+        "mixed_precision": true,
+        "evaluation_splits": [
+          "validation"
+        ],
+        "loss_function": "focal",
+        "focal_gamma": 2.0,
+        "class_weights": [
+          1.0,
+          1.25,
+          1.0
+        ],
+        "optimizer_steps": 5100,
+        "parameter_count": 278045955,
+        "length_at_limit_counts": {
+          "train": 82,
+          "validation": 11
+        },
+        "determinism": "Fixed RNG seeds; cuDNN deterministic; exact cross-device reproducibility is not guaranteed."
+      },
+      "selection": {
+        "selection_split": "validation",
+        "metric": "weighted_f1",
+        "best_epoch": 2,
+        "best_score": 0.6762287332376239
+      }
+    },
+    {
+      "path": "outputs\\sentimix_development_v2\\muril\\seed_42",
+      "group": "sentimix_development_v2",
+      "experiment": "sentimix_development_v2",
+      "model": "muril",
+      "seed": 42,
+      "config": {
+        "experiment": "sentimix_development_v2",
+        "models": [
+          "muril"
+        ],
+        "data_dir": "data/raw/hinglish_24k_sources/sentimix",
+        "prepared_dir": "data/research/sentimix_custom_split_v1",
+        "output_dir": "outputs/sentimix_development_v2",
+        "baseline_output_dir": "outputs/sentimix_custom_split_v1",
+        "evaluation_splits": [
+          "validation"
+        ],
+        "split_seed": 42,
+        "test_fraction": 0.1,
+        "validation_fraction": 0.1,
+        "lowercase": false,
+        "selection_metric": "weighted_f1",
+        "bootstrap_samples": 1000,
+        "transformer": {
+          "run_name": "muril",
+          "model_name": "google/muril-base-cased",
+          "revision": "afd9f36c7923d54e97903922ff1b260d091d202f",
+          "epochs": 3,
+          "batch_size": 4,
+          "gradient_accumulation_steps": 2,
+          "eval_batch_size": 8,
+          "max_length": 128,
+          "learning_rate": 2e-05,
+          "weight_decay": 0.01,
+          "warmup_steps": 500,
+          "gradient_checkpointing": true,
+          "mixed_precision": true,
+          "num_workers": 0,
+          "log_every_steps": 100
+        }
+      },
+      "completion": {
+        "model": "muril",
+        "seed": 42,
+        "best_epoch": 2,
+        "training_seconds": 2906.4881979000056,
+        "evaluation_metrics": {
+          "validation": {
+            "n_examples": 1700,
+            "accuracy": 0.6452941176470588,
+            "balanced_accuracy": 0.6560328910633249,
+            "matthews_correlation": 0.4728675799665654,
+            "cohen_kappa": 0.4696183021266489,
+            "macro_precision": 0.6462842400109262,
+            "macro_recall": 0.6560328910633249,
+            "macro_f1": 0.6468157088745548,
+            "weighted_precision": 0.6458613921888054,
+            "weighted_recall": 0.6452941176470588,
+            "weighted_f1": 0.6413626726404213,
+            "micro_precision": 0.6452941176470588,
+            "micro_recall": 0.6452941176470588,
+            "micro_f1": 0.6452941176470588,
+            "log_loss": 0.8384013649432241,
+            "macro_roc_auc_ovr": 0.8015634115017548
+          }
+        },
+        "evaluation_splits": [
+          "validation"
+        ],
+        "dataset_sha256": {
+          "train": "1dd320f3e341d8a23146238ab46c1be60c5efef9196b879f5d378ea7df452708",
+          "validation": "eebe157bedbcb7d08499e95098ffccf2495615b02d2e797606c1e004e930b34b",
+          "test": "45fa015f13478db77c72cdf730db46abf1bd4c29f8f95cd7779e393cd86cc954"
+        }
+      },
+      "verified": {
+        "validation": {
+          "metrics": {
+            "n_examples": 1700,
+            "accuracy": 0.6452941176470588,
+            "balanced_accuracy": 0.6560328910633249,
+            "matthews_correlation": 0.4728675799665654,
+            "cohen_kappa": 0.4696183021266489,
+            "macro_precision": 0.6462842400109262,
+            "macro_recall": 0.6560328910633249,
+            "macro_f1": 0.6468157088745548,
+            "weighted_precision": 0.6458613921888054,
+            "weighted_recall": 0.6452941176470588,
+            "weighted_f1": 0.6413626726404213,
+            "micro_precision": 0.6452941176470588,
+            "micro_recall": 0.6452941176470588,
+            "micro_f1": 0.6452941176470588,
+            "log_loss": 0.8384013649432241,
+            "macro_roc_auc_ovr": 0.8015634115017548
+          },
+          "confusion_matrix": [
+            [
+              383,
+              97,
+              19
+            ],
+            [
+              173,
+              326,
+              140
+            ],
+            [
+              65,
+              109,
+              388
+            ]
+          ],
+          "per_class": {
+            "negative": {
+              "precision": 0.6167471819645732,
+              "recall": 0.7675350701402806,
+              "f1-score": 0.6839285714285714,
+              "support": 499.0
+            },
+            "neutral": {
+              "precision": 0.6127819548872181,
+              "recall": 0.5101721439749609,
+              "f1-score": 0.5567890691716482,
+              "support": 639.0
+            },
+            "positive": {
+              "precision": 0.7093235831809872,
+              "recall": 0.6903914590747331,
+              "f1-score": 0.6997294860234445,
+              "support": 562.0
+            },
+            "accuracy": 0.6452941176470588,
+            "macro avg": {
+              "precision": 0.6462842400109262,
+              "recall": 0.6560328910633249,
+              "f1-score": 0.6468157088745548,
+              "support": 1700.0
+            },
+            "weighted avg": {
+              "precision": 0.6458613921888054,
+              "recall": 0.6452941176470588,
+              "f1-score": 0.6413626726404213,
+              "support": 1700.0
+            }
+          }
+        }
+      },
+      "metadata": {
+        "pretrained_model": "google/muril-base-cased",
+        "resolved_snapshot": "C:\\Users\\Soumya\\Code\\PBL\\.hf-cache\\models--google--muril-base-cased\\snapshots\\afd9f36c7923d54e97903922ff1b260d091d202f",
+        "snapshot_commit": "afd9f36c7923d54e97903922ff1b260d091d202f",
+        "device": "cuda",
+        "gpu": "NVIDIA GeForce RTX 4050 Laptop GPU",
+        "effective_batch_size": 8,
+        "mixed_precision": true,
+        "evaluation_splits": [
+          "validation"
+        ],
+        "optimizer_steps": 5100,
+        "parameter_count": 237558531,
+        "length_at_limit_counts": {
+          "train": 100,
+          "validation": 16
+        },
+        "determinism": "Fixed RNG seeds; cuDNN deterministic; exact cross-device reproducibility is not guaranteed."
+      },
+      "selection": {
+        "selection_split": "validation",
+        "metric": "weighted_f1",
+        "best_epoch": 2,
+        "best_score": 0.6413626726404213
+      }
+    },
+    {
+      "path": "outputs\\sentimix_development_v2\\svm\\seed_42",
+      "group": "sentimix_development_v2",
+      "experiment": "sentimix_development_v2",
+      "model": "svm",
+      "seed": 42,
+      "config": {
+        "experiment": "sentimix_development_v2",
+        "models": [
+          "svm",
+          "svm_word_char",
+          "hingbert"
+        ],
+        "data_dir": "data/raw/hinglish_24k_sources/sentimix",
+        "prepared_dir": "data/research/sentimix_custom_split_v1",
+        "output_dir": "outputs/sentimix_development_v2",
+        "baseline_output_dir": "outputs/sentimix_custom_split_v1",
+        "evaluation_splits": [
+          "validation"
+        ],
+        "split_seed": 42,
+        "test_fraction": 0.1,
+        "validation_fraction": 0.1,
+        "lowercase": false,
+        "selection_metric": "weighted_f1",
+        "bootstrap_samples": 1000,
+        "baseline": {
+          "max_features": 60000,
+          "ngram_range": [
+            1,
+            2
+          ],
+          "min_df": 2,
+          "nb_alpha": [
+            0.1,
+            0.5,
+            1.0
+          ],
+          "svm_c": [
+            0.1,
+            0.5,
+            1.0,
+            2.0,
+            5.0
+          ],
+          "char_ngram_range": [
+            3,
+            5
+          ],
+          "char_min_df": 2,
+          "char_max_features": 100000
+        },
+        "transformer": {
+          "run_name": "hingbert",
+          "model_name": "l3cube-pune/hing-bert",
+          "revision": "62cf31a13d65ae3b846456cede60c7d965e5fdd4",
+          "epochs": 3,
+          "batch_size": 4,
+          "gradient_accumulation_steps": 2,
+          "eval_batch_size": 8,
+          "max_length": 128,
+          "learning_rate": 2e-05,
+          "weight_decay": 0.01,
+          "warmup_steps": 500,
+          "gradient_checkpointing": true,
+          "mixed_precision": true,
+          "num_workers": 0,
+          "log_every_steps": 100
+        }
+      },
+      "completion": {
+        "model": "svm",
+        "seed": 42,
+        "training_seconds_including_search": 56.121831300028134,
+        "evaluation_metrics": {
+          "validation": {
+            "n_examples": 1700,
+            "accuracy": 0.6023529411764705,
+            "balanced_accuracy": 0.6094027729326296,
+            "matthews_correlation": 0.40266467678278345,
+            "cohen_kappa": 0.4022749129704577,
+            "macro_precision": 0.6032106137928568,
+            "macro_recall": 0.6094027729326296,
+            "macro_f1": 0.6057801052375991,
+            "weighted_precision": 0.5995341235935258,
+            "weighted_recall": 0.6023529411764705,
+            "weighted_f1": 0.6004071178313838,
+            "micro_precision": 0.6023529411764705,
+            "micro_recall": 0.6023529411764705,
+            "micro_f1": 0.6023529411764705
+          }
+        },
+        "evaluation_splits": [
+          "validation"
+        ],
+        "dataset_sha256": {
+          "train": "1dd320f3e341d8a23146238ab46c1be60c5efef9196b879f5d378ea7df452708",
+          "validation": "eebe157bedbcb7d08499e95098ffccf2495615b02d2e797606c1e004e930b34b",
+          "test": "45fa015f13478db77c72cdf730db46abf1bd4c29f8f95cd7779e393cd86cc954"
+        }
+      },
+      "verified": {
+        "validation": {
+          "metrics": {
+            "n_examples": 1700,
+            "accuracy": 0.6023529411764705,
+            "balanced_accuracy": 0.6094027729326296,
+            "matthews_correlation": 0.40266467678278345,
+            "cohen_kappa": 0.4022749129704577,
+            "macro_precision": 0.6032106137928568,
+            "macro_recall": 0.6094027729326296,
+            "macro_f1": 0.6057801052375991,
+            "weighted_precision": 0.5995341235935258,
+            "weighted_recall": 0.6023529411764705,
+            "weighted_f1": 0.6004071178313838,
+            "micro_precision": 0.6023529411764705,
+            "micro_recall": 0.6023529411764705,
+            "micro_f1": 0.6023529411764705
+          },
+          "confusion_matrix": [
+            [
+              328,
+              145,
+              26
+            ],
+            [
+              152,
+              315,
+              172
+            ],
+            [
+              51,
+              130,
+              381
+            ]
+          ],
+          "per_class": {
+            "negative": {
+              "precision": 0.6177024482109228,
+              "recall": 0.657314629258517,
+              "f1-score": 0.6368932038834951,
+              "support": 499.0
+            },
+            "neutral": {
+              "precision": 0.5338983050847458,
+              "recall": 0.49295774647887325,
+              "f1-score": 0.5126118795768918,
+              "support": 639.0
+            },
+            "positive": {
+              "precision": 0.6580310880829016,
+              "recall": 0.6779359430604982,
+              "f1-score": 0.6678352322524101,
+              "support": 562.0
+            },
+            "accuracy": 0.6023529411764705,
+            "macro avg": {
+              "precision": 0.6032106137928568,
+              "recall": 0.6094027729326296,
+              "f1-score": 0.6057801052375991,
+              "support": 1700.0
+            },
+            "weighted avg": {
+              "precision": 0.5995341235935258,
+              "recall": 0.6023529411764705,
+              "f1-score": 0.6004071178313838,
+              "support": 1700.0
+            }
+          }
+        }
+      },
+      "metadata": {},
+      "selection": {
+        "selection_split": "validation",
+        "metric": "weighted_f1",
+        "best_parameter": 0.1,
+        "trials": [
+          {
+            "parameter": 0.1,
+            "validation_selection_score": 0.6004071178313838
+          },
+          {
+            "parameter": 0.5,
+            "validation_selection_score": 0.5968067944095132
+          },
+          {
+            "parameter": 1.0,
+            "validation_selection_score": 0.5866460516620667
+          },
+          {
+            "parameter": 2.0,
+            "validation_selection_score": 0.5737291135299419
+          },
+          {
+            "parameter": 5.0,
+            "validation_selection_score": 0.5653121873934244
+          }
+        ]
+      }
+    },
+    {
+      "path": "outputs\\sentimix_development_v2\\svm_word_char\\seed_42",
+      "group": "sentimix_development_v2",
+      "experiment": "sentimix_development_v2",
+      "model": "svm_word_char",
+      "seed": 42,
+      "config": {
+        "experiment": "sentimix_development_v2",
+        "models": [
+          "svm_word_char",
+          "hingbert"
+        ],
+        "data_dir": "data/raw/hinglish_24k_sources/sentimix",
+        "prepared_dir": "data/research/sentimix_custom_split_v1",
+        "output_dir": "outputs/sentimix_development_v2",
+        "baseline_output_dir": "outputs/sentimix_custom_split_v1",
+        "evaluation_splits": [
+          "validation"
+        ],
+        "split_seed": 42,
+        "test_fraction": 0.1,
+        "validation_fraction": 0.1,
+        "lowercase": false,
+        "selection_metric": "weighted_f1",
+        "bootstrap_samples": 1000,
+        "baseline": {
+          "max_features": 60000,
+          "ngram_range": [
+            1,
+            2
+          ],
+          "min_df": 2,
+          "nb_alpha": [
+            0.1,
+            0.5,
+            1.0
+          ],
+          "svm_c": [
+            0.1,
+            0.5,
+            1.0,
+            2.0,
+            5.0
+          ],
+          "char_ngram_range": [
+            3,
+            5
+          ],
+          "char_min_df": 2,
+          "char_max_features": 100000
+        },
+        "transformer": {
+          "model_name": "l3cube-pune/hing-bert",
+          "revision": "62cf31a13d65ae3b846456cede60c7d965e5fdd4",
+          "epochs": 3,
+          "batch_size": 4,
+          "gradient_accumulation_steps": 2,
+          "eval_batch_size": 8,
+          "max_length": 128,
+          "learning_rate": 2e-05,
+          "weight_decay": 0.01,
+          "warmup_steps": 500,
+          "gradient_checkpointing": true,
+          "mixed_precision": true,
+          "num_workers": 0,
+          "log_every_steps": 100
+        }
+      },
+      "completion": {
+        "model": "svm_word_char",
+        "seed": 42,
+        "training_seconds_including_search": 204.75255269999616,
+        "evaluation_metrics": {
+          "validation": {
+            "n_examples": 1700,
+            "accuracy": 0.6252941176470588,
+            "balanced_accuracy": 0.630778363644979,
+            "matthews_correlation": 0.435698966146364,
+            "cohen_kappa": 0.4356495033726052,
+            "macro_precision": 0.6287651746368149,
+            "macro_recall": 0.630778363644979,
+            "macro_f1": 0.6296955579798479,
+            "weighted_precision": 0.6245887980795282,
+            "weighted_recall": 0.6252941176470588,
+            "weighted_f1": 0.6248693691945837,
+            "micro_precision": 0.6252941176470588,
+            "micro_recall": 0.6252941176470588,
+            "micro_f1": 0.6252941176470588
+          }
+        },
+        "evaluation_splits": [
+          "validation"
+        ],
+        "dataset_sha256": {
+          "train": "1dd320f3e341d8a23146238ab46c1be60c5efef9196b879f5d378ea7df452708",
+          "validation": "eebe157bedbcb7d08499e95098ffccf2495615b02d2e797606c1e004e930b34b",
+          "test": "45fa015f13478db77c72cdf730db46abf1bd4c29f8f95cd7779e393cd86cc954"
+        }
+      },
+      "verified": {
+        "validation": {
+          "metrics": {
+            "n_examples": 1700,
+            "accuracy": 0.6252941176470588,
+            "balanced_accuracy": 0.630778363644979,
+            "matthews_correlation": 0.435698966146364,
+            "cohen_kappa": 0.4356495033726052,
+            "macro_precision": 0.6287651746368149,
+            "macro_recall": 0.630778363644979,
+            "macro_f1": 0.6296955579798479,
+            "weighted_precision": 0.6245887980795282,
+            "weighted_recall": 0.6252941176470588,
+            "weighted_f1": 0.6248693691945837,
+            "micro_precision": 0.6252941176470588,
+            "micro_recall": 0.6252941176470588,
+            "micro_f1": 0.6252941176470588
+          },
+          "confusion_matrix": [
+            [
+              337,
+              138,
+              24
+            ],
+            [
+              132,
+              349,
+              158
+            ],
+            [
+              46,
+              139,
+              377
+            ]
+          ],
+          "per_class": {
+            "negative": {
+              "precision": 0.654368932038835,
+              "recall": 0.6753507014028056,
+              "f1-score": 0.6646942800788954,
+              "support": 499.0
+            },
+            "neutral": {
+              "precision": 0.5575079872204473,
+              "recall": 0.5461658841940532,
+              "f1-score": 0.5517786561264822,
+              "support": 639.0
+            },
+            "positive": {
+              "precision": 0.6744186046511628,
+              "recall": 0.6708185053380783,
+              "f1-score": 0.6726137377341659,
+              "support": 562.0
+            },
+            "accuracy": 0.6252941176470588,
+            "macro avg": {
+              "precision": 0.6287651746368149,
+              "recall": 0.630778363644979,
+              "f1-score": 0.6296955579798479,
+              "support": 1700.0
+            },
+            "weighted avg": {
+              "precision": 0.6245887980795282,
+              "recall": 0.6252941176470588,
+              "f1-score": 0.6248693691945837,
+              "support": 1700.0
+            }
+          }
+        }
+      },
+      "metadata": {},
+      "selection": {
+        "selection_split": "validation",
+        "metric": "weighted_f1",
+        "best_parameter": 0.1,
+        "trials": [
+          {
+            "parameter": 0.1,
+            "validation_selection_score": 0.6248693691945837
+          },
+          {
+            "parameter": 0.5,
+            "validation_selection_score": 0.6009380738505451
+          },
+          {
+            "parameter": 1.0,
+            "validation_selection_score": 0.5894263467822061
+          },
+          {
+            "parameter": 2.0,
+            "validation_selection_score": 0.5810205747866936
+          },
+          {
+            "parameter": 5.0,
+            "validation_selection_score": 0.5673205684133773
+          }
+        ]
+      }
+    }
+  ],
+  "statuses": [
+    {
+      "path": "outputs\\automated_v3\\loss_ce\\hingroberta_focal\\seed_42\\status.json",
+      "status": "complete",
+      "evaluation_metrics": {
+        "validation": {
+          "n_examples": 1700,
+          "accuracy": 0.6805882352941176,
+          "balanced_accuracy": 0.683730764584618,
+          "matthews_correlation": 0.5179028016950746,
+          "cohen_kappa": 0.517762493195598,
+          "macro_precision": 0.6871863077545997,
+          "macro_recall": 0.683730764584618,
+          "macro_f1": 0.6853016916604714,
+          "weighted_precision": 0.6823525171922673,
+          "weighted_recall": 0.6805882352941176,
+          "weighted_f1": 0.6813063270073157,
+          "micro_precision": 0.6805882352941176,
+          "micro_recall": 0.6805882352941176,
+          "micro_f1": 0.6805882352941176,
+          "log_loss": 0.8100526292114538,
+          "macro_roc_auc_ovr": 0.8339742353089518
+        }
+      }
+    },
+    {
+      "path": "outputs\\automated_v3\\loss_focal\\hingroberta_focal\\seed_42\\status.json",
+      "status": "training",
+      "epoch": 2,
+      "step": 2300,
+      "total_steps": 5097,
+      "mean_train_loss": 0.274882216380751,
+      "elapsed_seconds": 2767.290456000017
+    },
+    {
+      "path": "outputs\\automated_v3\\loss_weighted_ce\\hingroberta_focal\\seed_42\\status.json",
+      "status": "complete",
+      "evaluation_metrics": {
+        "validation": {
+          "n_examples": 1700,
+          "accuracy": 0.6794117647058824,
+          "balanced_accuracy": 0.6810299796960804,
+          "matthews_correlation": 0.5159047383953496,
+          "cohen_kappa": 0.5150179545430752,
+          "macro_precision": 0.690253924996572,
+          "macro_recall": 0.6810299796960804,
+          "macro_f1": 0.6846605063194677,
+          "weighted_precision": 0.68453541948968,
+          "weighted_recall": 0.6794117647058824,
+          "weighted_f1": 0.6809480496085302,
+          "micro_precision": 0.6794117647058824,
+          "micro_recall": 0.6794117647058824,
+          "micro_f1": 0.6794117647058824,
+          "log_loss": 0.8145634333092859,
+          "macro_roc_auc_ovr": 0.834308892417886
+        }
+      }
+    }
+  ],
+  "datasets": {
+    "sentimix_custom_split_v1": {
+      "protocol": "Custom stratified 80/10/10 by default; NOT the official SentiMix benchmark split or Hinglish-24k.",
+      "raw_rows": 17000,
+      "clean_rows": 16993,
+      "rejected_rows": 4,
+      "duplicate_rows_removed": 3,
+      "conflicting_text_groups": 2,
+      "conflicting_ids": [],
+      "raw_sha256": {
+        "train_14k_split_conll.txt": "b2bc9e9e2494693ab3b0fd025ffb0292a3c4ab959861306dd1d993fa7e7c2177",
+        "dev_3k_split_conll.txt": "9679768e0b6697be4c492b41f876756023fdb0face8cb86f8cd6cdb767acd1dc"
+      },
+      "split_seed": 42,
+      "lowercase": false,
+      "split_counts": {
+        "train": {
+          "rows": 13593,
+          "labels": {
+            "negative": 3993,
+            "positive": 4489,
+            "neutral": 5111
+          }
+        },
+        "validation": {
+          "rows": 1700,
+          "labels": {
+            "negative": 499,
+            "neutral": 639,
+            "positive": 562
+          }
+        },
+        "test": {
+          "rows": 1700,
+          "labels": {
+            "neutral": 639,
+            "negative": 499,
+            "positive": 562
+          }
+        }
+      },
+      "split_sha256": {
+        "train": "1dd320f3e341d8a23146238ab46c1be60c5efef9196b879f5d378ea7df452708",
+        "validation": "eebe157bedbcb7d08499e95098ffccf2495615b02d2e797606c1e004e930b34b",
+        "test": "45fa015f13478db77c72cdf730db46abf1bd4c29f8f95cd7779e393cd86cc954"
+      },
+      "preprocessing": "NFKC, HTML unescape, URL/mention placeholders, hashtag text retained, emoji descriptions; negation and stop words retained.",
+      "leakage_checks": "No identical casefolded normalized texts or tweet IDs cross splits. Near duplicates/authors/topics are not guaranteed disjoint."
+    },
+    "sail2017_prepared_v1": {
+      "split_sha256": {
+        "train": "1e9e1c288069d5b1e0b60b025a4d7105e60e31dc597b4c951aa8740391aeb6ac",
+        "validation": "54eff505525fa2bc1de14fb751adf573aefc1174a2af840a8c73e05d6d69e0b9",
+        "test": "affd18b4a88b8c051dfab11158793e1d7576b3e205f7a70eecd2e3f2f13a1785"
+      },
+      "lowercase": false,
+      "split_seed": 42,
+      "dataset": "SAIL-2017 sanitized (enriched with group_id/tweet_id)",
+      "source": "data/dataset/sail2017_csv/sanitized/",
+      "train_rows": 10068,
+      "validation_rows": 1260,
+      "test_rows": 1261,
+      "note": "Pre-split SAIL-2017 data; no re-splitting performed; split_seed=42 is nominal only"
+    },
+    "automated_v3/sentimix": {
+      "lowercase": false,
+      "split_seed": 42,
+      "preprocessing_version": "v2",
+      "source_sha256": {
+        "sentimix/train": "1dd320f3e341d8a23146238ab46c1be60c5efef9196b879f5d378ea7df452708",
+        "sentimix/validation": "eebe157bedbcb7d08499e95098ffccf2495615b02d2e797606c1e004e930b34b",
+        "sentimix/test": "45fa015f13478db77c72cdf730db46abf1bd4c29f8f95cd7779e393cd86cc954",
+        "sail/train": "1e9e1c288069d5b1e0b60b025a4d7105e60e31dc597b4c951aa8740391aeb6ac",
+        "sail/validation": "54eff505525fa2bc1de14fb751adf573aefc1174a2af840a8c73e05d6d69e0b9",
+        "sail/test": "affd18b4a88b8c051dfab11158793e1d7576b3e205f7a70eecd2e3f2f13a1785"
+      },
+      "split_sha256": {
+        "train": "24991a164c4bce254b5cb74be79a27f1f7fa865cb05354432b5232c7aa974eb2",
+        "validation": "cc8f08b2c015b59672e5fd8ac399d000028e2258a22ae37c44142528af222979",
+        "test": "93756f9971cc3f6717a01564480ceab66cec330fdd86f220cdca4cddecfda390"
+      },
+      "split_counts": {
+        "train": {
+          "rows": 13588,
+          "labels": {
+            "neutral": 5109,
+            "negative": 3991,
+            "positive": 4488
+          }
+        },
+        "validation": {
+          "rows": 1700,
+          "labels": {
+            "positive": 562,
+            "neutral": 639,
+            "negative": 499
+          }
+        },
+        "test": {
+          "rows": 1700,
+          "labels": {
+            "positive": 562,
+            "neutral": 639,
+            "negative": 499
+          }
+        }
+      },
+      "protocol": "Existing split membership retained; no relabeling. Evaluation texts excluded from training.",
+      "evaluation_warning": "SentiMix evaluation previously exposed; SAIL is a derived benchmark, not guaranteed unseen pretraining data."
+    },
+    "automated_v3/sentimix_control": {
+      "lowercase": false,
+      "split_seed": 42,
+      "preprocessing_version": "v1",
+      "source_sha256": {
+        "sentimix/train": "1dd320f3e341d8a23146238ab46c1be60c5efef9196b879f5d378ea7df452708",
+        "sentimix/validation": "eebe157bedbcb7d08499e95098ffccf2495615b02d2e797606c1e004e930b34b",
+        "sentimix/test": "45fa015f13478db77c72cdf730db46abf1bd4c29f8f95cd7779e393cd86cc954",
+        "sail/train": "1e9e1c288069d5b1e0b60b025a4d7105e60e31dc597b4c951aa8740391aeb6ac",
+        "sail/validation": "54eff505525fa2bc1de14fb751adf573aefc1174a2af840a8c73e05d6d69e0b9",
+        "sail/test": "affd18b4a88b8c051dfab11158793e1d7576b3e205f7a70eecd2e3f2f13a1785"
+      },
+      "split_sha256": {
+        "train": "b1851590012529688a8ae22a8d2eba2cbc9a053de02dab16e7859e7f0bc54a06",
+        "validation": "6e408cf7772dc2dbf6bedba457ea92d6c37c0b63e3d4dee425c6d42dab23d6a8",
+        "test": "a1ee066d49726f9440df813fc6d987bc4fdf112b7b04b7e285704ac330b71b75"
+      },
+      "split_counts": {
+        "train": {
+          "rows": 13588,
+          "labels": {
+            "neutral": 5109,
+            "negative": 3991,
+            "positive": 4488
+          }
+        },
+        "validation": {
+          "rows": 1700,
+          "labels": {
+            "positive": 562,
+            "neutral": 639,
+            "negative": 499
+          }
+        },
+        "test": {
+          "rows": 1700,
+          "labels": {
+            "positive": 562,
+            "neutral": 639,
+            "negative": 499
+          }
+        }
+      },
+      "protocol": "Existing split membership retained; no relabeling. Evaluation texts excluded from training.",
+      "evaluation_warning": "SentiMix evaluation previously exposed; SAIL is a derived benchmark, not guaranteed unseen pretraining data."
+    },
+    "automated_v3/sail": {
+      "lowercase": false,
+      "split_seed": 42,
+      "preprocessing_version": "v2",
+      "source_sha256": {
+        "sentimix/train": "1dd320f3e341d8a23146238ab46c1be60c5efef9196b879f5d378ea7df452708",
+        "sentimix/validation": "eebe157bedbcb7d08499e95098ffccf2495615b02d2e797606c1e004e930b34b",
+        "sentimix/test": "45fa015f13478db77c72cdf730db46abf1bd4c29f8f95cd7779e393cd86cc954",
+        "sail/train": "1e9e1c288069d5b1e0b60b025a4d7105e60e31dc597b4c951aa8740391aeb6ac",
+        "sail/validation": "54eff505525fa2bc1de14fb751adf573aefc1174a2af840a8c73e05d6d69e0b9",
+        "sail/test": "affd18b4a88b8c051dfab11158793e1d7576b3e205f7a70eecd2e3f2f13a1785"
+      },
+      "split_sha256": {
+        "train": "d8a752479b8aab5f3abaf6c102ee015715cb8d384f3f2a6653dceacbf1e31697",
+        "validation": "14bd53c86e3f3c50748436ca741fd1b622a2d9d9b2615536c67d219f810c79ce",
+        "test": "e03c9eee6b3791eabd8152fdc935ae5449959da440f693ac69aac81d4c0feafa"
+      },
+      "split_counts": {
+        "train": {
+          "rows": 10022,
+          "labels": {
+            "neutral": 4526,
+            "negative": 2306,
+            "positive": 3190
+          }
+        },
+        "validation": {
+          "rows": 1259,
+          "labels": {
+            "negative": 283,
+            "neutral": 578,
+            "positive": 398
+          }
+        },
+        "test": {
+          "rows": 1261,
+          "labels": {
+            "neutral": 586,
+            "positive": 385,
+            "negative": 290
+          }
+        }
+      },
+      "protocol": "Existing split membership retained; no relabeling. Evaluation texts excluded from training.",
+      "evaluation_warning": "SentiMix evaluation previously exposed; SAIL is a derived benchmark, not guaranteed unseen pretraining data."
+    },
+    "automated_v3/pooled": {
+      "lowercase": false,
+      "split_seed": 42,
+      "preprocessing_version": "v2",
+      "source_sha256": {
+        "sentimix/train": "1dd320f3e341d8a23146238ab46c1be60c5efef9196b879f5d378ea7df452708",
+        "sentimix/validation": "eebe157bedbcb7d08499e95098ffccf2495615b02d2e797606c1e004e930b34b",
+        "sentimix/test": "45fa015f13478db77c72cdf730db46abf1bd4c29f8f95cd7779e393cd86cc954",
+        "sail/train": "1e9e1c288069d5b1e0b60b025a4d7105e60e31dc597b4c951aa8740391aeb6ac",
+        "sail/validation": "54eff505525fa2bc1de14fb751adf573aefc1174a2af840a8c73e05d6d69e0b9",
+        "sail/test": "affd18b4a88b8c051dfab11158793e1d7576b3e205f7a70eecd2e3f2f13a1785"
+      },
+      "split_sha256": {
+        "train": "750bdcf0b912243e7bdfd4bab93fdf2543960de53cb8a5fceda104bd3e1f7fde",
+        "validation": "cc8f08b2c015b59672e5fd8ac399d000028e2258a22ae37c44142528af222979",
+        "test": "93756f9971cc3f6717a01564480ceab66cec330fdd86f220cdca4cddecfda390"
+      },
+      "split_counts": {
+        "train": {
+          "rows": 23610,
+          "labels": {
+            "neutral": 9635,
+            "negative": 6297,
+            "positive": 7678
+          }
+        },
+        "validation": {
+          "rows": 1700,
+          "labels": {
+            "positive": 562,
+            "neutral": 639,
+            "negative": 499
+          }
+        },
+        "test": {
+          "rows": 1700,
+          "labels": {
+            "positive": 562,
+            "neutral": 639,
+            "negative": 499
+          }
+        }
+      },
+      "protocol": "Existing split membership retained; no relabeling. Evaluation texts excluded from training.",
+      "evaluation_warning": "SentiMix evaluation previously exposed; SAIL is a derived benchmark, not guaranteed unseen pretraining data."
+    }
+  },
+  "ensemble_metrics": {
+    "n_examples": 1700,
+    "accuracy": 0.6870588235294117,
+    "balanced_accuracy": 0.6942951763029993,
+    "matthews_correlation": 0.5301849930670794,
+    "cohen_kappa": 0.5296335052393544,
+    "macro_precision": 0.6887854248494806,
+    "macro_recall": 0.6942951763029993,
+    "macro_f1": 0.6907691074191793,
+    "weighted_precision": 0.6858260443180116,
+    "weighted_recall": 0.6870588235294117,
+    "weighted_f1": 0.685716383043202,
+    "micro_precision": 0.6870588235294117,
+    "micro_recall": 0.6870588235294117,
+    "micro_f1": 0.6870588235294117,
+    "log_loss": 0.7425889348731817,
+    "macro_roc_auc_ovr": 0.8396222625321107
+  },
+  "ensemble_per_class": {
+    "negative": {
+      "precision": 0.7030965391621129,
+      "recall": 0.7735470941883767,
+      "f1-score": 0.7366412213740458,
+      "support": 499.0
+    },
+    "neutral": {
+      "precision": 0.6351575456053068,
+      "recall": 0.5993740219092332,
+      "f1-score": 0.6167471819645732,
+      "support": 639.0
+    },
+    "positive": {
+      "precision": 0.7281021897810219,
+      "recall": 0.7099644128113879,
+      "f1-score": 0.7189189189189189,
+      "support": 562.0
+    },
+    "accuracy": 0.6870588235294117,
+    "macro avg": {
+      "precision": 0.6887854248494806,
+      "recall": 0.6942951763029993,
+      "f1-score": 0.6907691074191793,
+      "support": 1700.0
+    },
+    "weighted avg": {
+      "precision": 0.6858260443180116,
+      "recall": 0.6870588235294117,
+      "f1-score": 0.685716383043202,
+      "support": 1700.0
+    }
+  },
+  "source_sha256": {
+    "outputs\\automated_v3\\loss_ce\\hingroberta_focal\\seed_42\\complete.json": "01ae02d833872ba07e69d524758254580b7fb1d9454a90653664fd52d71b83b0",
+    "outputs\\automated_v3\\loss_ce\\hingroberta_focal\\seed_42\\config.json": "c7f31ebaa7639beb440655d03e76897d6d666dc7033ce4042ce458a87c4a5d26",
+    "outputs\\automated_v3\\loss_ce\\hingroberta_focal\\seed_42\\validation_predictions.csv": "909568a0b0996938a46effbfc8d1b5fb735f29698205204230132ffc302c36e7",
+    "outputs\\automated_v3\\loss_ce\\hingroberta_focal\\seed_42\\training_metadata.json": "10ed38f551c6baf157a481cfba3e7586273291247aeec7a2850053cc4d777b99",
+    "outputs\\automated_v3\\loss_ce\\hingroberta_focal\\seed_42\\selection.json": "0232fec81da8198bc3dd24756d49b79a65c26217a4db49580a60b8dd85b52549",
+    "outputs\\automated_v3\\loss_weighted_ce\\hingroberta_focal\\seed_42\\complete.json": "575c1b67b3e0949a14c4da95239834ac9737444f7615777bcc19610ce8c468cd",
+    "outputs\\automated_v3\\loss_weighted_ce\\hingroberta_focal\\seed_42\\config.json": "16484a653798ee143eb84ed54e71599c64bed76e8d75ae6e3885f5297a898197",
+    "outputs\\automated_v3\\loss_weighted_ce\\hingroberta_focal\\seed_42\\validation_predictions.csv": "ec98e7bb7c5214e9757f430cf5ebb395796397a3280a4219bac8c9ae63280eae",
+    "outputs\\automated_v3\\loss_weighted_ce\\hingroberta_focal\\seed_42\\training_metadata.json": "10c7ef8d580bb61f509bffa37551315e44f2c1c29d56021a1731f99f2d5e395d",
+    "outputs\\automated_v3\\loss_weighted_ce\\hingroberta_focal\\seed_42\\selection.json": "249cf5336f7ffb96b85efb03de66bbd70b28f8bdda4dde878864a89fd6b886da",
+    "outputs\\sentimix_custom_split_v1\\mbert\\seed_42\\complete.json": "b045ecfb471139229e840f42ac1b8f3949614cb9697788d91a60c49eecfdb5c4",
+    "outputs\\sentimix_custom_split_v1\\mbert\\seed_42\\config.json": "970c38e705291e41a3f55342a45a20dbe73a8a9a914d65d35e8d32fe7cabbdcd",
+    "outputs\\sentimix_custom_split_v1\\mbert\\seed_42\\validation_metrics.json": "8da33ef22d1fd184d2563458940b75432fffa32b95d3f5f03c05761294023d80",
+    "outputs\\sentimix_custom_split_v1\\mbert\\seed_42\\test_metrics.json": "6db054eb8a3a21429b48ab1d1687e9ede64249c2ab8b1ee5e27457650ba72169",
+    "outputs\\sentimix_custom_split_v1\\mbert\\seed_42\\validation_predictions.csv": "372e0029519294ccb3355f8a670889a640a5889ee057daa85cc66c61ad8bd8dc",
+    "outputs\\sentimix_custom_split_v1\\mbert\\seed_42\\test_predictions.csv": "f5b77a6c902bfddb8d39d91c3b5fa073229738dfda6d0cf5fdd50d27f1147be0",
+    "outputs\\sentimix_custom_split_v1\\mbert\\seed_42\\training_metadata.json": "e7aecb57c275aba522bdaf281a4407b3af8ad17597ac8dfc76fb9e90ecb1d318",
+    "outputs\\sentimix_custom_split_v1\\mbert\\seed_42\\selection.json": "aea0cf1bac146c25b4746e87f55303264d9ba9e9923df62e408e0114a5af858e",
+    "outputs\\sentimix_custom_split_v1\\naive_bayes\\seed_42\\complete.json": "68205bfcecca4468d928dc2b8c9ef9ef1e0f1fd0f8838dc6f4179d001480e39f",
+    "outputs\\sentimix_custom_split_v1\\naive_bayes\\seed_42\\config.json": "970c38e705291e41a3f55342a45a20dbe73a8a9a914d65d35e8d32fe7cabbdcd",
+    "outputs\\sentimix_custom_split_v1\\naive_bayes\\seed_42\\validation_metrics.json": "9bc56e2276feb5950001f48d64f9d8cab7c22e5c5ebea94f1239ca959dfb3aed",
+    "outputs\\sentimix_custom_split_v1\\naive_bayes\\seed_42\\test_metrics.json": "659463af34d98f2779f06cc0fa6ef33ee180c35d18bd56aceac19ebdb72ed3eb",
+    "outputs\\sentimix_custom_split_v1\\naive_bayes\\seed_42\\validation_predictions.csv": "f5504551e1bf413ba2b421a54c10c9f2753c8d9a0881c0839bdefb01ac25f588",
+    "outputs\\sentimix_custom_split_v1\\naive_bayes\\seed_42\\test_predictions.csv": "0393e91e4e03d53fab92f3d62822bcb7f2a8310910f08a9b98b49017d0e682d9",
+    "outputs\\sentimix_custom_split_v1\\naive_bayes\\seed_42\\selection.json": "e2c8c480f4103c1da737a357a124128be01bc75e9b9cc0c2bfe9fa16f4243ad0",
+    "outputs\\sentimix_custom_split_v1\\svm\\seed_42\\complete.json": "ce08b49ce658d4f15af28abf1e7c866729a107df9bd92781dbba31dcdd2a5bf7",
+    "outputs\\sentimix_custom_split_v1\\svm\\seed_42\\config.json": "970c38e705291e41a3f55342a45a20dbe73a8a9a914d65d35e8d32fe7cabbdcd",
+    "outputs\\sentimix_custom_split_v1\\svm\\seed_42\\validation_metrics.json": "6da00effa639222cee3c14d6ad0719cbbbdf5599a04b66d4d42459dbbf5e6220",
+    "outputs\\sentimix_custom_split_v1\\svm\\seed_42\\test_metrics.json": "7451c44c1f1dbb6d40d345fda7a440817dc24b59eb991ee2e0bfd7ee0637fed4",
+    "outputs\\sentimix_custom_split_v1\\svm\\seed_42\\validation_predictions.csv": "b9813306f855f589413983f39ed216af57c12dcef0e329751d1bbc94f4b8f145",
+    "outputs\\sentimix_custom_split_v1\\svm\\seed_42\\test_predictions.csv": "d5b73478f24d38c183c18810f2c2498e8d8c0a86598aaf1f6de8cc888326d399",
+    "outputs\\sentimix_custom_split_v1\\svm\\seed_42\\selection.json": "d286bde467ca6aa6220b2610de6c9e8f070fd4ba42b4ce4a0e3fabd6a4a4a420",
+    "outputs\\sentimix_development_v2\\hingbert\\seed_42\\complete.json": "15be809d5cd2d6bf8064d02ea6ac0733f3e7e65f09326e75eb741962f998d8ed",
+    "outputs\\sentimix_development_v2\\hingbert\\seed_42\\config.json": "adc0cc3ce287983e09e1a31b06907f67c0f5982da7232f9a92fd412a316354aa",
+    "outputs\\sentimix_development_v2\\hingbert\\seed_42\\validation_predictions.csv": "430eae1ebd2f1a6336f257e6f73263bb26437035a1873ef20091c4b8cd2f4422",
+    "outputs\\sentimix_development_v2\\hingbert\\seed_42\\training_metadata.json": "2b0892a4c2c673203656211a70ab83c358cc66da205d47aa57832ca975364856",
+    "outputs\\sentimix_development_v2\\hingbert\\seed_42\\selection.json": "ac79ad5b5135e3738eec8cd49a02b2faef694c88f3568e5dcc811af9e2d4ad41",
+    "outputs\\sentimix_development_v2\\hingroberta\\seed_42\\complete.json": "26f4a29192a870c55f9fe2160f5006c7a382e907aca92c02db683acdeff0735b",
+    "outputs\\sentimix_development_v2\\hingroberta\\seed_42\\config.json": "6c1686b8459eecede9cfb12ade607e8f883cea9f01c335d8ae8ba676a6ec5df0",
+    "outputs\\sentimix_development_v2\\hingroberta\\seed_42\\validation_predictions.csv": "228d0e315b08ce6a1a12c2e97b05b7a8b96d8395781e197858fa28753820379d",
+    "outputs\\sentimix_development_v2\\hingroberta\\seed_42\\training_metadata.json": "a0c3f13cb987a7363ee8366b43f1cc64296ce0104c1b5870493c6547adff874c",
+    "outputs\\sentimix_development_v2\\hingroberta\\seed_42\\selection.json": "b9204af57d5a3b77482f562e90ed38e202898dbd09c3a2f1274db2d383b5f9b3",
+    "outputs\\sentimix_development_v2\\hingroberta_focal\\seed_42\\complete.json": "17e3e9e0f126545b9c94163dc4e6fb6c77022263d162ec737de895eee82f314f",
+    "outputs\\sentimix_development_v2\\hingroberta_focal\\seed_42\\config.json": "fc2ef540783ce55781a0f435ba55da761d4e1050ca3c2c049defb8ef8f6e44e1",
+    "outputs\\sentimix_development_v2\\hingroberta_focal\\seed_42\\validation_predictions.csv": "7bacdc78a9ce6b80b754787482dfead0bccc942291d1ffdb67acd30c62ce94fb",
+    "outputs\\sentimix_development_v2\\hingroberta_focal\\seed_42\\training_metadata.json": "d14abd26ea0262ba1d7520131c5909d3db516ebd7f1436baa9e2e89cfbfbffb7",
+    "outputs\\sentimix_development_v2\\hingroberta_focal\\seed_42\\selection.json": "b6fbdf865bfbf2514ae48f317a609eab24081faa75f22a514589bdfbde2dcf7c",
+    "outputs\\sentimix_development_v2\\muril\\seed_42\\complete.json": "5fa95bd3ecc8af53821f51afb730643d0f6ae6093acc00e5edd28b1b96dae17f",
+    "outputs\\sentimix_development_v2\\muril\\seed_42\\config.json": "ae75496647d3a47b3411196d34a65b7352a496fe5fc727ad90251103e9b12f97",
+    "outputs\\sentimix_development_v2\\muril\\seed_42\\validation_predictions.csv": "411d9ca5f6f9542cb222646e1c3b25618d7437757122507bc019a6ff334d4d70",
+    "outputs\\sentimix_development_v2\\muril\\seed_42\\training_metadata.json": "205e629005b5ea84b0bc667449b2583bbd5cb3124a122b3f3b6aa60ff1a526c2",
+    "outputs\\sentimix_development_v2\\muril\\seed_42\\selection.json": "b25c85e6a0532cc30369a33a6188629b3f0d4a30ee1ba90a045c7aa5323540b1",
+    "outputs\\sentimix_development_v2\\svm\\seed_42\\complete.json": "d4c0a55109c741c3af25d91fc2b13e357b5f52153e7ff63560643b95e2b167e1",
+    "outputs\\sentimix_development_v2\\svm\\seed_42\\config.json": "e8f38f8c113a0bf87644d2b707421118c3641c0e33e802f4b59fcd80419902e6",
+    "outputs\\sentimix_development_v2\\svm\\seed_42\\validation_predictions.csv": "047ade5bc6c5651ff61357c30d34f10aace7226159bac7abf1f0448054319fd2",
+    "outputs\\sentimix_development_v2\\svm\\seed_42\\selection.json": "4b8e585a3505c91d506d8211f3d7fdefc41e15364f5e34cf79cf294630dc5ed6",
+    "outputs\\sentimix_development_v2\\svm_word_char\\seed_42\\complete.json": "98e1be3c790a0d6d8f6191fe68b30be6a48ad0bee79c9f59ddfd6dace021a258",
+    "outputs\\sentimix_development_v2\\svm_word_char\\seed_42\\config.json": "ab34e35961af82cfd14f96de351947dea41827a8f722fb05eb4385d1a99ab411",
+    "outputs\\sentimix_development_v2\\svm_word_char\\seed_42\\validation_predictions.csv": "4943d563f92450c233c0ee9a0b790f4034d0db4ba14ae493e994a800363d3818",
+    "outputs\\sentimix_development_v2\\svm_word_char\\seed_42\\selection.json": "fe11433092b012d07906a29a674e23c4c24cc72189bbc2a29bd0b45c5ff1d64d",
+    "data\\research\\sentimix_custom_split_v1\\audit.json": "203c927f8706eda8d698220c83d6da7237766c27ebf70e8c8fdf77dab9fe69b5",
+    "data\\research\\sentimix_custom_split_v1\\train.csv": "1dd320f3e341d8a23146238ab46c1be60c5efef9196b879f5d378ea7df452708",
+    "data\\research\\sentimix_custom_split_v1\\validation.csv": "eebe157bedbcb7d08499e95098ffccf2495615b02d2e797606c1e004e930b34b",
+    "data\\research\\sentimix_custom_split_v1\\test.csv": "45fa015f13478db77c72cdf730db46abf1bd4c29f8f95cd7779e393cd86cc954",
+    "data\\research\\sail2017_prepared_v1\\audit.json": "74a2237cff22f8eab69dc173e0129596f3bd53359852b8961f28bb481f2b3a76",
+    "data\\research\\sail2017_prepared_v1\\train.csv": "1e9e1c288069d5b1e0b60b025a4d7105e60e31dc597b4c951aa8740391aeb6ac",
+    "data\\research\\sail2017_prepared_v1\\validation.csv": "54eff505525fa2bc1de14fb751adf573aefc1174a2af840a8c73e05d6d69e0b9",
+    "data\\research\\sail2017_prepared_v1\\test.csv": "affd18b4a88b8c051dfab11158793e1d7576b3e205f7a70eecd2e3f2f13a1785",
+    "data\\research\\automated_v3\\sentimix\\audit.json": "a34a1d498b1a283718f70160bd7853ce05c512fba67036a8b383a90aa368c66e",
+    "data\\research\\automated_v3\\sentimix\\train.csv": "24991a164c4bce254b5cb74be79a27f1f7fa865cb05354432b5232c7aa974eb2",
+    "data\\research\\automated_v3\\sentimix\\validation.csv": "cc8f08b2c015b59672e5fd8ac399d000028e2258a22ae37c44142528af222979",
+    "data\\research\\automated_v3\\sentimix\\test.csv": "93756f9971cc3f6717a01564480ceab66cec330fdd86f220cdca4cddecfda390",
+    "data\\research\\automated_v3\\sentimix_control\\audit.json": "a95fb0908a019285a272bb0131cf90d7c64ba0fb706cdeff388d45663651eee2",
+    "data\\research\\automated_v3\\sentimix_control\\train.csv": "b1851590012529688a8ae22a8d2eba2cbc9a053de02dab16e7859e7f0bc54a06",
+    "data\\research\\automated_v3\\sentimix_control\\validation.csv": "6e408cf7772dc2dbf6bedba457ea92d6c37c0b63e3d4dee425c6d42dab23d6a8",
+    "data\\research\\automated_v3\\sentimix_control\\test.csv": "a1ee066d49726f9440df813fc6d987bc4fdf112b7b04b7e285704ac330b71b75",
+    "data\\research\\automated_v3\\sail\\audit.json": "e1e8ea0ecea20685d03cf2962cf323230e005bf08257edba6ed6455ad837ce76",
+    "data\\research\\automated_v3\\sail\\train.csv": "d8a752479b8aab5f3abaf6c102ee015715cb8d384f3f2a6653dceacbf1e31697",
+    "data\\research\\automated_v3\\sail\\validation.csv": "14bd53c86e3f3c50748436ca741fd1b622a2d9d9b2615536c67d219f810c79ce",
+    "data\\research\\automated_v3\\sail\\test.csv": "e03c9eee6b3791eabd8152fdc935ae5449959da440f693ac69aac81d4c0feafa",
+    "data\\research\\automated_v3\\pooled\\audit.json": "45cabb214076bd7476d2bacddba031dddfa058869a87900005bab68bd5209a71",
+    "data\\research\\automated_v3\\pooled\\train.csv": "750bdcf0b912243e7bdfd4bab93fdf2543960de53cb8a5fceda104bd3e1f7fde",
+    "data\\research\\automated_v3\\pooled\\validation.csv": "cc8f08b2c015b59672e5fd8ac399d000028e2258a22ae37c44142528af222979",
+    "data\\research\\automated_v3\\pooled\\test.csv": "93756f9971cc3f6717a01564480ceab66cec330fdd86f220cdca4cddecfda390",
+    "outputs\\sentimix_custom_split_v1\\paired_comparisons.json": "18caca1a0db48b51eba5530805292ecc0f19a16c2bf7d0a0ee26ab561a4b88c3",
+    "outputs\\automated_v3\\calibrated_ensemble\\development_diagnostic_metrics.json": "f35b51119c1131ad16e89524b1ede85522761bafa8e9983262b0008a341ff97e",
+    "outputs\\automated_v3\\calibrated_ensemble\\equal_uncalibrated_diagnostic_metrics.json": "f0659e685445ddc3b71336ddb1539337150f3252e90cc111dfb122d66632b1a9",
+    "outputs\\automated_v3\\experiment_plan.json": "4b284c127657adcb0f42abebc3fab8d4dcdc3fb0998f1a0d211ca188dc532f90",
+    "configs\\automated_v3\\loss_ce.json": "af042a96bb0bcd74cc6ba80b2e726e472dc9d4588dcd8e242224d579dd600948",
+    "configs\\automated_v3\\loss_weighted_ce.json": "16484a653798ee143eb84ed54e71599c64bed76e8d75ae6e3885f5297a898197",
+    "configs\\automated_v3\\loss_focal.json": "781652cbb6952ca4385d37a3ee8a16575b2ca06b924fec62b5c3516b0788b1ce",
+    "configs\\automated_v3\\loss_weighted_focal.json": "674bf1899cfa1d32e60159e3381ea78b7107658876141f3a0a285ece9091e117",
+    "configs\\automated_v3\\preprocess_control.json": "bc8d0bfc94669525c0996a001c71c0909e47a2342f5c5f10054e261d0b7e29d5",
+    "configs\\automated_v3\\lr_1e-05.json": "b099be3aa46a3bc2eff6f3c937e8cabb833dd837bb07c876666cabd708141f0d",
+    "configs\\automated_v3\\lr_3e-05.json": "fa563bd926bf18766a192908ec850aaca4e55b364c386ba31d0f780dcf9083b6",
+    "configs\\automated_v3\\corpus_sail.json": "ae0480c2f3898c72d5694a5480b40ae478ad5afc7484b15a9c9f608f50061468",
+    "configs\\automated_v3\\corpus_pooled.json": "5a131d4227e54d7a2ee266a779bcbda5b754e6a40ff1a571f99fc492cfc70451",
+    "configs\\automated_v3\\pooled_balanced.json": "c881eb5887ff03df912bf89a06ccd85aa9cfe238daff410469fabc4d66252403",
+    "outputs\\sentimix_custom_split_v1\\mbert\\seed_42\\test_bootstrap.json": "84d836865b126e2b49acea6a2a11cbae58ccadad98ee387d1fe0aadc64f5cb8f",
+    "outputs\\sentimix_custom_split_v1\\naive_bayes\\seed_42\\test_bootstrap.json": "b0892b40d826f2c21ddb81a4cd2ee8304e07b17c4aef65fea671186cb3586283",
+    "outputs\\sentimix_custom_split_v1\\svm\\seed_42\\test_bootstrap.json": "5bc30ff059ebe4b820ff9d5f7fb4f11f2e2029e6b2f17639b8a4add2bf6763dc"
+  }
+}

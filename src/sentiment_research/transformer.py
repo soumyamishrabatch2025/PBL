@@ -38,7 +38,7 @@ class FocalLoss(torch.nn.Module):
         self.alpha = alpha
 
     def forward(self, logits, targets):
-        log_p = torch.nn.functional.log_softmax(logits, dim=-1)
+        log_p = torch.nn.functional.log_softmax(logits.float(), dim=-1)
         p = log_p.exp()
         log_pt = log_p.gather(1, targets.unsqueeze(1)).squeeze(1)
         pt = p.gather(1, targets.unsqueeze(1)).squeeze(1)
@@ -94,8 +94,17 @@ def train_transformer(config, seed=42, model_name="mbert"):
     datasets = {name: EncodedDataset(rows, tokenizer, settings["max_length"]) for name, rows in splits.items()}
     collator = DataCollatorWithPadding(tokenizer, pad_to_multiple_of=8 if device.type == "cuda" else None)
     generator = torch.Generator().manual_seed(seed)
+    sampler = None
+    if settings.get("dataset_balanced_sampling"):
+        from collections import Counter
+        from torch.utils.data import WeightedRandomSampler
+        counts = Counter(row["corpus"] for row in splits["train"])
+        sampler = WeightedRandomSampler([1.0 / counts[row["corpus"]] for row in splits["train"]],
+                                        len(splits["train"]), replacement=True, generator=generator)
     loaders = {name: DataLoader(data, batch_size=settings["batch_size"] if name == "train" else settings["eval_batch_size"],
-                                shuffle=name == "train", collate_fn=collator, num_workers=settings["num_workers"],
+                                shuffle=name == "train" and sampler is None,
+                                sampler=sampler if name == "train" else None,
+                                collate_fn=collator, num_workers=settings["num_workers"],
                                 pin_memory=device.type == "cuda", generator=generator if name == "train" else None)
                for name, data in datasets.items()}
     model = AutoModelForSequenceClassification.from_pretrained(source, num_labels=3,
@@ -204,6 +213,8 @@ def train_transformer(config, seed=42, model_name="mbert"):
             write_json(folder / "selection.json", {"selection_split": "validation", "metric": config["selection_metric"],
                                                    "best_epoch": best_epoch, "best_score": best_score})
             print("Epoch completed:", history[-1], flush=True)
+            if settings.get("early_stopping_patience") and epoch - best_epoch >= settings["early_stopping_patience"]:
+                break
             if device.type == "cuda":
                 torch.cuda.empty_cache()
         training_seconds = time.perf_counter() - start
